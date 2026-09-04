@@ -603,6 +603,31 @@ function buildSitemap() {
     urls.map(u => `  <url><loc>${C.domain}${u}</loc><lastmod>${today}</lastmod></url>`).join('\n') +
     `\n</urlset>\n`);
   write('robots.txt', `User-agent: *\nAllow: /\n\nSitemap: ${C.domain}/sitemap.xml\n`);
+  // Tells GitHub Pages which domain this site answers on.
+  write('CNAME', C.domain.replace(/^https?:\/\//, '').replace(/\/$/, '') + '\n');
+}
+
+/* ---------------- style previews (for Pinegrow) ----------------
+   Two sample pages written into src/ with RELATIVE asset paths, so a visual
+   editor opening them edits src/assets/css/*.css — the real source files —
+   rather than the throwaway copies inside dist/. */
+function buildStylePreviews() {
+  const banner = '<!-- GENERATED for visual styling only. Edits to this file are\n' +
+                 '     overwritten on every build. Style changes you make here land in\n' +
+                 '     src/assets/css/ and DO survive. See PINEGROW.md. -->\n';
+  const relative = html => banner + html.replace(/(href|src)="\/assets\//g, '$1="assets/');
+  const pages = [
+    ['style-preview-home.html', 'index.html'],
+    ['style-preview-service.html', path.join(services[0].slug, 'index.html')]
+  ];
+  for (const [dest, from] of pages) {
+    fs.writeFileSync(
+      path.join(__dirname, 'src', dest),
+      relative(fs.readFileSync(path.join(OUT, from), 'utf8'))
+    );
+  }
+  console.log('\nStyling previews (open these in Pinegrow):');
+  pages.forEach(([d]) => console.log('  src/' + d));
 }
 
 /* ---------------- helpers ---------------- */
@@ -618,10 +643,27 @@ function write(rel, content) {
   written.push(rel);
 }
 
+function copyDir(from, to) {
+  fs.mkdirSync(to, { recursive: true });
+  for (const entry of fs.readdirSync(from, { withFileTypes: true })) {
+    if (entry.name.startsWith('.')) continue;
+    const src = path.join(from, entry.name);
+    const dst = path.join(to, entry.name);
+    if (entry.isDirectory()) copyDir(src, dst);
+    else fs.copyFileSync(src, dst);
+  }
+}
+
 function copyAssets() {
-  fs.rmSync(OUT, { recursive: true, force: true });
-  fs.mkdirSync(OUT, { recursive: true });
-  fs.cpSync(path.join(__dirname, 'src', 'assets'), path.join(OUT, 'assets'), { recursive: true });
+  // Clear the previous build where the filesystem allows it. Some sandboxed or
+  // synced folders disallow deletion; overwriting in place works there too, so
+  // a failure to clear is not fatal.
+  try {
+    fs.rmSync(OUT, { recursive: true, force: true });
+  } catch (e) {
+    console.warn('Note: could not clear dist/ (' + e.code + ') — overwriting in place.');
+  }
+  copyDir(path.join(__dirname, 'src', 'assets'), path.join(OUT, 'assets'));
 }
 
 /* ---------------- run ---------------- */
@@ -632,6 +674,7 @@ buildAbout();
 buildContact();
 build404();
 buildSitemap();
+buildStylePreviews();
 
 console.log('Built ' + written.length + ' pages into dist/');
 written.forEach(f => console.log('  dist/' + f));

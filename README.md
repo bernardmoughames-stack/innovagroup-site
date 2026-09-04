@@ -8,7 +8,7 @@ database, no dependencies, no framework.
 Go to **[app.pagescms.org](https://app.pagescms.org)** and sign in with GitHub.
 Edit the text, save, and the live site updates itself in about a minute.
 
-Full guide: [CUSTOMIZE.md](CUSTOMIZE.md)
+Full guide: [CUSTOMIZE.md](CUSTOMIZE.md) — visual styling: [PINEGROW.md](PINEGROW.md)
 
 ## Structure
 
@@ -33,12 +33,8 @@ cd dist && python3 -m http.server  # preview at http://localhost:8000
 
 ## Deployment
 
-Cloudflare Pages, connected to this repository.
 
-| Setting                | Value          |
-|------------------------|----------------|
-| Framework preset       | None           |
-| Build command          | `node build.js`|
-| Build output directory | `dist`         |
 
-Every push to `main` rebuilds and publishes automatically.
+GitHub Pages, built automatically by `.github/workflows/deploy.yml` on every
+push to `main`. No configuration needed beyond setting Pages source to
+"GitHub Actions" once.
