@@ -51,10 +51,60 @@ const PIN   = '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" strok
 
 /* ---------------- Shared partials ---------------- */
 
+/* Structured data — tells Google and other engines what the company is and
+   what each page covers. Invisible to visitors; improves how the business is
+   shown in search results. */
+function organisationSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ProfessionalService',
+    name: C.name,
+    url: C.domain + '/',
+    email: C.email,
+    telephone: C.phoneLink,
+    image: C.domain + '/assets/img/logo.png',
+    logo: C.domain + '/assets/img/mark.png',
+    description: site.home.metaDescription,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: 'Meydan',
+      addressLocality: 'Dubai',
+      addressCountry: 'AE'
+    },
+    areaServed: { '@type': 'Country', name: 'United Arab Emirates' },
+    makesOffer: services.map(s => ({
+      '@type': 'Offer',
+      itemOffered: {
+        '@type': 'Service',
+        name: stripTags(s.nav),
+        description: stripTags(s.cardText),
+        url: `${C.domain}/${s.slug}/`
+      }
+    }))
+  };
+}
+
+function faqSchema(faqs) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map(f => ({
+      '@type': 'Question',
+      name: stripTags(f.q),
+      acceptedAnswer: { '@type': 'Answer', text: stripTags(f.a) }
+    }))
+  };
+}
+
+const schemaTag = obj =>
+  `<script type="application/ld+json">${JSON.stringify(obj).replace(/</g, '\\u003c')}</script>`;
+
 function head(page) {
+  const schemas = [organisationSchema()].concat(page.schema || []);
   return `<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${page.metaTitle}</title>
+${schemas.map(schemaTag).join('\n')}
 <meta name="description" content="${page.metaDescription}">
 <link rel="canonical" href="${C.domain}${page.path}">
 <meta property="og:title" content="${page.metaTitle}">
@@ -426,7 +476,8 @@ ${ctaBand({
   })}`;
 
   write(`${s.slug}/index.html`, layout({
-    path: `/${s.slug}/`, metaTitle: s.metaTitle, metaDescription: s.metaDescription
+    path: `/${s.slug}/`, metaTitle: s.metaTitle, metaDescription: s.metaDescription,
+    schema: s.faqs && s.faqs.length ? [faqSchema(s.faqs)] : []
   }, body));
 }
 
