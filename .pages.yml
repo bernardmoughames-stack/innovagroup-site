@@ -1,0 +1,289 @@
+# ============================================================
+# Innova Group — editor configuration for Pages CMS
+# This file tells the admin panel what fields to show.
+# You don't need to touch it to edit the website.
+# ============================================================
+
+media:
+  input: src/assets/img
+  output: /assets/img
+  categories: [image]
+
+content:
+
+  # ----------------------------------------------------------
+  - name: services
+    label: Services
+    type: file
+    path: content/services.json
+    format: json
+    list: true
+    view:
+      fields: [nav, slug]
+    fields:
+      - name: nav
+        label: Service name
+        type: string
+        required: true
+        description: Shown in the menu and the footer.
+      - name: slug
+        label: Web address
+        type: string
+        required: true
+        pattern: "^[a-z0-9-]+$"
+        description: "Lowercase, no spaces. 'contracting' becomes innovagroup.co.ae/contracting/"
+      - name: icon
+        label: Icon
+        type: select
+        options:
+          values: [shell, tasks, tools, screen, magnifier, megaphone, bars, chip, shield, clock, chart, spark, building, check]
+      - name: cardTitle
+        label: Home page card — title
+        type: string
+      - name: cardText
+        label: Home page card — one line
+        type: text
+      - name: eyebrow
+        label: Small label above the page title
+        type: string
+      - name: heading
+        label: Page headline
+        type: string
+        required: true
+      - name: intro
+        label: Paragraph under the headline
+        type: text
+
+      - name: overview
+        label: Overview section
+        type: object
+        fields:
+          - { name: eyebrow, label: Small label, type: string }
+          - { name: heading, label: Heading, type: string }
+          - { name: lead, label: Opening line, type: text }
+          - { name: body, label: Paragraphs, type: text, list: true }
+
+      - name: scope
+        label: Scope of work section
+        type: object
+        fields:
+          - { name: eyebrow, label: Small label, type: string }
+          - { name: heading, label: Heading, type: string }
+          - { name: lead, label: Intro line, type: text }
+          - { name: items, label: Scope items, type: string, list: true }
+
+      - name: packages
+        label: Packages section
+        type: object
+        fields:
+          - { name: eyebrow, label: Small label, type: string }
+          - { name: heading, label: Heading, type: string }
+          - { name: sub, label: Intro line, type: text }
+          - name: tiers
+            label: Package tiers
+            type: object
+            list: true
+            fields:
+              - { name: name, label: Package name, type: string, required: true }
+              - { name: featured, label: Highlight this one, type: boolean }
+              - { name: for, label: "Who it's for", type: text }
+              - { name: items, label: What's included, type: string, list: true }
+
+      - name: steps
+        label: How it works — four steps
+        type: object
+        list: true
+        fields:
+          - { name: title, label: Step name, type: string }
+          - { name: text, label: Description, type: text }
+
+      - name: faqs
+        label: Questions
+        type: object
+        list: true
+        fields:
+          - { name: q, label: Question, type: string }
+          - { name: a, label: Answer, type: text }
+
+      - name: metaTitle
+        label: "Search engines — page title"
+        type: string
+        description: Keep under about 60 characters.
+      - name: metaDescription
+        label: "Search engines — description"
+        type: text
+        description: Keep under about 155 characters.
+
+  # ----------------------------------------------------------
+  - name: site
+    label: Company & pages
+    type: file
+    path: content/site.json
+    format: json
+    fields:
+
+      - name: company
+        label: Company details
+        type: object
+        fields:
+          - { name: name, label: Company name, type: string }
+          - { name: domain, label: Website address, type: string, description: "No trailing slash, e.g. https://innovagroup.co.ae" }
+          - { name: email, label: Email, type: string }
+          - { name: phone, label: Phone (as displayed), type: string }
+          - { name: phoneLink, label: Phone (digits only, for tap-to-call), type: string }
+          - { name: location, label: Location (short), type: string }
+          - { name: locationLong, label: Location (full), type: string }
+          - { name: licenceLine, label: Licence line in the footer, type: string }
+          - { name: tagline, label: Footer description, type: text }
+
+      - name: home
+        label: Home page
+        type: object
+        fields:
+          - { name: metaTitle, label: "Search engines — title", type: string }
+          - { name: metaDescription, label: "Search engines — description", type: text }
+          - name: hero
+            label: Opening section
+            type: object
+            fields:
+              - { name: eyebrow, label: Small label, type: string }
+              - { name: heading, label: Headline, type: text, description: "Use <br> for a line break and <em>word</em> for gold italics." }
+              - { name: intro, label: Paragraph, type: text }
+              - name: primaryCta
+                label: Main button
+                type: object
+                fields:
+                  - { name: label, label: Button text, type: string }
+                  - { name: href, label: Links to, type: string }
+              - name: secondaryCta
+                label: Second button
+                type: object
+                fields:
+                  - { name: label, label: Button text, type: string }
+                  - { name: href, label: Links to, type: string }
+              - name: meta
+                label: Three facts under the buttons
+                type: object
+                list: true
+                fields:
+                  - { name: label, label: Label, type: string }
+                  - { name: value, label: Value, type: string }
+          - name: intro
+            label: "\"The group\" section"
+            type: object
+            fields:
+              - { name: eyebrow, label: Small label, type: string }
+              - { name: heading, label: Heading, type: text }
+              - { name: lead, label: Opening line, type: text }
+              - { name: body, label: Paragraphs, type: text, list: true }
+          - name: servicesSection
+            label: Services grid heading
+            type: object
+            fields:
+              - { name: eyebrow, label: Small label, type: string }
+              - { name: heading, label: Heading, type: string }
+              - { name: sub, label: Intro line, type: text }
+          - name: why
+            label: "\"Why Innova\" section"
+            type: object
+            fields:
+              - { name: eyebrow, label: Small label, type: string }
+              - { name: heading, label: Heading, type: string }
+              - name: items
+                label: Reasons
+                type: object
+                list: true
+                fields:
+                  - name: icon
+                    label: Icon
+                    type: select
+                    options:
+                      values: [shield, clock, chart, spark, building, check, shell, tasks, tools, screen, magnifier, megaphone, bars, chip]
+                  - { name: title, label: Title, type: string }
+                  - { name: text, label: Text, type: text }
+          - name: process
+            label: "\"How we work\" section"
+            type: object
+            fields:
+              - { name: eyebrow, label: Small label, type: string }
+              - { name: heading, label: Heading, type: string }
+              - name: steps
+                label: Steps
+                type: object
+                list: true
+                fields:
+                  - { name: title, label: Step name, type: string }
+                  - { name: text, label: Description, type: text }
+          - name: cta
+            label: Closing contact band
+            type: object
+            fields:
+              - { name: heading, label: Heading, type: string }
+              - { name: text, label: Text, type: text }
+              - name: button
+                label: Button
+                type: object
+                fields:
+                  - { name: label, label: Button text, type: string }
+                  - { name: href, label: Links to, type: string }
+
+      - name: about
+        label: About page
+        type: object
+        fields:
+          - { name: metaTitle, label: "Search engines — title", type: string }
+          - { name: metaDescription, label: "Search engines — description", type: text }
+          - { name: eyebrow, label: Small label, type: string }
+          - { name: heading, label: Headline, type: string }
+          - { name: intro, label: Paragraph under the headline, type: text }
+          - name: sections
+            label: Sections
+            type: object
+            list: true
+            fields:
+              - { name: eyebrow, label: Small label, type: string }
+              - { name: heading, label: Heading, type: string }
+              - { name: body, label: Paragraphs, type: text, list: true }
+          - name: values
+            label: Commitments
+            type: object
+            fields:
+              - { name: eyebrow, label: Small label, type: string }
+              - { name: heading, label: Heading, type: string }
+              - name: items
+                label: Items
+                type: object
+                list: true
+                fields:
+                  - { name: title, label: Title, type: string }
+                  - { name: text, label: Text, type: text }
+
+      - name: contact
+        label: Contact page
+        type: object
+        fields:
+          - { name: metaTitle, label: "Search engines — title", type: string }
+          - { name: metaDescription, label: "Search engines — description", type: text }
+          - { name: eyebrow, label: Small label, type: string }
+          - { name: heading, label: Headline, type: string }
+          - { name: intro, label: Paragraph under the headline, type: text }
+          - { name: formNote, label: Note under the form, type: text }
+
+      - name: footer
+        label: Footer
+        type: object
+        fields:
+          - name: columns
+            label: Column headings
+            type: object
+            fields:
+              - { name: servicesHeading, label: Services column, type: string }
+              - { name: contactHeading, label: Contact column, type: string }
+              - { name: companyHeading, label: Company column, type: string }
+          - name: companyLinks
+            label: Company links
+            type: object
+            list: true
+            fields:
+              - { name: label, label: Link text, type: string }
+              - { name: href, label: Links to, type: string }

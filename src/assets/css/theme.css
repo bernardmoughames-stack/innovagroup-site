@@ -1,0 +1,97 @@
+/* ============================================================
+   INNOVA GROUP — THEME FILE
+   ------------------------------------------------------------
+   THIS IS THE ONLY FILE YOU NEED TO EDIT TO RESTYLE THE SITE.
+   Change a value here and every page updates at once.
+   ============================================================ */
+
+:root {
+
+  /* ---- 1. BRAND COLOURS (taken from the logo) ---- */
+  --brand-navy:        #142240;
+  --brand-gold:        #C99A3F;
+
+  /* Supporting shades built around the two brand colours */
+  --navy-900:          #0A1226;
+  --navy-800:          #142240;
+  --navy-700:          #1E3059;
+  --navy-600:          #2C4372;
+  --gold-600:          #A87C2A;
+  --gold-500:          #C99A3F;
+  --gold-400:          #DDB463;
+  --gold-100:          #F2E6CC;
+
+  /* ---- 2. SURFACES & TEXT ---- */
+  --bg:                #FBFAF8;   /* page background          */
+  --bg-alt:            #F2F0EA;   /* alternating band         */
+  --surface:           #FFFFFF;   /* cards                    */
+  --surface-dark:      var(--navy-800);
+  --ink:               #142240;   /* headings                 */
+  --ink-soft:          #4C5870;   /* body text                */
+  --ink-mute:          #808A9C;   /* captions, meta           */
+  --on-dark:           #F3F1EC;   /* text on navy             */
+  --on-dark-soft:      #AFB8C9;
+  --border:            #E4E1D9;
+  --border-strong:     #D2CEC2;
+
+  /* ---- 3. TYPE ---- */
+  /* Swap these two lines to change every typeface on the site. */
+  --font-display: "Cormorant Garamond", "Times New Roman", Georgia, serif;
+  --font-body:    "Jost", "Helvetica Neue", Arial, sans-serif;
+
+  --fs-hero:   clamp(2.9rem, 7vw, 5.6rem);
+  --fs-h1:     clamp(2.4rem, 5vw, 3.9rem);
+  --fs-h2:     clamp(2rem, 3.6vw, 3rem);
+  --fs-h3:     clamp(1.3rem, 2vw, 1.6rem);
+  --fs-lead:   clamp(1.05rem, 1.5vw, 1.25rem);
+  --fs-body:   1rem;
+  --fs-small:  0.875rem;
+  --fs-eyebrow:0.72rem;
+
+  --tracking-eyebrow: 0.22em;
+  --tracking-wide:    0.08em;
+
+  /* ---- 4. SPACING & SHAPE ---- */
+  --container:      1180px;
+  --container-slim: 860px;
+  --gutter:         clamp(1.25rem, 4vw, 2.5rem);
+  --section-y:      clamp(4.5rem, 9vw, 8rem);
+
+  --radius-sm:  4px;
+  --radius:     8px;
+  --radius-lg:  16px;
+
+  --shadow-sm:  0 1px 2px rgba(20,34,64,.06), 0 2px 8px rgba(20,34,64,.04);
+  --shadow:     0 2px 4px rgba(20,34,64,.05), 0 12px 32px rgba(20,34,64,.08);
+  --shadow-lg:  0 24px 64px rgba(20,34,64,.14);
+
+  /* ---- 5. MOTION ---- */
+  --ease:   cubic-bezier(.22,.61,.36,1);
+  --speed:  .45s;
+
+  /* ---- 6. HEADER ---- */
+  --header-h: 84px;
+}
+
+/* ============================================================
+   DARK MODE
+   Applies when the visitor toggles the switch in the header.
+   Delete this block if you only ever want the light theme.
+   ============================================================ */
+[data-theme="dark"] {
+  --bg:            #0B1122;
+  --bg-alt:        #101A31;
+  --surface:       #14203A;
+  --surface-dark:  #070C18;
+  --ink:           #F3F1EC;
+  --ink-soft:      #B9C2D4;
+  --ink-mute:      #8592A8;
+  --on-dark:       #F3F1EC;
+  --on-dark-soft:  #AFB8C9;
+  --border:        #22304E;
+  --border-strong: #2E3F63;
+  --gold-100:      #3A3018;
+  --shadow-sm:  0 1px 2px rgba(0,0,0,.3);
+  --shadow:     0 12px 32px rgba(0,0,0,.35);
+  --shadow-lg:  0 24px 64px rgba(0,0,0,.45);
+}

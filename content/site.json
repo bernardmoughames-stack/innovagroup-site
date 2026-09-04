@@ -1,0 +1,196 @@
+{
+  "company": {
+    "name": "Innova Group",
+    "domain": "https://innovagroup.co.ae",
+    "email": "Info@innovagroup.co.ae",
+    "phone": "+971 50 509 7758",
+    "phoneLink": "+971505097758",
+    "location": "Meydan, Dubai, UAE",
+    "locationLong": "Meydan, Dubai, United Arab Emirates",
+    "licenceLine": "A licensed company in Meydan, Dubai, United Arab Emirates.",
+    "tagline": "A Meydan, Dubai, UAE licensed multi-disciplinary company — contracting, management, maintenance, communication and applied artificial intelligence."
+  },
+  "home": {
+    "metaTitle": "Innova Group — Contracting, Management & Applied AI | Meydan, Dubai",
+    "metaDescription": "Innova Group is a Meydan, Dubai, UAE licensed multi-disciplinary company: turnkey contracting, project management, facility maintenance, snagging, cinema installation, marketing, management consultancy and applied artificial intelligence.",
+    "hero": {
+      "eyebrow": "Meydan, Dubai, United Arab Emirates",
+      "heading": "We build it, we run it,<br>and we make it <em>smarter</em>.",
+      "intro": "Innova Group is a licensed multi-disciplinary company based in Meydan, Dubai. Eight service lines — from turnkey contracting and facility management through to marketing and applied artificial intelligence — held together by one team and one point of accountability.",
+      "primaryCta": {
+        "label": "Explore our services",
+        "href": "#services"
+      },
+      "secondaryCta": {
+        "label": "Talk to us",
+        "href": "/contact/"
+      },
+      "meta": [
+        {
+          "label": "Based in",
+          "value": "Meydan, Dubai, UAE"
+        },
+        {
+          "label": "Disciplines",
+          "value": "Eight integrated service lines"
+        },
+        {
+          "label": "Engagement",
+          "value": "Single point of accountability"
+        }
+      ]
+    },
+    "intro": {
+      "eyebrow": "The group",
+      "heading": "Most projects don't fail on site.<br>They fail in the gaps.",
+      "lead": "Between the designer and the contractor. Between handover and the first year of operation. Between a good product and the market understanding it.",
+      "body": [
+        "Innova Group was built to close those gaps. We hold contracting, project management, facility maintenance, snagging, specialist cinema installation, marketing, management consultancy and artificial intelligence under one roof — so a client can start a conversation about a fit-out and finish it with a building that runs properly, a brand that lands, and systems that are ready for what comes next.",
+        "You can engage any one of these disciplines on its own. Most clients end up using more than one."
+      ]
+    },
+    "servicesSection": {
+      "eyebrow": "What we do",
+      "heading": "Eight disciplines, one standard",
+      "sub": "Each service line runs on its own team, its own process and its own packages. Choose the one you need."
+    },
+    "why": {
+      "eyebrow": "Why Innova",
+      "heading": "Fewer parties. Clearer answers.",
+      "items": [
+        {
+          "icon": "shield",
+          "title": "One accountable party",
+          "text": "When contracting, management and maintenance sit in the same group, there is nobody left to blame — and nothing left to fall between contracts."
+        },
+        {
+          "icon": "clock",
+          "title": "Programme first",
+          "text": "Dates are commitments, not aspirations. Every engagement starts with a programme, a cost plan and the reporting rhythm that keeps both honest."
+        },
+        {
+          "icon": "chart",
+          "title": "Documented, not remembered",
+          "text": "Photographic reports, snag registers, asset lists and O&amp;M records. You keep the evidence, not just the outcome."
+        },
+        {
+          "icon": "spark",
+          "title": "Built for what's next",
+          "text": "An in-house AI practice means the systems we hand over are designed to be automated, measured and improved — not replaced in three years."
+        },
+        {
+          "icon": "building",
+          "title": "Rooted in Dubai",
+          "text": "A licensed UAE company that knows local authorities, approvals, developer handover standards and the realities of building here."
+        },
+        {
+          "icon": "check",
+          "title": "Scoped in packages",
+          "text": "Every service line is offered in clear tiers, so you know what is included and what it costs before anyone starts work."
+        }
+      ]
+    },
+    "process": {
+      "eyebrow": "How we work",
+      "heading": "A short, deliberate sequence",
+      "steps": [
+        {
+          "title": "Listen",
+          "text": "A conversation about the outcome you need, the constraints you're under and the date it has to happen by."
+        },
+        {
+          "title": "Scope",
+          "text": "A written proposal: what is included, what is excluded, what it costs and how long it takes."
+        },
+        {
+          "title": "Deliver",
+          "text": "One project lead, a fixed reporting rhythm, and no surprises that arrive after the fact."
+        },
+        {
+          "title": "Support",
+          "text": "Handover documentation, a defects period, and a maintenance option if you want us to keep it running."
+        }
+      ]
+    },
+    "cta": {
+      "heading": "Tell us what you're planning",
+      "text": "Whether it's a fit-out, a handover inspection, a rebrand or an AI pilot — start with a conversation. No obligation.",
+      "button": {
+        "label": "Make an enquiry",
+        "href": "/contact/"
+      }
+    }
+  },
+  "about": {
+    "metaTitle": "About Innova Group | Meydan, Dubai",
+    "metaDescription": "Innova Group is a licensed multi-disciplinary company in Meydan, Dubai, UAE, operating eight service lines under one point of accountability.",
+    "eyebrow": "About us",
+    "heading": "One group, assembled on purpose.",
+    "intro": "Innova Group brings construction, operations, communication and technology disciplines into a single licensed company in Meydan, Dubai — so clients stop managing the seams between suppliers.",
+    "sections": [
+      {
+        "eyebrow": "Our position",
+        "heading": "Built around the handover, not the contract",
+        "body": [
+          "Most companies in this market are organised around a single transaction: a build, a campaign, a report. The client is left to carry everything that happens between those transactions — the coordination, the follow-up, the arguments about whose scope a problem belongs to.",
+          "Innova Group is organised the other way around. Our service lines were chosen because they sit next to each other in a real client's life: you build a space, you check it before you accept it, you keep it running, you tell the market about it, and you make the whole operation smarter over time."
+        ]
+      },
+      {
+        "eyebrow": "How we operate",
+        "heading": "Small teams, written scope, one lead",
+        "body": [
+          "Every engagement has a named lead who owns the outcome. Every proposal states what is included and what is not. Every project ends with documentation you keep — drawings, registers, asset lists, reports — so the knowledge stays with you rather than with us.",
+          "We are deliberate about the work we take on. If a brief needs a specialism we don't have, we say so and help you find it."
+        ]
+      }
+    ],
+    "values": {
+      "eyebrow": "What we hold to",
+      "heading": "Four commitments",
+      "items": [
+        {
+          "title": "Say the number",
+          "text": "Costs, dates and exclusions are written down before work starts, not discovered during it."
+        },
+        {
+          "title": "Show the evidence",
+          "text": "Photographs, readings, registers and reports. Claims about quality should be verifiable."
+        },
+        {
+          "title": "Own the coordination",
+          "text": "Managing the suppliers is our job, not the client's. That is the point of a group."
+        },
+        {
+          "title": "Leave it maintainable",
+          "text": "Anything we build should be operable and improvable by someone other than us."
+        }
+      ]
+    }
+  },
+  "contact": {
+    "metaTitle": "Contact Innova Group | Meydan, Dubai",
+    "metaDescription": "Speak to Innova Group about contracting, project management, facility management, snagging, cinema installation, marketing, consultancy or applied AI in Dubai, UAE.",
+    "eyebrow": "Get in touch",
+    "heading": "Start with a conversation.",
+    "intro": "Tell us what you're planning and which service line it touches. We'll come back with the questions that matter and, if it's a fit, a written scope.",
+    "formNote": "Prefer email? Write to us directly at Info@innovagroup.co.ae — we reply to every enquiry."
+  },
+  "footer": {
+    "columns": {
+      "contactHeading": "Contact",
+      "companyHeading": "Company",
+      "servicesHeading": "Services"
+    },
+    "companyLinks": [
+      {
+        "label": "About Innova",
+        "href": "/about/"
+      },
+      {
+        "label": "Enquiries",
+        "href": "/contact/"
+      }
+    ]
+  }
+}

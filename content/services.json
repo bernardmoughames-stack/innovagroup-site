@@ -1,0 +1,979 @@
+[
+  {
+    "slug": "contracting",
+    "nav": "Turnkey Project Contracting",
+    "cardTitle": "Turnkey Project Contracting",
+    "cardText": "Design, build and hand over under one contract — from empty shell to a completed, tested, ready-to-occupy space.",
+    "icon": "shell",
+    "metaTitle": "Turnkey Project Contracting in Dubai | Innova Group",
+    "metaDescription": "Turnkey fit-out and construction contracting in Dubai — design coordination, authority approvals, civil and MEP works, finishes, testing and snag-free handover under one contract.",
+    "eyebrow": "Service 01",
+    "heading": "One contract, from empty shell to open doors.",
+    "intro": "You hand over a space and a brief. We hand back a finished, tested, authority-approved environment — with a single team answerable for every trade in between.",
+    "overview": {
+      "eyebrow": "The offer",
+      "heading": "The whole build, under one signature",
+      "lead": "Splitting a fit-out across a designer, a main contractor, an MEP subcontractor and an AV specialist means four programmes, four invoices and four versions of whose fault it is.",
+      "body": [
+        "Turnkey contracting removes that. We take responsibility for design coordination, procurement, construction, services, finishes and commissioning — and for the sequence that holds them together. One programme, one cost plan, one project lead who answers the phone.",
+        "We work across residential villas and apartments, offices and clinics, retail and F&amp;B units, and hospitality spaces. Scope can be fixed-price against a detailed bill of quantities, or open-book where the design is still moving."
+      ]
+    },
+    "scope": {
+      "eyebrow": "Scope of work",
+      "heading": "What sits inside a turnkey contract",
+      "lead": "A typical engagement covers all of the following. Anything you want to keep in-house, we exclude in writing before we start.",
+      "items": [
+        "Site survey, measured drawings and existing-condition report",
+        "Design coordination, technical drawings and value engineering",
+        "Authority submissions, permits and NOCs",
+        "Civil works, partitions, ceilings and structural alterations",
+        "MEP — electrical, HVAC, plumbing, drainage and fire systems",
+        "Joinery, wardrobes, kitchens and specialist finishes",
+        "Flooring, tiling, paint and decorative surfaces",
+        "AV, low-current, networking and smart-home integration",
+        "FF&amp;E procurement, delivery and installation",
+        "Testing, commissioning and authority inspections",
+        "Independent snagging and rectification before handover",
+        "As-built drawings, O&amp;M manuals, warranties and asset list"
+      ]
+    },
+    "packages": {
+      "eyebrow": "Packages",
+      "heading": "Three ways to engage us",
+      "sub": "Every package is quoted against your actual drawings and site conditions. Scope is fixed in writing before mobilisation.",
+      "tiers": [
+        {
+          "name": "Fit-Out Essential",
+          "featured": false,
+          "for": "Single apartments, small offices and defined scopes with a tight programme.",
+          "items": [
+            "Site survey and measured drawings",
+            "Fixed-price scope with itemised bill of quantities",
+            "Civil, MEP and finishing works",
+            "Standard authority coordination",
+            "Named project lead and weekly progress report",
+            "Handover pack with warranties and asset list",
+            "Six-month defects liability period"
+          ]
+        },
+        {
+          "name": "Turnkey Complete",
+          "featured": true,
+          "for": "Full-space delivery where you want one party from concept through to keys.",
+          "items": [
+            "Everything in Fit-Out Essential",
+            "Concept and detailed design coordination",
+            "Full authority submissions, permits and NOCs",
+            "Joinery, specialist finishes and FF&amp;E procurement",
+            "AV, smart-home and low-current integration",
+            "Independent snagging before handover",
+            "Testing, commissioning and as-built drawings",
+            "Twelve-month defects liability period"
+          ]
+        },
+        {
+          "name": "Design &amp; Build Plus",
+          "featured": false,
+          "for": "Multi-unit, phased or landmark projects needing programme control and ongoing support.",
+          "items": [
+            "Everything in Turnkey Complete",
+            "Phased delivery programme with milestone reporting",
+            "Dedicated cost plan and formal change-control process",
+            "Value engineering workshops at each design stage",
+            "Monthly client report pack and cash-flow forecast",
+            "Post-handover transition into facility management",
+            "Annual maintenance contract option"
+          ]
+        }
+      ]
+    },
+    "steps": [
+      {
+        "title": "Survey",
+        "text": "We measure the space, record existing conditions and confirm what the building and authority will allow."
+      },
+      {
+        "title": "Price",
+        "text": "A detailed bill of quantities, a programme with milestone dates, and a written list of exclusions."
+      },
+      {
+        "title": "Build",
+        "text": "One site team, sequenced trades, weekly progress reporting and photographic records throughout."
+      },
+      {
+        "title": "Hand over",
+        "text": "Testing, commissioning, independent snagging, rectification, then documentation and keys."
+      }
+    ],
+    "faqs": [
+      {
+        "q": "Can you work in an occupied building?",
+        "a": "Yes. We regularly phase works or run out-of-hours programmes in occupied offices, retail units and residential buildings, coordinating with building management on access, noise windows and service isolations."
+      },
+      {
+        "q": "Who handles the authority approvals?",
+        "a": "We do. Submissions, permits and NOCs are part of the Turnkey Complete and Design &amp; Build Plus packages, and available as an add-on to Fit-Out Essential."
+      },
+      {
+        "q": "Can you take over a project another contractor started?",
+        "a": "In most cases, yes — subject to a condition survey and a written record of what was completed and to what standard before we mobilise."
+      },
+      {
+        "q": "Is the price fixed?",
+        "a": "Fixed-price against an agreed bill of quantities is our default. Where the design is still developing we can work open-book with an agreed management fee, converting to fixed price once drawings are frozen."
+      }
+    ]
+  },
+  {
+    "slug": "project-management",
+    "nav": "Project Management",
+    "cardTitle": "Project Management",
+    "cardText": "Independent control of programme, cost, quality and risk on your behalf — from brief and tender through to handover.",
+    "icon": "tasks",
+    "metaTitle": "Project & Cost Management in Dubai | Innova Group",
+    "metaDescription": "Independent project management in Dubai — tender management, contract administration, programme and cost control, site supervision, quality inspection and handover close-out.",
+    "eyebrow": "Service 02",
+    "heading": "Your interests, represented on site.",
+    "intro": "We don't build it. We make sure it gets built — to your programme, to your budget and to the standard you were promised.",
+    "overview": {
+      "eyebrow": "The offer",
+      "heading": "A professional client-side team, without the headcount",
+      "lead": "A contractor's job is to deliver their scope profitably. Somebody has to hold the whole programme, verify what's been paid for and say no when it matters. That is our role.",
+      "body": [
+        "Innova acts as your representative from the moment there is a brief. We shape the scope, run the tender, administer the contract, monitor the programme and cost, inspect the quality and close the project out with a documented handover.",
+        "The engagement is deliberately independent: where we are project managing, we are not also the contractor. You get advice that isn't defending its own margin."
+      ]
+    },
+    "scope": {
+      "eyebrow": "Scope of work",
+      "heading": "What we manage on your behalf",
+      "lead": "Selected according to the package and the stage you bring us in at.",
+      "items": [
+        "Brief development, feasibility and budget setting",
+        "Consultant appointment and design-stage coordination",
+        "Tender documentation, bid analysis and contractor selection",
+        "Contract administration and payment certification",
+        "Programme development and critical-path monitoring",
+        "Cost planning, cash-flow forecasting and change control",
+        "Site supervision, inspections and quality verification",
+        "Risk register, issue log and mitigation tracking",
+        "Authority, landlord and stakeholder coordination",
+        "Snagging oversight and defect rectification tracking",
+        "Handover, documentation audit and project close-out",
+        "Post-completion review and lessons-learned report"
+      ]
+    },
+    "packages": {
+      "eyebrow": "Packages",
+      "heading": "Three levels of representation",
+      "sub": "Scaled to the size of the project and how much of it you want to keep in-house.",
+      "tiers": [
+        {
+          "name": "Advisory",
+          "featured": false,
+          "for": "You already have a contractor and want a professional eye on the work.",
+          "items": [
+            "Monthly site inspection with photographic report",
+            "Programme review against the baseline",
+            "Payment application review before you certify",
+            "Quality checks against specification",
+            "Risk and issue flagging in writing",
+            "Direct access to a named project director"
+          ]
+        },
+        {
+          "name": "Managed Delivery",
+          "featured": true,
+          "for": "Full client-side management from tender through to handover.",
+          "items": [
+            "Everything in Advisory",
+            "Tender documentation and contractor selection",
+            "Contract administration and variation assessment",
+            "Weekly site supervision with minuted meetings",
+            "Cost plan, cash-flow forecast and change control",
+            "Programme management and critical-path tracking",
+            "Monthly client report pack",
+            "Snagging oversight and project close-out"
+          ]
+        },
+        {
+          "name": "Programme Office",
+          "featured": false,
+          "for": "Multiple concurrent projects or a rolling capital programme.",
+          "items": [
+            "Everything in Managed Delivery",
+            "Portfolio dashboard across all live projects",
+            "Standardised procurement and contract templates",
+            "Consolidated cost and cash-flow reporting",
+            "Governance framework and approval thresholds",
+            "Supplier performance scoring",
+            "Quarterly board-level reporting"
+          ]
+        }
+      ]
+    },
+    "steps": [
+      {
+        "title": "Define",
+        "text": "We turn an intention into a brief: scope, budget, programme and the standard of finish expected."
+      },
+      {
+        "title": "Procure",
+        "text": "Tender documents, a controlled bid process, comparable pricing and a recommendation you can defend."
+      },
+      {
+        "title": "Control",
+        "text": "Programme, cost and quality tracked weekly, with variations assessed before they are approved."
+      },
+      {
+        "title": "Close",
+        "text": "Snag close-out, documentation audit, final account and a written project review."
+      }
+    ],
+    "faqs": [
+      {
+        "q": "At what stage should we bring you in?",
+        "a": "As early as possible — ideally before the design is tendered, when decisions about scope and budget are still inexpensive to change. We can also take over mid-project."
+      },
+      {
+        "q": "Do you also build the projects you manage?",
+        "a": "Not on the same project. Where Innova is the client's project manager, the construction is delivered by a separate contractor so our advice stays independent."
+      },
+      {
+        "q": "How do you report?",
+        "a": "A monthly pack covering programme status, cost against budget, variations, risks, quality observations and photographs — plus immediate written notice of anything that threatens a date or a number."
+      }
+    ]
+  },
+  {
+    "slug": "facility-management",
+    "nav": "Maintenance &amp; Facility Management",
+    "cardTitle": "Maintenance &amp; Facility Management",
+    "cardText": "Planned and reactive maintenance that keeps buildings, systems and occupants running without interruption.",
+    "icon": "tools",
+    "metaTitle": "Facility Management & Maintenance in Dubai | Innova Group",
+    "metaDescription": "Planned preventive and reactive maintenance in Dubai — AC servicing, electrical, plumbing, life-safety compliance, asset registers and 24/7 emergency response for villas and commercial property.",
+    "eyebrow": "Service 03",
+    "heading": "Buildings that keep working after everyone goes home.",
+    "intro": "Planned maintenance that prevents the call-out, and a response team for the times it still happens.",
+    "overview": {
+      "eyebrow": "The offer",
+      "heading": "Maintenance as a schedule, not a reaction",
+      "lead": "Most property problems in this climate are predictable: AC performance, water systems, seals, electrical loads. They become expensive only when nobody is watching the schedule.",
+      "body": [
+        "We build a maintenance regime around your actual assets — surveyed, listed and given a service interval — then run it to a calendar you can see. Reactive call-outs still happen, and we staff for them, but the aim is to make them rare.",
+        "We cover private villas and apartments, offices, clinics, retail units and mixed-use buildings, either as an annual contract or as part of a handover from one of our own construction projects."
+      ]
+    },
+    "scope": {
+      "eyebrow": "Scope of work",
+      "heading": "What we look after",
+      "lead": "Coverage depends on the package and the asset survey carried out at the start of the contract.",
+      "items": [
+        "Planned preventive maintenance schedules per asset",
+        "Reactive call-out and emergency response",
+        "HVAC servicing, coil cleaning and filter replacement",
+        "Duct inspection and indoor air-quality checks",
+        "Electrical systems, distribution boards and lighting",
+        "Plumbing, drainage, pumps and water tank cleaning",
+        "Fire alarm, extinguisher and life-safety compliance",
+        "Civil repairs, sealing, waterproofing and paintwork",
+        "Pool plant and landscape maintenance where applicable",
+        "Asset register, condition survey and lifecycle planning",
+        "Vendor management and consolidated invoicing",
+        "Monthly service records and KPI reporting"
+      ]
+    },
+    "packages": {
+      "eyebrow": "Packages",
+      "heading": "Annual maintenance contracts",
+      "sub": "Priced after an asset survey, so the schedule matches what you actually have on site.",
+      "tiers": [
+        {
+          "name": "Care",
+          "featured": false,
+          "for": "Villas, apartments and single units that need a reliable service rhythm.",
+          "items": [
+            "Quarterly preventive maintenance visits",
+            "AC servicing, filter cleaning and performance check",
+            "Electrical and plumbing inspection",
+            "Minor repairs during scheduled visits",
+            "Priority call-out at agreed contract rates",
+            "Digital service record after every visit"
+          ]
+        },
+        {
+          "name": "Care Plus",
+          "featured": true,
+          "for": "Occupied homes and small commercial premises where downtime is not acceptable.",
+          "items": [
+            "Everything in Care, at monthly intervals",
+            "24/7 emergency response line",
+            "Labour included on minor repairs",
+            "Annual water tank cleaning and disinfection",
+            "Full asset register and condition report",
+            "Fire and life-safety equipment checks",
+            "Named account manager and quarterly review"
+          ]
+        },
+        {
+          "name": "Integrated FM",
+          "featured": false,
+          "for": "Commercial buildings, multi-unit portfolios and mixed-use property.",
+          "items": [
+            "Everything in Care Plus",
+            "On-site or dedicated technician allocation",
+            "Full asset lifecycle and replacement planning",
+            "Life-safety and statutory compliance management",
+            "Soft services coordination — cleaning, security, waste",
+            "Vendor management and consolidated invoicing",
+            "Monthly KPI reporting and annual budget forecast"
+          ]
+        }
+      ]
+    },
+    "steps": [
+      {
+        "title": "Survey",
+        "text": "We walk the property, list every serviceable asset and record its age, condition and service history."
+      },
+      {
+        "title": "Schedule",
+        "text": "Each asset gets an interval and a task list. You receive the annual calendar before the contract starts."
+      },
+      {
+        "title": "Service",
+        "text": "Planned visits are documented with photographs and readings. Reactive calls are logged and tracked to closure."
+      },
+      {
+        "title": "Report",
+        "text": "Monthly service records, an annual condition report and a forecast of what will need replacing next."
+      }
+    ],
+    "faqs": [
+      {
+        "q": "Do you cover properties you didn't build?",
+        "a": "Yes. Most of our maintenance contracts are on properties built by others. We start with an asset survey to establish the baseline condition before taking responsibility."
+      },
+      {
+        "q": "What counts as an emergency?",
+        "a": "Anything affecting safety, security or habitability — water ingress, power loss, total AC failure, drainage backup, fire system faults. These are covered by the 24/7 line on Care Plus and Integrated FM."
+      },
+      {
+        "q": "Are parts included?",
+        "a": "Labour on minor repairs is included from Care Plus upward. Consumables and replacement parts are charged at cost with prior approval above an agreed threshold."
+      }
+    ]
+  },
+  {
+    "slug": "cinema",
+    "nav": "Cinema &amp; Home Theatre",
+    "cardTitle": "Cinema &amp; Home Theatre",
+    "cardText": "Private cinemas and media rooms — engineered for acoustics, calibrated for picture, maintained for the long term.",
+    "icon": "screen",
+    "metaTitle": "Home Cinema Design, Installation & Maintenance in Dubai | Innova Group",
+    "metaDescription": "Private cinema and home theatre design, installation, calibration and maintenance in Dubai — acoustic treatment, immersive audio, projection, automation and control systems.",
+    "eyebrow": "Service 04",
+    "heading": "A room that disappears, so the film doesn't.",
+    "intro": "Private cinemas, media rooms and multi-room audio — designed around acoustics and sightlines first, calibrated on completion, and serviced afterwards.",
+    "overview": {
+      "eyebrow": "The offer",
+      "heading": "The room matters more than the equipment",
+      "lead": "Expensive speakers in an untreated room sound worse than modest speakers in a treated one. Most disappointing cinemas are a room problem wearing an equipment problem's clothes.",
+      "body": [
+        "We start with the space: dimensions, reflections, seating distance, sightlines and where the noise is coming from. Only then do we specify equipment, and we specify it to suit the room rather than a price list.",
+        "Every installation is calibrated on completion — picture and sound measured and adjusted, not left at factory defaults — and handed over with a control system simple enough that guests can use it."
+      ]
+    },
+    "scope": {
+      "eyebrow": "Scope of work",
+      "heading": "From acoustic model to first screening",
+      "lead": "Delivered as a standalone project or integrated into a wider fit-out by our contracting team.",
+      "items": [
+        "Room acoustic analysis and treatment design",
+        "Seating layout, risers and sightline planning",
+        "Projector, screen or display specification and throw calculation",
+        "Immersive surround audio design, including Dolby Atmos layouts",
+        "Subwoofer placement and bass management",
+        "Cable infrastructure, equipment racks and power conditioning",
+        "Lighting design, blackout and scene automation",
+        "Control system programming for single-remote operation",
+        "Acoustic panelling, fabric walls and decorative finishes",
+        "Professional picture and sound calibration",
+        "Handover training for the household or staff",
+        "Ongoing service, firmware updates and recalibration"
+      ]
+    },
+    "packages": {
+      "eyebrow": "Packages",
+      "heading": "Three levels of room",
+      "sub": "Specified after a site visit and an acoustic assessment of the intended space.",
+      "tiers": [
+        {
+          "name": "Media Room",
+          "featured": false,
+          "for": "A living room, den or games room you want to sound and look considerably better.",
+          "items": [
+            "Site visit and room assessment",
+            "Display and audio system specification",
+            "Discreet in-wall or in-ceiling speaker placement",
+            "Cable infrastructure and equipment rack",
+            "Single-remote control system setup",
+            "Basic picture and sound calibration",
+            "Handover and user training"
+          ]
+        },
+        {
+          "name": "Dedicated Cinema",
+          "featured": true,
+          "for": "A purpose-built cinema room where performance is the point.",
+          "items": [
+            "Everything in Media Room",
+            "Acoustic analysis and treatment design",
+            "Riser construction and seating layout",
+            "Projector and screen matched to throw distance",
+            "Immersive surround layout with bass management",
+            "Blackout, lighting scenes and automation",
+            "Full measured picture and sound calibration",
+            "As-built documentation and system diagram"
+          ]
+        },
+        {
+          "name": "Reference Cinema",
+          "featured": false,
+          "for": "A landmark room built to reference standard, integrated with the wider property.",
+          "items": [
+            "Everything in Dedicated Cinema",
+            "Isolated room construction and noise control",
+            "Bespoke acoustic panelling and decorative finishes",
+            "Reference-grade equipment specification",
+            "Multi-zone integration with whole-home audio and video",
+            "Annual recalibration and performance verification",
+            "Priority service agreement"
+          ]
+        }
+      ]
+    },
+    "steps": [
+      {
+        "title": "Assess",
+        "text": "A site visit to measure the room, identify acoustic problems and understand how you want to use it."
+      },
+      {
+        "title": "Design",
+        "text": "Acoustic treatment, seating, sightlines and an equipment schedule presented before anything is ordered."
+      },
+      {
+        "title": "Install",
+        "text": "First-fix cabling coordinated with the build, then equipment, treatment, finishes and automation."
+      },
+      {
+        "title": "Calibrate",
+        "text": "Measured calibration of picture and sound, control system programming, and training on handover."
+      }
+    ],
+    "faqs": [
+      {
+        "q": "Can you work alongside our interior designer?",
+        "a": "Yes, and it usually produces a better room. We provide acoustic and technical requirements early so the designer can absorb them into the finishes rather than work around them afterwards."
+      },
+      {
+        "q": "Do we buy the equipment, or do you?",
+        "a": "Either. We can supply and install as part of the package, or specify the schedule and install equipment you procure yourself."
+      },
+      {
+        "q": "Will you service a system you didn't install?",
+        "a": "In most cases, yes. We start with a system audit and a calibration check, then propose a service agreement based on what we find."
+      }
+    ]
+  },
+  {
+    "slug": "snagging",
+    "nav": "Snagging",
+    "cardTitle": "Snagging",
+    "cardText": "Independent pre-handover inspection with a photographic, room-by-room defect report your developer can act on.",
+    "icon": "magnifier",
+    "metaTitle": "Property Snagging Inspection in Dubai | Innova Group",
+    "metaDescription": "Independent snagging inspections in Dubai — room-by-room defect reports with photographs, thermal imaging, moisture readings and re-inspection after developer rectification.",
+    "eyebrow": "Service 05",
+    "heading": "Find it before you sign for it.",
+    "intro": "An independent inspection of your property before handover. Every defect photographed, located and described in a report the developer can act on — and we come back to check they did.",
+    "overview": {
+      "eyebrow": "The offer",
+      "heading": "The last moment your leverage is free",
+      "lead": "Once you accept handover, defects become a warranty claim: slower, more contested and sometimes at your cost. Before you accept, they are simply the developer's outstanding work.",
+      "body": [
+        "A snagging inspection uses that window properly. We go through the property room by room against finishing standards, record every defect with a photograph and a location, grade it by severity, and issue a register formatted for the developer's own rectification process.",
+        "We are independent of the developer and the contractor. We are paid to find things."
+      ]
+    },
+    "scope": {
+      "eyebrow": "What we inspect",
+      "heading": "Room by room, system by system",
+      "lead": "The inspection depth depends on the package; the reporting standard does not change.",
+      "items": [
+        "Doors, windows, ironmongery, alignment and seals",
+        "Joinery, wardrobes, kitchen units and worktops",
+        "Tiling, grouting, flooring, skirting and transitions",
+        "Paint, plaster, ceilings and decorative finishes",
+        "Electrical points, switches, lighting and distribution boards",
+        "Plumbing fixtures, water pressure, drainage and leaks",
+        "Air conditioning performance, airflow and condensate",
+        "Thermal imaging of AC, wet areas and insulation gaps",
+        "Moisture readings on walls, floors and wet areas",
+        "Balconies, external finishes, roofs and drainage falls",
+        "Pool plant, landscape and external services where present",
+        "Severity-graded register with photographs and locations"
+      ]
+    },
+    "packages": {
+      "eyebrow": "Packages",
+      "heading": "Three depths of inspection",
+      "sub": "Priced by property type and size. Reports are issued in a developer-ready format.",
+      "tiers": [
+        {
+          "name": "Standard Snag",
+          "featured": false,
+          "for": "Apartments and townhouses at first handover.",
+          "items": [
+            "Full room-by-room visual inspection",
+            "Photographic defect register with locations",
+            "Severity grading — critical, major, minor",
+            "Developer-ready report format",
+            "Report issued within 48 hours",
+            "Telephone debrief on the findings"
+          ]
+        },
+        {
+          "name": "Snag &amp; Re-Inspect",
+          "featured": true,
+          "for": "Buyers who want the defects closed out, not just listed.",
+          "items": [
+            "Everything in Standard Snag",
+            "Thermal imaging of AC and wet areas",
+            "Moisture meter readings",
+            "Water pressure and drainage testing",
+            "One re-inspection after developer rectification",
+            "Updated close-out report confirming what was fixed",
+            "Written support if items remain outstanding"
+          ]
+        },
+        {
+          "name": "Villa &amp; Portfolio",
+          "featured": false,
+          "for": "Large villas, multiple units or investor portfolios.",
+          "items": [
+            "Everything in Snag &amp; Re-Inspect",
+            "Two re-inspections included",
+            "External areas, roof, balconies and drainage falls",
+            "Pool plant, landscape and external services",
+            "MEP performance testing across all systems",
+            "Consolidated register across multiple units",
+            "Attendance at the developer handover walkthrough"
+          ]
+        }
+      ]
+    },
+    "steps": [
+      {
+        "title": "Book",
+        "text": "Ideally before you sign the handover acceptance. We can usually attend within a few days."
+      },
+      {
+        "title": "Inspect",
+        "text": "A methodical pass through every room and system, photographing and locating each defect."
+      },
+      {
+        "title": "Report",
+        "text": "A severity-graded register issued within 48 hours, formatted so the developer can work from it directly."
+      },
+      {
+        "title": "Re-inspect",
+        "text": "After rectification we return, verify each item and issue a close-out report confirming what was actually fixed."
+      }
+    ],
+    "faqs": [
+      {
+        "q": "When should the inspection happen?",
+        "a": "Between the developer notifying you that the unit is ready and you signing the handover acceptance. That is the point at which outstanding work is still clearly the developer's obligation."
+      },
+      {
+        "q": "What if the developer disputes the report?",
+        "a": "Every item is photographed, located and graded, which makes most items difficult to dispute. Where a disagreement remains, we can attend the walkthrough and present the finding directly."
+      },
+      {
+        "q": "Can you snag a property that's already handed over?",
+        "a": "Yes. It is still useful within the defects liability period, and essential before a fit-out so that pre-existing defects are recorded before your own contractor starts."
+      },
+      {
+        "q": "Do you carry out the repairs?",
+        "a": "Not on a property we have snagged for you — the inspection stays independent. If you want the work done, our contracting and maintenance teams can quote separately once the register is closed."
+      }
+    ]
+  },
+  {
+    "slug": "marketing",
+    "nav": "Marketing, PR &amp; Communication",
+    "cardTitle": "Marketing, PR &amp; Communication",
+    "cardText": "Brand, campaign and reputation work for companies that need to be understood before they can be chosen.",
+    "icon": "megaphone",
+    "metaTitle": "Marketing, PR & Communications Agency in Dubai | Innova Group",
+    "metaDescription": "Brand positioning, marketing campaigns, social media, press relations and reputation management in Dubai — measured against commercial outcomes, not impressions.",
+    "eyebrow": "Service 06",
+    "heading": "Be understood before you're chosen.",
+    "intro": "Positioning, campaigns and press relations built around what actually moves your commercial numbers — not around what fills a content calendar.",
+    "overview": {
+      "eyebrow": "The offer",
+      "heading": "Clarity first, volume second",
+      "lead": "A great deal of marketing spend goes into saying more, more often, about a proposition nobody has made clear. Volume rarely fixes that.",
+      "body": [
+        "We begin with positioning: what you sell, who it is for, why it is different and what would have to be true for someone to believe it. That produces a messaging framework — and everything after it, from a website to a press release, gets easier and more consistent.",
+        "From there we run the visible work: content, social channels, campaigns, media relations and events. Reporting is against commercial metrics you actually care about — enquiries, qualified leads, cost per acquisition — rather than impressions."
+      ]
+    },
+    "scope": {
+      "eyebrow": "Capabilities",
+      "heading": "What we run",
+      "lead": "Engaged as a one-off project or an ongoing retainer.",
+      "items": [
+        "Brand positioning, naming and identity direction",
+        "Messaging frameworks and tone of voice",
+        "Website content, copywriting and launch support",
+        "Social media strategy, content production and management",
+        "Paid media planning, buying and performance optimisation",
+        "Search and content marketing",
+        "Email marketing and CRM communication",
+        "Press relations, releases and journalist outreach",
+        "Spokesperson preparation and media training",
+        "Event, launch and sponsorship communication",
+        "Crisis communication and reputation management",
+        "Monthly reporting against commercial metrics"
+      ]
+    },
+    "packages": {
+      "eyebrow": "Packages",
+      "heading": "Project or retainer",
+      "sub": "Retainers are quoted monthly with a defined output volume and a minimum term agreed up front.",
+      "tiers": [
+        {
+          "name": "Brand Foundation",
+          "featured": false,
+          "for": "A one-off engagement to fix positioning and build the core asset set.",
+          "items": [
+            "Positioning and competitor workshop",
+            "Messaging framework and tone of voice",
+            "Visual identity direction and brand guidelines",
+            "Core copy — website, profile, collateral",
+            "Launch asset set for digital and print",
+            "Handover session with your team"
+          ]
+        },
+        {
+          "name": "Always-On",
+          "featured": true,
+          "for": "Ongoing marketing for companies without an internal team.",
+          "items": [
+            "Everything in Brand Foundation, applied continuously",
+            "Monthly content calendar and production",
+            "Social channel management and community response",
+            "Campaign landing pages and lead capture",
+            "Email marketing and audience nurture",
+            "Paid media management within an agreed budget",
+            "Monthly performance report and quarterly strategy review"
+          ]
+        },
+        {
+          "name": "Full Communications",
+          "featured": false,
+          "for": "Organisations with a public profile, media exposure or reputation risk.",
+          "items": [
+            "Everything in Always-On",
+            "PR strategy and sustained media relations",
+            "Press releases and journalist outreach",
+            "Spokesperson preparation and media training",
+            "Paid media planning and buying at scale",
+            "Event, launch and sponsorship communication",
+            "Crisis communication protocol and on-call support"
+          ]
+        }
+      ]
+    },
+    "steps": [
+      {
+        "title": "Position",
+        "text": "Workshops and research to establish what you are actually selling and to whom."
+      },
+      {
+        "title": "Build",
+        "text": "Messaging, identity and the core assets everything else will be produced from."
+      },
+      {
+        "title": "Run",
+        "text": "Content, campaigns, channels and press, executed to a calendar with agreed output volumes."
+      },
+      {
+        "title": "Measure",
+        "text": "Monthly reporting against commercial metrics, with the plan adjusted on what the data shows."
+      }
+    ],
+    "faqs": [
+      {
+        "q": "Do you work with in-house marketing teams?",
+        "a": "Frequently. We can take the strategic and production load while your team owns relationships and channels, or fill a specific gap such as PR or paid media."
+      },
+      {
+        "q": "What is the minimum retainer term?",
+        "a": "Three months for Always-On and six for Full Communications. Meaningful campaign data and media relationships take longer than one month to produce."
+      },
+      {
+        "q": "Can you handle Arabic and English?",
+        "a": "Yes. Bilingual content, adaptation rather than direct translation, and media outreach to both English and Arabic-language outlets."
+      }
+    ]
+  },
+  {
+    "slug": "consultancy",
+    "nav": "Management Consultancies",
+    "cardTitle": "Management Consultancies",
+    "cardText": "Operating models, processes and governance rebuilt so that growth doesn't outpace control.",
+    "icon": "bars",
+    "metaTitle": "Management Consultancy in Dubai | Innova Group",
+    "metaDescription": "Operating model design, process documentation, governance frameworks, financial controls and performance management for growing companies in the UAE.",
+    "eyebrow": "Service 07",
+    "heading": "Growth outruns process. We help it catch up.",
+    "intro": "Operating models, documented processes, governance and controls — built for the size you are becoming rather than the size you were.",
+    "overview": {
+      "eyebrow": "The offer",
+      "heading": "The company outgrew how it was run",
+      "lead": "Most operational pain in a growing business is not a people problem. It is a structure problem: decisions with no owner, processes that live in someone's head, and reporting that arrives too late to act on.",
+      "body": [
+        "We diagnose that structure honestly — through interviews, process mapping and a look at the actual numbers — and then rebuild the parts that are failing. Target operating model, documented procedures, delegation of authority, financial controls, performance measures.",
+        "Recommendations are only half the job. We stay through implementation, because an unimplemented report changes nothing."
+      ]
+    },
+    "scope": {
+      "eyebrow": "Capabilities",
+      "heading": "Where we work",
+      "lead": "Selected according to the diagnostic findings and your priorities.",
+      "items": [
+        "Operating model and organisational design",
+        "Role definition, accountability and span of control",
+        "Process mapping, SOPs and written procedures",
+        "Governance frameworks and delegation of authority",
+        "Financial controls, budgeting and reporting cadence",
+        "Commercial policy, pricing and procurement discipline",
+        "Performance frameworks, KPIs and dashboards",
+        "Systems selection and digital workflow design",
+        "Data and reporting architecture",
+        "Change management and team enablement",
+        "Leadership coaching and management routines",
+        "Post-implementation review and refinement"
+      ]
+    },
+    "packages": {
+      "eyebrow": "Packages",
+      "heading": "Diagnose, build, embed",
+      "sub": "Most clients begin with the diagnostic and decide on implementation once they have seen the findings.",
+      "tiers": [
+        {
+          "name": "Diagnostic",
+          "featured": false,
+          "for": "A two-to-four week review to establish what is actually wrong.",
+          "items": [
+            "Stakeholder interviews across the organisation",
+            "Process and data review",
+            "Findings report with a priority matrix",
+            "Roadmap scored by effort and impact",
+            "Quick wins identified for immediate action",
+            "Board-ready presentation and debrief"
+          ]
+        },
+        {
+          "name": "Build &amp; Implement",
+          "featured": true,
+          "for": "Turning the findings into a working operating model.",
+          "items": [
+            "Everything in Diagnostic",
+            "Target operating model and organisational design",
+            "Documented SOPs and process maps",
+            "Governance and delegation-of-authority framework",
+            "KPI framework and management dashboard",
+            "Systems recommendation and selection support",
+            "Implementation plan with named owners and dates"
+          ]
+        },
+        {
+          "name": "Embedded Advisory",
+          "featured": false,
+          "for": "Ongoing support through a period of growth or transition.",
+          "items": [
+            "Everything in Build &amp; Implement",
+            "Retained advisory with agreed monthly time",
+            "Monthly leadership working sessions",
+            "Hands-on change management and team enablement",
+            "Role design and recruitment support",
+            "Quarterly performance and governance review",
+            "Direct access to a partner-level advisor"
+          ]
+        }
+      ]
+    },
+    "steps": [
+      {
+        "title": "Diagnose",
+        "text": "Interviews, process mapping and data review to find where the structure is actually failing."
+      },
+      {
+        "title": "Prioritise",
+        "text": "A roadmap scored by effort and impact, agreed with leadership before anything is built."
+      },
+      {
+        "title": "Build",
+        "text": "Operating model, procedures, governance and measures, documented and owned by named people."
+      },
+      {
+        "title": "Embed",
+        "text": "Implementation support, management routines and a review cycle so the changes hold."
+      }
+    ],
+    "faqs": [
+      {
+        "q": "How disruptive is the diagnostic?",
+        "a": "Light. It is typically two to four weeks of interviews and document review, taking an hour or so from each participant, with normal operations continuing throughout."
+      },
+      {
+        "q": "Will you write the SOPs, or do we?",
+        "a": "We write them with your team, in your language, and hand over editable source documents. Procedures written entirely by outsiders tend not to survive contact with the people doing the work."
+      },
+      {
+        "q": "Do you implement software?",
+        "a": "We help you select it and design the workflow around it, and can coordinate the vendor's implementation. For AI-specific systems, our AI practice builds and deploys directly."
+      }
+    ]
+  },
+  {
+    "slug": "ai",
+    "nav": "AI Research &amp; Consultancy",
+    "cardTitle": "AI Research &amp; Consultancy",
+    "cardText": "Applied artificial intelligence — where it creates real value in your business, and how to deploy it safely.",
+    "icon": "chip",
+    "metaTitle": "AI Consultancy & Applied AI in Dubai | Innova Group",
+    "metaDescription": "AI readiness assessment, use-case prioritisation, prototype development, workflow automation and responsible deployment for businesses in Dubai and the UAE.",
+    "eyebrow": "Service 08",
+    "heading": "Artificial intelligence, applied where it actually pays.",
+    "intro": "We start with your processes, not with a model. Where AI creates measurable value we build it. Where it doesn't, we say so.",
+    "overview": {
+      "eyebrow": "The offer",
+      "heading": "Most AI projects fail on the use case, not the technology",
+      "lead": "The models are capable and getting more so. The failures we see are almost always upstream: a use case nobody needed, data that was never ready, or a pilot with no definition of success.",
+      "body": [
+        "Our work begins with an assessment of where your organisation actually spends effort — the repetitive reading, writing, searching, checking and routing that consumes hours without producing judgement. Those are the places AI pays.",
+        "We then prioritise by value and feasibility, build one use case properly end-to-end, measure it against agreed success criteria, and only scale what earns it. Deployment includes the parts people skip: data governance, privacy, residency, evaluation and the training that gets it adopted."
+      ]
+    },
+    "scope": {
+      "eyebrow": "Capabilities",
+      "heading": "What we do",
+      "lead": "Delivered as an assessment, a build, or an ongoing partnership.",
+      "items": [
+        "AI opportunity assessment across operations",
+        "Data readiness, quality and governance review",
+        "Use-case prioritisation by value and feasibility",
+        "Prototype and proof-of-concept development",
+        "Document processing, extraction and classification",
+        "Workflow automation and system integration",
+        "Internal knowledge assistants and search over your own data",
+        "Customer-facing conversational systems",
+        "Model selection, evaluation and benchmarking",
+        "Responsible-use, privacy and data-residency guidance",
+        "Monitoring, evaluation and drift management",
+        "Team training and adoption support"
+      ]
+    },
+    "packages": {
+      "eyebrow": "Packages",
+      "heading": "Assess, pilot, partner",
+      "sub": "Deliberately sequential. We would rather prove one use case than promise ten.",
+      "tiers": [
+        {
+          "name": "AI Readiness",
+          "featured": false,
+          "for": "Establishing where AI is worth applying before committing budget.",
+          "items": [
+            "Process and data audit across key functions",
+            "Use-case long list scored by value and feasibility",
+            "Data quality and readiness assessment",
+            "Tooling and platform recommendation",
+            "Risk, privacy and governance review",
+            "Prioritised roadmap with indicative effort and cost"
+          ]
+        },
+        {
+          "name": "Pilot Build",
+          "featured": true,
+          "for": "Building the highest-value use case properly, end to end.",
+          "items": [
+            "Everything in AI Readiness",
+            "One production-ready use case built end to end",
+            "Data pipeline and system integration",
+            "Success metrics agreed before development starts",
+            "Structured evaluation against those metrics",
+            "User testing, refinement and rollout",
+            "Deployment, documentation and team training"
+          ]
+        },
+        {
+          "name": "AI Partner",
+          "featured": false,
+          "for": "Organisations building an ongoing AI capability rather than a single tool.",
+          "items": [
+            "Everything in Pilot Build",
+            "Multi-use-case delivery programme",
+            "Internal knowledge assistant across your own data",
+            "Ongoing model monitoring and evaluation",
+            "Responsible-use and data governance policy",
+            "Quarterly capability and roadmap review",
+            "Retained engineering and advisory support"
+          ]
+        }
+      ]
+    },
+    "steps": [
+      {
+        "title": "Assess",
+        "text": "Where does effort go, what data exists, and which tasks are repetitive enough to be worth automating."
+      },
+      {
+        "title": "Prioritise",
+        "text": "Use cases scored by value and feasibility, with success criteria defined before anyone builds."
+      },
+      {
+        "title": "Build",
+        "text": "One use case taken end to end — integrated, evaluated, tested with real users and deployed."
+      },
+      {
+        "title": "Scale",
+        "text": "Monitoring, governance and the next use cases, added only once the previous one has proven itself."
+      }
+    ],
+    "faqs": [
+      {
+        "q": "Does our data leave our systems?",
+        "a": "Only if you decide it should. Data residency and privacy requirements are established at the assessment stage, and the architecture is designed around them — including fully self-hosted deployments where that is required."
+      },
+      {
+        "q": "We have no AI experience internally. Is that a problem?",
+        "a": "No. Most of our clients start from zero. Training and adoption support are part of the Pilot Build package precisely because a tool nobody uses is a wasted investment."
+      },
+      {
+        "q": "What if the assessment concludes AI isn't worth it?",
+        "a": "Then we tell you that, and the assessment has saved you a great deal more than it cost. In many cases the honest answer is that a process fix or a conventional automation delivers the same result more cheaply."
+      },
+      {
+        "q": "How do you measure whether a pilot worked?",
+        "a": "Against criteria agreed in writing before development begins — typically time saved, error rate, throughput or cost per transaction, measured against a documented baseline."
+      }
+    ]
+  }
+]
