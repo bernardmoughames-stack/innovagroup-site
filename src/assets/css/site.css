@@ -54,11 +54,19 @@ a:hover { color: var(--gold-600); }
 .section--dark { background: var(--surface-dark); color: var(--on-dark-soft); }
 .section--dark h1, .section--dark h2, .section--dark h3 { color: var(--on-dark); }
 
+/* Hidden until focused. Uses the clip technique rather than an off-screen
+   offset, because a negative offset creates thousands of pixels of horizontal
+   overflow once the page direction is right-to-left. */
 .skip-link {
-  position: absolute; left: -9999px; top: 0; z-index: 999;
-  background: var(--brand-navy); color: #fff; padding: .75rem 1.25rem;
+  position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+  overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
 }
-.skip-link:focus { left: 1rem; top: 1rem; }
+.skip-link:focus {
+  position: fixed; inset-inline-start: 1rem; top: 1rem; z-index: 999;
+  width: auto; height: auto; margin: 0; padding: .75rem 1.25rem;
+  clip: auto; clip-path: none; overflow: visible;
+  background: var(--brand-navy); color: #fff;
+}
 
 /* ---------- Eyebrow / section heads ---------- */
 .eyebrow {
@@ -541,4 +549,87 @@ a:hover { color: var(--gold-600); }
   .cta { text-align: left; }
   .btn { width: 100%; }
   .btn-row { flex-direction: column; }
+}
+
+/* ============================================================
+   ARABIC + RIGHT-TO-LEFT
+   ============================================================ */
+
+/* ---- Arabic typography ---- */
+[lang="ar"] body { line-height: 1.9; font-weight: 300; }
+[lang="ar"] h1, [lang="ar"] h2, [lang="ar"] h3, [lang="ar"] h4 {
+  line-height: 1.35;
+  letter-spacing: 0;
+  font-weight: 700;
+}
+[lang="ar"] .hero h1 { line-height: 1.3; font-weight: 400; }
+/* Arabic has no italic form — the emphasis becomes colour alone. */
+[lang="ar"] .hero h1 em { font-style: normal; }
+[lang="ar"] .eyebrow,
+[lang="ar"] .btn,
+[lang="ar"] .nav a,
+[lang="ar"] .has-menu > button,
+[lang="ar"] .card__link,
+[lang="ar"] .pkg h3,
+[lang="ar"] .site-footer h4,
+[lang="ar"] .contact-panel h3,
+[lang="ar"] .field label,
+[lang="ar"] .drawer h4,
+[lang="ar"] .hero__meta dt,
+[lang="ar"] .pkg__tag { text-transform: none; letter-spacing: 0; }
+[lang="ar"] .btn { font-size: .92rem; }
+[lang="ar"] .card__num,
+[lang="ar"] .step::before { font-family: var(--font-body); }
+/* Latin fragments inside Arabic pages — email, phone, brand names. */
+[lang="ar"] [dir="ltr"] { font-family: "Jost", system-ui, sans-serif; }
+
+/* ---- Language switch ---- */
+.lang-switch {
+  display: inline-flex; align-items: center; gap: .45rem; flex: none;
+  height: 40px; padding: 0 .9rem;
+  border: 1px solid var(--border); border-radius: 100px;
+  color: var(--ink); background: transparent;
+  font-size: .8rem; font-weight: 400; line-height: 1;
+  transition: all .3s var(--ease);
+}
+.lang-switch:hover { border-color: var(--brand-gold); color: var(--brand-gold); }
+.lang-switch svg { flex: none; opacity: .75; }
+.lang-switch:hover svg { opacity: 1; }
+.lang-switch span { white-space: nowrap; }
+
+/* ---- Mirrored layout ---- */
+[dir="rtl"] .brand { margin-inline-end: auto; margin-inline-start: 0; }
+[dir="rtl"] .nav a::after { left: auto; right: 0; }
+[dir="rtl"] .card::before { transform-origin: right; }
+[dir="rtl"] .eyebrow::before,
+[dir="rtl"] .eyebrow::after { transform: scaleX(-1); }
+
+[dir="rtl"] .drawer { transform: translateX(-100%); }
+[dir="rtl"] .drawer[data-open="true"] { transform: none; }
+[dir="rtl"] .drawer__close { right: auto; left: var(--gutter); }
+
+[dir="rtl"] .pkg__tag { left: auto; right: 1.9rem; }
+[dir="rtl"] .faq summary { padding: 1.4rem 0 1.4rem 2.5rem; }
+[dir="rtl"] .faq summary::after { right: auto; left: .25rem; }
+[dir="rtl"] .step::before { left: auto; right: 0; }
+
+/* Arrows point the way the language reads. */
+[dir="rtl"] .card__link .arrow { transform: scaleX(-1); }
+[dir="rtl"] .card:hover .card__link .arrow { transform: scaleX(-1) translateX(4px); }
+
+/* The hero glow and grid follow the reading direction too. */
+[dir="rtl"] .hero::before {
+  background:
+    radial-gradient(900px 520px at 22% 12%, rgba(201,154,63,.20), transparent 62%),
+    radial-gradient(700px 500px at 94% 92%, rgba(44,67,114,.55), transparent 60%);
+}
+[dir="rtl"] .page-head::before {
+  background: radial-gradient(760px 420px at 18% 0%, rgba(201,154,63,.18), transparent 62%);
+}
+[dir="rtl"] .cta::before {
+  background: radial-gradient(600px 320px at 12% 6%, rgba(201,154,63,.22), transparent 60%);
+}
+
+@media (max-width: 860px) {
+  .lang-switch { padding: 0 .7rem; }
 }

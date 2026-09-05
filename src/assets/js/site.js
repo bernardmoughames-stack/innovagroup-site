@@ -96,10 +96,14 @@
 
   /* ---- Contact form ----
      Pre-selects the service from ?service=... in the URL, and sends the
-     enquiry by opening the visitor's email client. To post to a real form
-     endpoint instead, see CUSTOMIZE.md. */
+     enquiry by opening the visitor's email client. All wording comes from
+     data- attributes on the form so it follows the page language.
+     To post to a real form endpoint instead, see CUSTOMIZE.md. */
   var form = document.querySelector('.contact-form');
   if (form) {
+    var d = function (name, fallback) {
+      return form.getAttribute('data-' + name) || fallback;
+    };
     var params = new URLSearchParams(window.location.search);
     var svc = params.get('service');
     var pkg = params.get('package');
@@ -110,7 +114,8 @@
     }
     var message = form.querySelector('#cf-message');
     if (pkg && message && !message.value) {
-      message.value = 'I am interested in the "' + pkg + '" package.\n\n';
+      message.value = d('package-line', 'I am interested in the "{package}" package.')
+        .replace('{package}', pkg) + '\n\n';
     }
 
     form.addEventListener('submit', function (e) {
@@ -118,16 +123,16 @@
       if (!form.checkValidity()) { form.reportValidity(); return; }
       var get = function (n) { var el = form.querySelector('[name="' + n + '"]'); return el ? el.value.trim() : ''; };
       var serviceLabel = select && select.selectedIndex > -1 ? select.options[select.selectedIndex].text : '';
-      var subject = 'Website enquiry' + (serviceLabel && select.value ? ' — ' + serviceLabel : '');
+      var subject = d('subject', 'Website enquiry') + (select && select.value ? ' \u2014 ' + serviceLabel : '');
       var lines = [
-        'Name: ' + get('name'),
-        'Email: ' + get('email'),
-        'Phone: ' + (get('phone') || '—'),
-        'Service: ' + (select && select.value ? serviceLabel : 'Not specified'),
+        d('label-name', 'Name') + ': ' + get('name'),
+        d('label-email', 'Email') + ': ' + get('email'),
+        d('label-phone', 'Phone') + ': ' + (get('phone') || '\u2014'),
+        d('label-service', 'Service') + ': ' + (select && select.value ? serviceLabel : '\u2014'),
         '',
         get('message')
       ];
-      window.location.href = 'mailto:Info@innovagroup.co.ae'
+      window.location.href = 'mailto:' + d('email', 'Info@innovagroup.co.ae')
         + '?subject=' + encodeURIComponent(subject)
         + '&body=' + encodeURIComponent(lines.join('\n'));
 
@@ -137,7 +142,7 @@
         status.className = 'form-status';
         form.appendChild(status);
       }
-      status.textContent = 'Opening your email app — press send to deliver the enquiry.';
+      status.textContent = d('status', 'Opening your email app.');
     });
   }
 
