@@ -610,6 +610,8 @@ function buildContact(L) {
   const c = L.site.contact;
   const C = L.site.company;
   const ui = L.ui;
+  // One key for both languages: always read it from the English site file.
+  const FORM_KEY = byCode.en.site.company.formKey || '';
   const body = `
   <section class="page-head">
     <div class="container">
@@ -638,17 +640,20 @@ ${L.services.map(s => `            <li><a href="${url(L, '/' + s.slug + '/')}">$
         </div>
 
         <form class="contact-form" data-reveal data-reveal-delay="100" novalidate
-              data-email="${C.email}"
+              action="https://api.web3forms.com/submit" method="POST"
               data-subject="${ui.formSubject}"
-              data-status="${ui.formStatus}"
-              data-package-line="${ui.formPackageLine}"
-              data-label-name="${ui.formName}"
-              data-label-email="${ui.formEmail}"
-              data-label-phone="${ui.formPhone}"
-              data-label-service="${ui.formService}">
-          <!-- This form opens the visitor's email client with the message
-               pre-filled. To send it through a form service instead, see
-               CUSTOMIZE.md, section "Making the contact form send email". -->
+              data-sending="${ui.formSending}"
+              data-success="${ui.formSuccess}"
+              data-error="${ui.formError}"
+              data-package-line="${ui.formPackageLine}">
+          <!-- Submissions are delivered by Web3Forms to the company email
+               (the address the access key was created for). The key is set in
+               the admin panel under Company details, or content/site.json. -->
+          <input type="hidden" name="access_key" value="${FORM_KEY}">
+          <input type="hidden" name="subject" value="${ui.formSubject}">
+          <input type="hidden" name="from_name" value="${stripTags(C.name)} website">
+          <input type="hidden" name="language" value="${L.code}">
+          <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
           <div class="field">
             <label for="cf-name">${ui.formName}</label>
             <input id="cf-name" name="name" type="text" autocomplete="name" required>

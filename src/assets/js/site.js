@@ -95,10 +95,11 @@
   }
 
   /* ---- Contact form ----
-     Pre-selects the service from ?service=... in the URL, and sends the
-     enquiry by opening the visitor's email client. All wording comes from
-     data- attributes on the form so it follows the page language.
-     To post to a real form endpoint instead, see CUSTOMIZE.md. */
+     Pre-selects the service from ?service=... in the URL, then sends the
+     enquiry to Web3Forms in the background (no page reload, no email app).
+     If JavaScript is off, the browser posts the form normally and Web3Forms
+     shows its own thank-you page. Wording comes from data- attributes so it
+     follows the page language. */
   var form = document.querySelector('.contact-form');
   if (form) {
     var d = function (name, fallback) {
@@ -118,31 +119,52 @@
         .replace('{package}', pkg) + '\n\n';
     }
 
+    var status = form.querySelector('.form-status');
+    if (!status) {
+      status = document.createElement('p');
+      status.className = 'form-status';
+      status.setAttribute('role', 'status');
+      form.appendChild(status);
+    }
+    var button = form.querySelector('button[type="submit"]');
+
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       if (!form.checkValidity()) { form.reportValidity(); return; }
-      var get = function (n) { var el = form.querySelector('[name="' + n + '"]'); return el ? el.value.trim() : ''; };
-      var serviceLabel = select && select.selectedIndex > -1 ? select.options[select.selectedIndex].text : '';
-      var subject = d('subject', 'Website enquiry') + (select && select.value ? ' \u2014 ' + serviceLabel : '');
-      var lines = [
-        d('label-name', 'Name') + ': ' + get('name'),
-        d('label-email', 'Email') + ': ' + get('email'),
-        d('label-phone', 'Phone') + ': ' + (get('phone') || '\u2014'),
-        d('label-service', 'Service') + ': ' + (select && select.value ? serviceLabel : '\u2014'),
-        '',
-        get('message')
-      ];
-      window.location.href = 'mailto:' + d('email', 'Info@innovagroup.co.ae')
-        + '?subject=' + encodeURIComponent(subject)
-        + '&body=' + encodeURIComponent(lines.join('\n'));
+      if (!window.fetch) { form.submit(); return; }
 
-      var status = form.querySelector('.form-status');
-      if (!status) {
-        status = document.createElement('p');
-        status.className = 'form-status';
-        form.appendChild(status);
+      var data = new FormData(form);
+      // Send the readable service name rather than its URL slug.
+      if (select) {
+        data.set('service', select.value ? select.options[select.selectedIndex].text : select.options[0].text);
       }
-      status.textContent = d('status', 'Opening your email app.');
+      var subject = d('subject', 'Website enquiry')
+        + (select && select.value ? ' \u2014 ' + select.options[select.selectedIndex].text : '');
+      data.set('subject', subject);
+      data.set('replyto', data.get('email') || '');
+
+      status.className = 'form-status';
+      status.textContent = d('sending', 'Sending\u2026');
+      if (button) button.disabled = true;
+
+      fetch(form.action, {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      }).then(function (r) { return r.json(); }).then(function (res) {
+        if (res && res.success) {
+          form.reset();
+          status.className = 'form-status is-success';
+          status.textContent = d('success', 'Thank you \u2014 your enquiry has been sent.');
+        } else {
+          throw new Error(res && res.message);
+        }
+      }).catch(function () {
+        status.className = 'form-status is-error';
+        status.textContent = d('error', 'Something went wrong. Please email us directly.');
+      }).then(function () {
+        if (button) button.disabled = false;
+      });
     });
   }
 

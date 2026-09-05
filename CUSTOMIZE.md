@@ -123,23 +123,24 @@ be wired up with proper styling.
 
 ---
 
-## 5. Making the contact form send email
+## 5. The contact form
 
-Right now the form opens the visitor's own email app with everything filled in.
-That works with zero setup and no monthly cost, but some visitors have no email
-app configured.
+Submissions are sent through [Web3Forms](https://web3forms.com) straight to the
+company inbox — the visitor never leaves the page and no email app opens. Both
+the English and Arabic forms use the same access key.
 
-To have submissions arrive in your inbox directly:
-
-1. Create a form at [Formspree](https://formspree.io) and copy the endpoint URL.
-2. In `build.js`, find `<form class="contact-form"` in `buildContact()` and add
-   `action="https://formspree.io/f/YOUR_ID" method="POST"`.
-3. In `src/assets/js/site.js`, delete the `form.addEventListener('submit', …)`
-   block so the browser submits the form normally.
-4. Push the change.
-
-Note: the contact form's email address also appears in `site.js`. If you change
-the company email in the admin panel, change it there too.
+- **To change where enquiries arrive:** create a new access key at
+  https://app.web3forms.com/onboarding/create using the new email address
+  (Web3Forms emails the key to that address), then paste it into the admin
+  panel under **Company details → Contact form key**, or into `formKey` in
+  `content/site.json`. Push, and the site rebuilds.
+- **Wording** of the "Sending…", success and error messages lives in
+  `content/ui.json` (`formSending`, `formSuccess`, `formError`).
+- **Spam:** the form carries a hidden honeypot field that bots tend to fill
+  in; Web3Forms drops those submissions. The free plan allows 250 submissions
+  a month.
+- If JavaScript is disabled, the browser submits the form directly and
+  Web3Forms shows its own thank-you page.
 
 ---
 
