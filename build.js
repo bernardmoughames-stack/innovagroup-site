@@ -74,7 +74,8 @@ const ARROW = '<svg class="arrow" width="14" height="10" viewBox="0 0 14 10" fil
 const TICK  = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>';
 const MAIL  = '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="15" rx="2"/><path d="M3 6l9 6.5L21 6"/></svg>';
 const PHONE = '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 16.5v3a2 2 0 01-2.2 2 19.5 19.5 0 01-8.5-3 19.2 19.2 0 01-6-6 19.5 19.5 0 01-3-8.6A2 2 0 013.3 2h3a2 2 0 012 1.7c.1 1 .4 2 .7 2.9a2 2 0 01-.5 2.1L7.4 9.8a16 16 0 006 6l1.1-1.1a2 2 0 012.1-.5c.9.3 1.9.6 2.9.7a2 2 0 011.7 2z"/></svg>';
-const WA    = '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.8a9.2 9.2 0 00-7.9 13.9L2.8 21.2l4.6-1.2A9.2 9.2 0 1012 2.8z"/><path d="M9 8.4c.2-.4.4-.4.6-.4h.5c.2 0 .4 0 .6.5l.8 1.8c.1.2 0 .4-.1.5l-.5.6c-.1.2-.2.3-.1.5.5.9 1.5 1.9 2.4 2.4.2.1.4 0 .5-.1l.6-.6c.1-.2.3-.2.5-.1l1.8.8c.4.2.5.3.5.6v.5c0 .3-.2.6-.5.8-.4.3-1 .5-1.6.4-1.4-.2-3-1.1-4.2-2.3-1.2-1.2-2.1-2.8-2.3-4.2-.1-.6.1-1.2.4-1.6z"/></svg>';
+const waIcon = (size = 17) => `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.8a9.2 9.2 0 00-7.9 13.9L2.8 21.2l4.6-1.2A9.2 9.2 0 1012 2.8z"/><path d="M9 8.4c.2-.4.4-.4.6-.4h.5c.2 0 .4 0 .6.5l.8 1.8c.1.2 0 .4-.1.5l-.5.6c-.1.2-.2.3-.1.5.5.9 1.5 1.9 2.4 2.4.2.1.4 0 .5-.1l.6-.6c.1-.2.3-.2.5-.1l1.8.8c.4.2.5.3.5.6v.5c0 .3-.2.6-.5.8-.4.3-1 .5-1.6.4-1.4-.2-3-1.1-4.2-2.3-1.2-1.2-2.1-2.8-2.3-4.2-.1-.6.1-1.2.4-1.6z"/></svg>`;
+const WA = waIcon();
 const PIN   = '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-5.7 7-11a7 7 0 10-14 0c0 5.3 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/></svg>';
 
 /* ---------------- Fonts ---------------- */
@@ -452,6 +453,17 @@ ${f.companyLinks.map(l => `          <li><a href="${url(L, l.href)}">${l.label}<
 /* A phone-only bar pinned to the bottom of every page except contact.
    Most enquiries here arrive from a phone, and this removes the scroll
    back to the header to find a way to get in touch. */
+/* Desktop counterpart of the phone bar: one floating WhatsApp button, pinned
+   to the trailing corner. Hidden on phones, where the bottom bar covers it. */
+function waFloat(L, page) {
+  if (page.path === '/contact/') return '';
+  const href = waHref(L, page.serviceName);
+  if (!href) return '';
+  return `<a class="wa-float" href="${href}" target="_blank" rel="noopener" aria-label="${L.ui.waLabel}">
+  ${waIcon(26)}<span>${L.ui.waLabel}</span>
+</a>`;
+}
+
 function mobileBar(L, page) {
   if (page.path === '/contact/') return '';
   const C = L.site.company;
@@ -481,6 +493,7 @@ ${body}
 
 ${footer(L)}
 
+${waFloat(L, page)}
 ${mobileBar(L, page)}
 
 <script src="/assets/js/site.js" defer></script>

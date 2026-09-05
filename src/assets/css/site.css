@@ -639,13 +639,59 @@ a:hover { color: var(--gold-600); }
 }
 
 
-/* ---- Phone-only contact bar ------------------------------------------
-   Hidden on tablet and up; the header CTA covers those. */
+/* ---- Ways to get in touch, pinned to the viewport ---------------------
+   Phones get a three-button bar across the bottom; everything wider gets a
+   single floating WhatsApp button in the trailing corner. */
+
 .mobile-bar { display: none; }
 
 .drawer .drawer__wa { margin-top: .6rem; display: inline-flex; align-items: center; justify-content: center; gap: .5rem; }
 
+/* --- Desktop / tablet floating button --- */
+.wa-float {
+  position: fixed;
+  z-index: 60;
+  bottom: 1.6rem;
+  inset-inline-end: 1.6rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  height: 56px;
+  padding: 0 15px;
+  border-radius: 999px;
+  background: var(--brand-gold);
+  color: #12203c;
+  text-decoration: none;
+  box-shadow: 0 6px 22px rgba(10, 18, 38, .28);
+  transition: gap .25s ease, padding .25s ease, box-shadow .25s ease, transform .25s ease;
+}
+.wa-float svg { flex: none; }
+.wa-float span {
+  max-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: .92rem;
+  font-weight: 500;
+  letter-spacing: .01em;
+  transition: max-width .25s ease;
+}
+.wa-float:hover,
+.wa-float:focus-visible {
+  gap: .55rem;
+  padding-inline-end: 22px;
+  box-shadow: 0 10px 28px rgba(10, 18, 38, .34);
+  transform: translateY(-1px);
+}
+.wa-float:hover span,
+.wa-float:focus-visible span { max-width: 8rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  .wa-float, .wa-float span { transition: none; }
+}
+
 @media (max-width: 700px) {
+  .wa-float { display: none; }
+
   .mobile-bar {
     display: flex;
     position: fixed;
@@ -658,13 +704,16 @@ a:hover { color: var(--gold-600); }
     backdrop-filter: blur(10px);
     border-top: 1px solid var(--border);
   }
+  /* All three share the width equally. */
   .mobile-bar a {
+    flex: 1 1 0;
+    min-width: 0;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: .4rem;
     min-height: 46px;
-    padding: 0 .8rem;
+    padding: 0 .5rem;
     border-radius: 999px;
     font-size: .82rem;
     letter-spacing: .01em;
@@ -673,22 +722,17 @@ a:hover { color: var(--gold-600); }
   }
   .mobile-bar a svg { flex: none; }
   .mobile-bar__icon {
-    flex: 0 0 auto;
     border: 1px solid var(--border-strong);
     color: var(--ink);
   }
   .mobile-bar__cta {
-    flex: 1 1 auto;
-    min-width: 0;
     background: var(--brand-gold);
     color: #12203c;
     font-weight: 500;
-    font-size: .9rem;
   }
   /* Very narrow phones: drop the secondary labels, keep the icons. */
   @media (max-width: 360px) {
     .mobile-bar__icon span { display: none; }
-    .mobile-bar__icon { padding: 0 .9rem; }
   }
   /* Keep the bar from covering the last of the page. */
   .site-footer { padding-bottom: 5.5rem; }
