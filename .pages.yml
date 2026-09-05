@@ -241,6 +241,7 @@ content:
             description: "Full URLs of profiles you own - Google Business Profile, LinkedIn, Instagram. These prove to Google and AI assistants that the business is real. Add them as you create them."
           - { name: phone, label: Phone (as displayed), type: string }
           - { name: phoneLink, label: Phone (digits only, for tap-to-call), type: string }
+          - { name: whatsapp, label: WhatsApp number, type: string, description: "Country code and number, digits only, no + or spaces (e.g. 971505097758). Leave blank to hide every WhatsApp button. Used for both languages." }
           - { name: location, label: Location (short), type: string }
           - { name: locationLong, label: Location (full), type: string }
           - { name: licenceLine, label: Licence line in the footer, type: string }

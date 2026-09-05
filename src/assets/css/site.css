@@ -643,40 +643,52 @@ a:hover { color: var(--gold-600); }
    Hidden on tablet and up; the header CTA covers those. */
 .mobile-bar { display: none; }
 
+.drawer .drawer__wa { margin-top: .6rem; display: inline-flex; align-items: center; justify-content: center; gap: .5rem; }
+
 @media (max-width: 700px) {
   .mobile-bar {
     display: flex;
     position: fixed;
     inset: auto 0 0 0;
     z-index: 60;
-    gap: .6rem;
-    padding: .6rem .9rem calc(.6rem + env(safe-area-inset-bottom));
+    gap: .5rem;
+    padding: .55rem .85rem calc(.55rem + env(safe-area-inset-bottom));
     background: var(--surface);
     background: color-mix(in srgb, var(--surface) 92%, transparent);
     backdrop-filter: blur(10px);
     border-top: 1px solid var(--border);
   }
   .mobile-bar a {
-    flex: 1;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: .45rem;
+    gap: .4rem;
     min-height: 46px;
+    padding: 0 .8rem;
     border-radius: 999px;
-    font-size: .92rem;
+    font-size: .82rem;
     letter-spacing: .01em;
+    white-space: nowrap;
     text-decoration: none;
   }
-  .mobile-bar__call {
-    flex: 0 0 40%;
-    border: 1px solid var(--border);
+  .mobile-bar a svg { flex: none; }
+  .mobile-bar__icon {
+    flex: 0 0 auto;
+    border: 1px solid var(--border-strong);
     color: var(--ink);
   }
   .mobile-bar__cta {
+    flex: 1 1 auto;
+    min-width: 0;
     background: var(--brand-gold);
     color: #12203c;
     font-weight: 500;
+    font-size: .9rem;
+  }
+  /* Very narrow phones: drop the secondary labels, keep the icons. */
+  @media (max-width: 360px) {
+    .mobile-bar__icon span { display: none; }
+    .mobile-bar__icon { padding: 0 .9rem; }
   }
   /* Keep the bar from covering the last of the page. */
   .site-footer { padding-bottom: 5.5rem; }
