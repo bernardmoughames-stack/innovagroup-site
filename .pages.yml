@@ -233,6 +233,12 @@ content:
           - { name: domain, label: Website address, type: string, description: "No trailing slash, e.g. https://innovagroup.co.ae" }
           - { name: email, label: Email, type: string }
           - { name: formKey, label: Contact form key (Web3Forms access key), type: string, description: "Submissions from the contact form are emailed to the address this key was created for. Used for both languages." }
+          - { name: foundingYear, label: Year founded, type: string, description: "Optional. Shown to search engines and AI assistants as the business founding date. Leave blank rather than guessing." }
+          - name: sameAs
+            label: Official profiles
+            type: string
+            list: true
+            description: "Full URLs of profiles you own - Google Business Profile, LinkedIn, Instagram. These prove to Google and AI assistants that the business is real. Add them as you create them."
           - { name: phone, label: Phone (as displayed), type: string }
           - { name: phoneLink, label: Phone (digits only, for tap-to-call), type: string }
           - { name: location, label: Location (short), type: string }

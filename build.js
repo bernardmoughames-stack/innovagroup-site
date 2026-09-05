@@ -82,46 +82,168 @@ const FONTS_LATIN =
 const FONTS_ARABIC =
   'https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@200;300;400;500&display=swap';
 
-/* ---------------- Structured data ---------------- */
+/* ---------------- Structured data ----------------
+   Every page links the same three entities by @id so search engines and
+   AI assistants can see that one organisation publishes one website:
+     <domain>/#organisation   the company
+     <domain>/#website        the site
+     <url>#webpage            this page
+   ------------------------------------------------------------------ */
+const ORG_ID  = L => L.site.company.domain + '/#organisation';
+const SITE_ID = L => L.site.company.domain + '/#website';
+const pageUrl = (L, p) => L.site.company.domain + L.prefix + p;
+
 function organisationSchema(L) {
   const C = L.site.company;
-  return {
+  const ar = L.code === 'ar';
+  const o = {
     '@context': 'https://schema.org',
     '@type': 'ProfessionalService',
+    '@id': ORG_ID(L),
     name: C.name,
     url: C.domain + L.prefix + '/',
     email: C.email,
     telephone: C.phoneLink,
     inLanguage: L.code,
-    image: C.domain + '/assets/img/logo.png',
-    logo: C.domain + '/assets/img/mark.png',
+    knowsLanguage: ['en', 'ar'],
+    image: C.domain + '/assets/img/og-image.png',
+    logo: {
+      '@type': 'ImageObject',
+      url: C.domain + '/assets/img/logo.png',
+      width: 1600,
+      height: 231
+    },
     description: L.site.home.metaDescription,
     address: {
       '@type': 'PostalAddress',
-      streetAddress: L.code === 'ar' ? 'ميدان' : 'Meydan',
-      addressLocality: L.code === 'ar' ? 'دبي' : 'Dubai',
+      streetAddress: ar ? 'ميدان' : 'Meydan',
+      addressLocality: ar ? 'دبي' : 'Dubai',
+      addressRegion: ar ? 'دبي' : 'Dubai',
       addressCountry: 'AE'
     },
     areaServed: {
       '@type': 'Country',
-      name: L.code === 'ar' ? 'الإمارات العربية المتحدة' : 'United Arab Emirates'
+      name: ar ? 'الإمارات العربية المتحدة' : 'United Arab Emirates'
     },
-    makesOffer: L.services.map(s => ({
-      '@type': 'Offer',
-      itemOffered: {
-        '@type': 'Service',
-        name: stripTags(s.nav),
-        description: stripTags(s.cardText),
-        url: `${C.domain}${L.prefix}/${s.slug}/`
-      }
+    contactPoint: {
+      '@type': 'ContactPoint',
+      contactType: ar ? 'خدمة العملاء' : 'customer service',
+      email: C.email,
+      telephone: C.phoneLink,
+      areaServed: 'AE',
+      availableLanguage: ['en', 'ar']
+    },
+    hasOfferCatalog: {
+      '@type': 'OfferCatalog',
+      name: ar ? 'خدمات إنوفا جروب' : C.name + ' services',
+      itemListElement: L.services.map(s => ({
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          '@id': pageUrl(L, '/' + s.slug + '/') + '#service',
+          name: stripTags(s.nav),
+          description: stripTags(s.cardText),
+          url: pageUrl(L, '/' + s.slug + '/')
+        }
+      }))
+    }
+  };
+  // Only emitted once real profiles exist — never invent them.
+  const same = (C.sameAs || []).filter(Boolean);
+  if (same.length) o.sameAs = same;
+  if (C.foundingYear) o.foundingDate = String(C.foundingYear);
+  return o;
+}
+
+function websiteSchema(L) {
+  const C = L.site.company;
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': SITE_ID(L),
+    url: C.domain + L.prefix + '/',
+    name: C.name,
+    inLanguage: L.code,
+    publisher: { '@id': ORG_ID(L) }
+  };
+}
+
+function webPageSchema(L, page) {
+  const type = page.pageType || 'WebPage';
+  const o = {
+    '@context': 'https://schema.org',
+    '@type': type,
+    '@id': pageUrl(L, page.path) + '#webpage',
+    url: pageUrl(L, page.path),
+    name: page.metaTitle,
+    description: page.metaDescription,
+    inLanguage: L.code,
+    isPartOf: { '@id': SITE_ID(L) },
+    about: { '@id': ORG_ID(L) },
+    primaryImageOfPage: {
+      '@type': 'ImageObject',
+      url: L.site.company.domain + '/assets/img/og-image.png'
+    }
+  };
+  if (page.breadcrumb) o.breadcrumb = { '@id': pageUrl(L, page.path) + '#breadcrumb' };
+  return o;
+}
+
+/* items: [{name, path}] — the final item is the current page. */
+function breadcrumbSchema(L, page, items) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    '@id': pageUrl(L, page.path) + '#breadcrumb',
+    itemListElement: items.map((it, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: stripTags(it.name),
+      item: it.path ? pageUrl(L, it.path) : undefined
     }))
   };
 }
 
-function faqSchema(faqs) {
+function serviceSchema(L, s) {
+  const C = L.site.company;
+  const ar = L.code === 'ar';
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    '@id': pageUrl(L, '/' + s.slug + '/') + '#service',
+    name: stripTags(s.nav),
+    serviceType: stripTags(s.nav),
+    url: pageUrl(L, '/' + s.slug + '/'),
+    description: s.metaDescription,
+    inLanguage: L.code,
+    provider: { '@id': ORG_ID(L) },
+    areaServed: {
+      '@type': 'Country',
+      name: ar ? 'الإمارات العربية المتحدة' : 'United Arab Emirates'
+    },
+    hasOfferCatalog: {
+      '@type': 'OfferCatalog',
+      name: stripTags(s.packages.heading || s.nav),
+      itemListElement: s.packages.tiers.map(t => ({
+        '@type': 'Offer',
+        name: stripTags(t.name),
+        description: stripTags(t.for),
+        itemOffered: {
+          '@type': 'Service',
+          name: stripTags(t.name),
+          description: t.items.map(stripTags).join('; ')
+        }
+      }))
+    }
+  };
+}
+
+function faqSchema(L, page, faqs) {
   return {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
+    '@id': pageUrl(L, page.path) + '#faq',
+    inLanguage: L.code,
     mainEntity: faqs.map(f => ({
       '@type': 'Question',
       name: stripTags(f.q),
@@ -137,30 +259,50 @@ const schemaTag = obj =>
 
 function head(L, page) {
   const C = L.site.company;
-  const schemas = [organisationSchema(L)].concat(page.schema || []);
+  const schemas = [organisationSchema(L), websiteSchema(L), webPageSchema(L, page)]
+    .concat(page.schema || []);
   const alternates = LANGS.map(o =>
     `<link rel="alternate" hreflang="${o.code}" href="${C.domain}${o.prefix}${page.path}">`
   ).join('\n');
+  const ogImage = C.domain + '/assets/img/og-image.png';
+  // Tell crawlers they may quote generously — long snippets and large image
+  // previews are what get a page pulled into AI answers and rich results.
+  const robots = page.noindex
+    ? '<meta name="robots" content="noindex, follow">'
+    : '<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">';
 
   return `<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${page.metaTitle}</title>
+${robots}
 ${schemas.map(schemaTag).join('\n')}
 <meta name="description" content="${page.metaDescription}">
 <link rel="canonical" href="${C.domain}${L.prefix}${page.path}">
 ${alternates}
 <link rel="alternate" hreflang="x-default" href="${C.domain}${page.path}">
+<meta property="og:site_name" content="${C.name}">
 <meta property="og:title" content="${page.metaTitle}">
 <meta property="og:description" content="${page.metaDescription}">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="${L.code === 'ar' ? 'ar_AE' : 'en_AE'}">
+<meta property="og:locale:alternate" content="${L.code === 'ar' ? 'en_AE' : 'ar_AE'}">
 <meta property="og:url" content="${C.domain}${L.prefix}${page.path}">
+<meta property="og:image" content="${ogImage}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="${C.name} — ${C.location}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="${page.metaTitle}">
+<meta name="twitter:description" content="${page.metaDescription}">
+<meta name="twitter:image" content="${ogImage}">
 <meta name="theme-color" content="#142240">
 <link rel="icon" href="/assets/img/favicon.png" type="image/png">
 <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="${L.code === 'ar' ? FONTS_ARABIC : FONTS_LATIN}" rel="stylesheet">
+<link rel="preload" as="style" href="${L.code === 'ar' ? FONTS_ARABIC : FONTS_LATIN}">
+<link rel="stylesheet" href="${L.code === 'ar' ? FONTS_ARABIC : FONTS_LATIN}" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="${L.code === 'ar' ? FONTS_ARABIC : FONTS_LATIN}"></noscript>
 <link rel="stylesheet" href="/assets/css/theme.css">
 <link rel="stylesheet" href="/assets/css/site.css">`;
 }
@@ -285,6 +427,19 @@ ${f.companyLinks.map(l => `          <li><a href="${url(L, l.href)}">${l.label}<
 </footer>`;
 }
 
+/* A phone-only bar pinned to the bottom of every page except contact.
+   Most enquiries here arrive from a phone, and this removes the scroll
+   back to the header to find a way to get in touch. */
+function mobileBar(L, page) {
+  if (page.path === '/contact/') return '';
+  const C = L.site.company;
+  const ui = L.ui;
+  return `<div class="mobile-bar" aria-label="${ui.contactUs}">
+  <a class="mobile-bar__call" href="tel:${C.phoneLink}">${PHONE}<span>${ui.ctaCall}</span></a>
+  <a class="mobile-bar__cta" href="${url(L, '/contact/')}">${ui.enquire}</a>
+</div>`;
+}
+
 function layout(L, page, body) {
   return `<!DOCTYPE html>
 <html lang="${L.code}" dir="${L.dir}">
@@ -301,6 +456,8 @@ ${body}
 </main>
 
 ${footer(L)}
+
+${mobileBar(L, page)}
 
 <script src="/assets/js/site.js" defer></script>
 </body>
@@ -406,7 +563,8 @@ ${ctaBand(L, {
   })}`;
 
   write(L, 'index.html', layout(L, {
-    path: '/', metaTitle: h.metaTitle, metaDescription: h.metaDescription
+    path: '/', metaTitle: h.metaTitle, metaDescription: h.metaDescription,
+    pageType: 'WebPage'
   }, body));
 }
 
@@ -540,10 +698,20 @@ ${ctaBand(L, {
     button: { label: ui.makeEnquiry, href: `${url(L, '/contact/')}?service=${s.slug}` }
   })}`;
 
-  write(L, `${s.slug}/index.html`, layout(L, {
+  const page = {
     path: `/${s.slug}/`, metaTitle: s.metaTitle, metaDescription: s.metaDescription,
-    schema: s.faqs && s.faqs.length ? [faqSchema(s.faqs)] : []
-  }, body));
+    pageType: 'WebPage', breadcrumb: true
+  };
+  page.schema = [
+    serviceSchema(L, s),
+    breadcrumbSchema(L, page, [
+      { name: ui.navHome, path: '/' },
+      { name: ui.navServices, path: '/#services' },
+      { name: s.nav, path: `/${s.slug}/` }
+    ])
+  ];
+  if (s.faqs && s.faqs.length) page.schema.push(faqSchema(L, page, s.faqs));
+  write(L, `${s.slug}/index.html`, layout(L, page, body));
 }
 
 /* ---------------- About ---------------- */
@@ -600,9 +768,15 @@ ${ctaBand(L, {
     button: { label: ui.contactUs, href: url(L, '/contact/') }
   })}`;
 
-  write(L, 'about/index.html', layout(L, {
-    path: '/about/', metaTitle: a.metaTitle, metaDescription: a.metaDescription
-  }, body));
+  const page = {
+    path: '/about/', metaTitle: a.metaTitle, metaDescription: a.metaDescription,
+    pageType: 'AboutPage', breadcrumb: true
+  };
+  page.schema = [breadcrumbSchema(L, page, [
+    { name: ui.navHome, path: '/' },
+    { name: ui.navAbout, path: '/about/' }
+  ])];
+  write(L, 'about/index.html', layout(L, page, body));
 }
 
 /* ---------------- Contact ---------------- */
@@ -687,9 +861,15 @@ ${L.services.map(s => `              <option value="${s.slug}">${stripTags(s.nav
     </div>
   </section>`;
 
-  write(L, 'contact/index.html', layout(L, {
-    path: '/contact/', metaTitle: c.metaTitle, metaDescription: c.metaDescription
-  }, body));
+  const page = {
+    path: '/contact/', metaTitle: c.metaTitle, metaDescription: c.metaDescription,
+    pageType: 'ContactPage', breadcrumb: true
+  };
+  page.schema = [breadcrumbSchema(L, page, [
+    { name: ui.navHome, path: '/' },
+    { name: ui.navContact, path: '/contact/' }
+  ])];
+  write(L, 'contact/index.html', layout(L, page, body));
 }
 
 /* ---------------- 404 (English, served for any unmatched path) ---------------- */
@@ -724,6 +904,7 @@ ${L.services.map(s => `        <article class="card">
 
   const html = layout(L, {
     path: '/404.html',
+    noindex: true,
     metaTitle: ui.searchEngineTitle + ' | ' + L.site.company.name,
     metaDescription: ui.notFoundText
   }, body);
@@ -731,7 +912,19 @@ ${L.services.map(s => `        <article class="card">
   written.push('404.html');
 }
 
-/* ---------------- sitemap + robots + CNAME ---------------- */
+/* ---------------- sitemap + robots + llms.txt + CNAME ---------------- */
+
+/* Crawlers that feed AI answer engines. Listing them explicitly is a clear
+   opt-in: we want Innova Group quoted in AI answers, not just indexed. */
+const AI_CRAWLERS = [
+  'GPTBot', 'OAI-SearchBot', 'ChatGPT-User',          // OpenAI
+  'ClaudeBot', 'Claude-User', 'Claude-SearchBot',      // Anthropic
+  'PerplexityBot', 'Perplexity-User',                  // Perplexity
+  'Google-Extended',                                   // Google AI / Gemini
+  'Applebot', 'Applebot-Extended',                     // Apple
+  'Amazonbot', 'meta-externalagent', 'DuckAssistBot', 'cohere-ai', 'CCBot'
+];
+
 function buildSiteMeta() {
   const C = byCode.en.site.company;
   const today = new Date().toISOString().slice(0, 10);
@@ -752,11 +945,76 @@ ${entries}
 </urlset>
 `;
   fs.writeFileSync(path.join(OUT, 'sitemap.xml'), xml);
-  fs.writeFileSync(path.join(OUT, 'robots.txt'),
-    `User-agent: *\nAllow: /\n\nSitemap: ${C.domain}/sitemap.xml\n`);
+
+  const robots = [
+    'User-agent: *',
+    'Allow: /',
+    '',
+    '# AI assistants and answer engines are welcome to read and cite this site.',
+    ...AI_CRAWLERS.flatMap(a => [`User-agent: ${a}`, 'Allow: /', '']),
+    `Sitemap: ${C.domain}/sitemap.xml`,
+    `# Plain-language summary for language models: ${C.domain}/llms.txt`,
+    ''
+  ].join('\n');
+  fs.writeFileSync(path.join(OUT, 'robots.txt'), robots);
+
+  fs.writeFileSync(path.join(OUT, 'llms.txt'), llmsTxt());
   fs.writeFileSync(path.join(OUT, 'CNAME'),
     C.domain.replace(/^https?:\/\//, '').replace(/\/$/, '') + '\n');
-  written.push('sitemap.xml', 'robots.txt', 'CNAME');
+  written.push('sitemap.xml', 'robots.txt', 'llms.txt', 'CNAME');
+}
+
+/* llms.txt — the emerging convention (llmstxt.org) for giving language models
+   a clean, plain-text summary of a site instead of making them parse HTML.
+   Everything here is generated from content/, so it can never drift. */
+function llmsTxt() {
+  const L = byCode.en;
+  const C = L.site.company;
+  const h = L.site.home;
+  const out = [];
+
+  out.push(`# ${C.name}`, '');
+  out.push(`> ${h.metaDescription}`, '');
+  out.push(stripTags(h.intro.lead), '');
+
+  out.push('## Key facts', '');
+  out.push(`- Legal/trading name: ${C.name}`);
+  out.push(`- Based in: ${C.locationLong}`);
+  out.push(`- Serves: United Arab Emirates`);
+  out.push(`- Email: ${C.email}`);
+  out.push(`- Phone: ${C.phone}`);
+  out.push(`- Website: ${C.domain}`);
+  out.push(`- Languages: English (${C.domain}/) and Arabic (${C.domain}/ar/)`);
+  out.push(`- ${stripTags(C.licenceLine)}`);
+  out.push(`- Service lines: ${L.services.length}`);
+  out.push('');
+
+  out.push('## Services', '');
+  for (const s of L.services) {
+    out.push(`### ${stripTags(s.nav)}`);
+    out.push(`${C.domain}/${s.slug}/`, '');
+    out.push(stripTags(s.metaDescription), '');
+    const tiers = s.packages.tiers.map(t => stripTags(t.name)).join(', ');
+    if (tiers) out.push(`Packages: ${tiers}.`, '');
+  }
+
+  const faqs = L.services.flatMap(s =>
+    s.faqs.map(f => ({ svc: stripTags(s.nav), q: stripTags(f.q), a: stripTags(f.a) })));
+  if (faqs.length) {
+    out.push('## Frequently asked questions', '');
+    for (const f of faqs) {
+      out.push(`**${f.q}** (${f.svc})`, '');
+      out.push(f.a, '');
+    }
+  }
+
+  out.push('## Contact', '');
+  out.push(`Enquiries: ${C.domain}/contact/ — the form on that page reaches the team directly.`);
+  out.push(`Email ${C.email} or call ${C.phone}.`, '');
+  out.push('## Usage', '');
+  out.push('This summary may be quoted or cited by AI assistants and search engines.');
+  out.push(`Please attribute to ${C.name} and link to ${C.domain}.`, '');
+  return out.join('\n');
 }
 
 /* ---------------- style previews (for Pinegrow) ---------------- */

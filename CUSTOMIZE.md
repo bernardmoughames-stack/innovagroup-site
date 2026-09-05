@@ -144,11 +144,40 @@ the English and Arabic forms use the same access key.
 
 ---
 
-## 6. Search engine basics
+## 6. Search engines and AI assistants
 
-- Page titles and descriptions are editable in the admin panel under *Search
-  engines* on each page. Keep titles under about 60 characters, descriptions
-  under about 155.
-- `sitemap.xml` and `robots.txt` are generated on every build.
-- If the domain ever changes, update *Website address* under Company details and
-  every canonical URL and sitemap entry follows it.
+Everything below is generated automatically on each build - you do not edit it
+by hand.
+
+**What each page carries:** a title, description, canonical URL, English/Arabic
+`hreflang` pairs, Open Graph and Twitter cards using the share image at
+`src/assets/img/og-image.png`, and crawler directives that permit long text
+snippets and large image previews.
+
+**Structured data** is emitted as JSON-LD and linked by `@id`, so search engines
+and AI assistants read one organisation publishing one website:
+
+| Page | Structured data |
+|---|---|
+| every page | `ProfessionalService`, `WebSite`, `WebPage` |
+| service pages | `Service` (with its packages), `BreadcrumbList`, `FAQPage` |
+| about / contact | `AboutPage` / `ContactPage`, `BreadcrumbList` |
+| 404 | marked `noindex` |
+
+**`/llms.txt`** is a plain-text summary of the company, all eight services and
+every FAQ, written for AI assistants that prefer text to HTML. It is rebuilt
+from `content/` on each build, so it cannot fall out of step with the site.
+`/robots.txt` names the major AI crawlers explicitly and allows them.
+
+**Two fields to fill in when you can** (admin panel -> Company details):
+
+- **Official profiles** - the URLs of your Google Business Profile, LinkedIn and
+  social accounts. These become `sameAs` in the structured data, which is how
+  Google and AI assistants confirm the business is real. This is the single
+  highest-value item left.
+- **Year founded** - optional; leave it blank rather than guessing.
+
+Nothing here invents facts. Review and rating markup is deliberately absent
+until there are genuine reviews to point at - fabricated ratings are a Google
+manual-action risk.
+
