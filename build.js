@@ -476,6 +476,16 @@ ${wa ? `  <a class="mobile-bar__icon" href="${wa}" target="_blank" rel="noopener
 </div>`;
 }
 
+/* Cloudflare Web Analytics — privacy-first page views, no cookies, no
+   individual-visitor tracking. Works on a DNS-only zone because it reports
+   from the browser rather than from Cloudflare's edge. */
+const CF_BEACON_TOKEN = 'da18b12ab86e4dc48f01d850ef07256c';
+
+function analytics() {
+  return `<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" `
+    + `data-cf-beacon='{"token": "${CF_BEACON_TOKEN}"}'></script>`;
+}
+
 function layout(L, page, body) {
   return `<!DOCTYPE html>
 <html lang="${L.code}" dir="${L.dir}">
@@ -497,6 +507,7 @@ ${waFloat(L, page)}
 ${mobileBar(L, page)}
 
 <script src="/assets/js/site.js" defer></script>
+${analytics()}
 </body>
 </html>
 `;
@@ -1000,7 +1011,30 @@ ${entries}
   fs.writeFileSync(path.join(OUT, 'llms.txt'), llmsTxt());
   fs.writeFileSync(path.join(OUT, 'CNAME'),
     C.domain.replace(/^https?:\/\//, '').replace(/\/$/, '') + '\n');
-  written.push('sitemap.xml', 'robots.txt', 'llms.txt', 'CNAME');
+  const wellKnown = path.join(OUT, '.well-known');
+  fs.mkdirSync(wellKnown, { recursive: true });
+  fs.writeFileSync(path.join(wellKnown, 'security.txt'), securityTxt(C));
+
+  written.push('sitemap.xml', 'robots.txt', 'llms.txt', 'CNAME',
+    '.well-known/security.txt');
+}
+
+/* security.txt — RFC 9116. Tells security researchers where to report a
+   problem instead of guessing at an address or posting it publicly.
+   Expires is mandatory and must be a date in the future, so it is generated
+   at build time rather than hard-coded; every push refreshes it. */
+function securityTxt(C) {
+  const domain = C.domain.replace(/\/$/, '');
+  const expires = new Date();
+  expires.setUTCMonth(expires.getUTCMonth() + 6);
+  expires.setUTCHours(0, 0, 0, 0);
+  return [
+    `Contact: mailto:${C.email}`,
+    `Expires: ${expires.toISOString().replace(/\.\d{3}Z$/, 'Z')}`,
+    'Preferred-Languages: en, ar',
+    `Canonical: ${domain}/.well-known/security.txt`,
+    ''
+  ].join('\n');
 }
 
 /* llms.txt — the emerging convention (llmstxt.org) for giving language models
