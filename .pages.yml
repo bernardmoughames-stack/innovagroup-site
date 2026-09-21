@@ -36,7 +36,7 @@ content:
         label: Icon
         type: select
         options:
-          values: [shell, tasks, tools, screen, magnifier, megaphone, bars, chip, shield, clock, chart, spark, building, check]
+          values: [shell, tasks, tools, screen, magnifier, megaphone, bars, chip, shield, clock, chart, spark, building, check, paw, leaf, mail]
       - name: cardTitle
         label: Home page card — title
         type: string
@@ -88,6 +88,31 @@ content:
               - { name: featured, label: Highlight this one, type: boolean }
               - { name: for, label: "Who it's for", type: text }
               - { name: items, label: What's included, type: string, list: true }
+
+      - name: feature
+        label: Highlighted add-on service (optional)
+        description: A dark band shown under the packages. Leave empty to hide it.
+        type: object
+        fields:
+          - { name: eyebrow, label: Service name, type: string }
+          - { name: heading, label: Heading, type: string }
+          - { name: lead, label: Intro line, type: text }
+          - name: items
+            label: What's included
+            type: object
+            list: true
+            fields:
+              - name: icon
+                label: Icon
+                type: select
+                options:
+                  values: [shell, tasks, tools, screen, magnifier, megaphone, bars, chip, shield, clock, chart, spark, building, check, paw, leaf, mail]
+              - { name: title, label: Title, type: string }
+              - { name: text, label: Description, type: text }
+          - { name: note, label: Closing line, type: text }
+          - { name: button, label: Button label, type: string }
+          - { name: package, label: Name sent with the enquiry, type: string }
+          - { name: anchor, label: Page anchor, type: string, description: "e.g. home-care gives innovagroup.co.ae/facility-management/#home-care" }
 
       - name: steps
         label: How it works — four steps
@@ -139,7 +164,7 @@ content:
         label: Icon
         type: select
         options:
-          values: [shell, tasks, tools, screen, magnifier, megaphone, bars, chip, shield, clock, chart, spark, building, check]
+          values: [shell, tasks, tools, screen, magnifier, megaphone, bars, chip, shield, clock, chart, spark, building, check, paw, leaf, mail]
       - name: cardTitle
         label: Home page card — title
         type: string
@@ -191,6 +216,31 @@ content:
               - { name: featured, label: Highlight this one, type: boolean }
               - { name: for, label: "Who it's for", type: text }
               - { name: items, label: What's included, type: string, list: true }
+
+      - name: feature
+        label: Highlighted add-on service (optional)
+        description: A dark band shown under the packages. Leave empty to hide it.
+        type: object
+        fields:
+          - { name: eyebrow, label: Service name, type: string }
+          - { name: heading, label: Heading, type: string }
+          - { name: lead, label: Intro line, type: text }
+          - name: items
+            label: What's included
+            type: object
+            list: true
+            fields:
+              - name: icon
+                label: Icon
+                type: select
+                options:
+                  values: [shell, tasks, tools, screen, magnifier, megaphone, bars, chip, shield, clock, chart, spark, building, check, paw, leaf, mail]
+              - { name: title, label: Title, type: string }
+              - { name: text, label: Description, type: text }
+          - { name: note, label: Closing line, type: text }
+          - { name: button, label: Button label, type: string }
+          - { name: package, label: Name sent with the enquiry, type: string }
+          - { name: anchor, label: Page anchor, type: string, description: "e.g. home-care gives innovagroup.co.ae/facility-management/#home-care" }
 
       - name: steps
         label: How it works — four steps

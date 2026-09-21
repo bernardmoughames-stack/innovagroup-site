@@ -64,7 +64,10 @@ const ICONS = {
   spark:     '<path d="M12 2v4M12 18v4M2 12h4M18 12h4M5 5l3 3M16 16l3 3M19 5l-3 3M8 16l-3 3"/><circle cx="12" cy="12" r="3.2"/>',
   building:  '<path d="M3 21V7l9-4 9 4v14"/><path d="M9 21v-6h6v6"/><path d="M3 12h18"/>',
   check:     '<path d="M20 6L9 17l-5-5"/>',
-  globe:     '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 010 18a15 15 0 010-18"/>'
+  globe:     '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 010 18a15 15 0 010-18"/>',
+  paw:       '<circle cx="5.5" cy="10" r="1.8"/><circle cx="9.5" cy="5.5" r="1.8"/><circle cx="14.5" cy="5.5" r="1.8"/><circle cx="18.5" cy="10" r="1.8"/><path d="M12 11.5c-2.8 0-5.5 4-5.5 6.3a2.3 2.3 0 002.9 2.2c.9-.3 1.7-.5 2.6-.5s1.7.2 2.6.5a2.3 2.3 0 002.9-2.2c0-2.3-2.7-6.3-5.5-6.3z"/>',
+  leaf:      '<path d="M12 21v-9"/><path d="M12 12c0-4 3-7 8-7 0 5-3 8-8 7z"/><path d="M12 13.5c0-3.5-2.6-6-7-6 0 4.4 2.6 7 7 6z"/>',
+  mail:      '<rect x="3" y="5" width="18" height="14" rx="1.5"/><path d="M3.5 6.5l8.5 6.5 8.5-6.5"/>'
 };
 
 const icon = (key, size = 22) =>
@@ -644,6 +647,32 @@ ${t.items.map(f => `            <li>${TICK}<span>${f}</span></li>`).join('\n')}
           <p>${f.a}</p>
         </details>`).join('\n');
 
+  // Optional highlighted add-on service (e.g. Home Care on the FM page).
+  // Rendered only when the service entry has a "feature" object.
+  const f = s.feature;
+  const feature = f && f.items && f.items.length ? `
+  <section class="section section--dark section--feature" id="${f.anchor || 'feature'}">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow eyebrow--light">${f.eyebrow}</p>
+        <h2>${f.heading}</h2>
+        <p>${f.lead}</p>
+      </div>
+      <div class="grid grid--3">${f.items.map((v, i) => `
+        <div class="value" data-reveal${i % 3 ? ` data-reveal-delay="${(i % 3) * 80}"` : ''}>
+          <div class="value__icon">${icon(v.icon, 20)}</div>
+          <h3>${v.title}</h3>
+          <p>${v.text}</p>
+        </div>`).join('\n')}
+      </div>
+      <div class="feature__foot" data-reveal>
+        ${f.note ? `<p>${f.note}</p>` : ''}
+        <a class="btn btn--primary" href="${url(L, '/contact/')}?service=${s.slug}&amp;package=${encodeURIComponent(stripTags(f.package || f.eyebrow))}">${f.button || ui.enquire}</a>
+      </div>
+    </div>
+  </section>
+` : '';
+
   const others = L.services.filter(o => o.slug !== s.slug).slice(0, 3).map(o => `
         <article class="card" data-reveal>
           <div class="card__icon">${icon(o.icon)}</div>
@@ -706,7 +735,7 @@ ${scopeCols}
       <p class="pkg-note" data-reveal>${ui.packagesNote}</p>
     </div>
   </section>
-
+${feature}
   <section class="section section--alt">
     <div class="container">
       <div class="section-head section-head--center" data-reveal>
