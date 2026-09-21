@@ -329,6 +329,17 @@ a:hover { color: var(--gold-600); }
 .value h3 { font-size: 1.15rem; margin-bottom: .5rem; }
 .value p { font-size: .93rem; color: var(--ink-mute); }
 
+/* ---------- Highlighted add-on service (dark band) ---------- */
+.section--feature .section-head p { color: var(--on-dark-soft); }
+.section--feature .value__icon { border-color: rgba(255,255,255,.22); color: var(--gold-400); }
+.section--feature .value p { color: var(--on-dark-soft); }
+.feature__foot {
+  margin-top: clamp(2.5rem, 5vw, 3.5rem); display: flex; flex-wrap: wrap;
+  align-items: center; justify-content: space-between; gap: 1.25rem 2rem;
+  padding-top: 2rem; border-top: 1px solid rgba(255,255,255,.14);
+}
+.feature__foot p { margin: 0; max-width: 560px; }
+
 /* ---------- Split (image / text) ---------- */
 .split { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 6vw, 5rem); align-items: center; }
 
