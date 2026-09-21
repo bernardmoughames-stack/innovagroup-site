@@ -253,7 +253,7 @@
     "cardText": "Planned and reactive maintenance that keeps buildings, systems and occupants running without interruption.",
     "icon": "tools",
     "metaTitle": "Facility Management & Maintenance in Dubai | Innova Group",
-    "metaDescription": "Planned preventive and reactive maintenance in Dubai — AC servicing, electrical, plumbing, life-safety compliance, asset registers and 24/7 emergency response for villas and commercial property.",
+    "metaDescription": "Planned and reactive maintenance in Dubai — AC, electrical, plumbing, life safety and 24/7 response — plus home care while you're away.",
     "eyebrow": "Service 03",
     "heading": "Buildings that keep working after everyone goes home.",
     "intro": "Planned maintenance that prevents the call-out, and a response team for the times it still happens.",
@@ -273,6 +273,7 @@
       "items": [
         "Planned preventive maintenance schedules per asset",
         "Reactive call-out and emergency response",
+        "Home care while you're away — property checks, pets, plants and post",
         "HVAC servicing, coil cleaning and filter replacement",
         "Duct inspection and indoor air-quality checks",
         "Electrical systems, distribution boards and lighting",
@@ -333,6 +334,42 @@
         }
       ]
     },
+    "feature": {
+      "anchor": "home-care",
+      "package": "Home Care",
+      "eyebrow": "Home Care While You're Away",
+      "heading": "While you're away, your home is in good hands.",
+      "lead": "For owners who travel, spend the summer abroad or split the year between homes. We look after the house, the pets and the plants, and deal with anything that comes up before it turns into a problem.",
+      "items": [
+        {
+          "icon": "shell",
+          "title": "Regular property checks",
+          "text": "Scheduled walk-throughs inside and out — AC, humidity, water, drains, doors and windows — with a photo report after every visit."
+        },
+        {
+          "icon": "paw",
+          "title": "Pet feeding &amp; care",
+          "text": "Feeding, fresh water, litter and company for pets who stay at home, on the routine you set."
+        },
+        {
+          "icon": "leaf",
+          "title": "Plant care &amp; watering",
+          "text": "Indoor plants and balcony pots watered and checked, so you come back to the greenery you left."
+        },
+        {
+          "icon": "mail",
+          "title": "Mail &amp; packages",
+          "text": "Post collected, deliveries received, and anything urgent flagged to you straight away."
+        },
+        {
+          "icon": "tools",
+          "title": "General support",
+          "text": "Letting in contractors, meeting deliveries and handling whatever comes up while you're away."
+        }
+      ],
+      "note": "Available on its own or alongside a Care or Care Plus contract. We speak English, German and Arabic.",
+      "button": "Ask about Home Care"
+    },
     "steps": [
       {
         "title": "Survey",
@@ -352,6 +389,10 @@
       }
     ],
     "faqs": [
+      {
+        "q": "Can you look after my home while I'm travelling?",
+        "a": "Yes. Our Home Care service covers regular property checks, pet feeding, plant watering, mail and general support while you're away. It can run for a single trip, a whole summer or year-round, on its own or alongside a maintenance contract."
+      },
       {
         "q": "Do you cover properties you didn't build?",
         "a": "Yes. Most of our maintenance contracts are on properties built by others. We start with an asset survey to establish the baseline condition before taking responsibility."
