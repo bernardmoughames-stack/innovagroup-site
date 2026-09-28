@@ -84,12 +84,11 @@
 
     <!-- HERO — the living diamond, on film -->
     <section class="chapter chapter-hero" id="hero">
-      <video class="film" muted playsinline autoplay
+      <video class="film" muted loop playsinline autoplay
              poster="./assets/media/posters/herofilm.webp"
              data-film="herofilm" aria-hidden="true"></video>
       <div class="scrim" aria-hidden="true"></div>
       <div class="chapter-copy">
-        <p class="kicker" data-i18n="hero.kicker">Innova Group LLC · Meydan, Dubai</p>
         <h1 class="display" data-i18n="hero.title">We build it, we run it, and we make it smarter.</h1>
         <p class="lede" data-i18n="hero.lede">Build. Manage. Innovate. Eight service lines under one licensed team — and one point of accountability.</p>
         <div class="cta-row">
@@ -97,22 +96,32 @@
           <a class="btn btn-ghost" href="https://wa.me/971505097758" rel="noopener" data-i18n="cta.whatsapp">WhatsApp us</a>
         </div>
       </div>
-      <nav class="orbit" aria-label="All services">
-        <div class="orbit-glow" aria-hidden="true"></div>
-        <div class="orbit-ring" aria-hidden="true"></div>
-        <ul class="orbit-list">
-          <li style="--x:50%;--y:4%"><a class="portal" href="contracting.html"><img src="./assets/media/posters/contracting.webp" alt="" loading="lazy" /><span data-i18n="svc.contracting.short">Contracting</span></a></li>
-          <li style="--x:79.6%;--y:14.8%"><a class="portal" href="project-management.html"><img src="./assets/media/posters/pm.webp" alt="" loading="lazy" /><span data-i18n="svc.pm.short">Projects</span></a></li>
-          <li style="--x:95.3%;--y:42%"><a class="portal" href="facility-management.html"><img src="./assets/media/posters/facility.webp" alt="" loading="lazy" /><span data-i18n="svc.facility.short">Facility</span></a></li>
-          <li style="--x:89.8%;--y:73%"><a class="portal" href="cinema.html"><img src="./assets/media/posters/cinema.webp" alt="" loading="lazy" /><span data-i18n="svc.cinema.short">Cinema</span></a></li>
-          <li style="--x:65.7%;--y:93.2%"><a class="portal" href="snagging.html"><img src="./assets/media/posters/snagging.webp" alt="" loading="lazy" /><span data-i18n="svc.snagging.short">Snagging</span></a></li>
-          <li style="--x:34.3%;--y:93.2%"><a class="portal" href="marketing.html"><img src="./assets/media/posters/marketing.webp" alt="" loading="lazy" /><span data-i18n="svc.marketing.short">Marketing</span></a></li>
-          <li style="--x:10.2%;--y:73%"><a class="portal" href="consultancy.html"><img src="./assets/media/posters/consultancy.webp" alt="" loading="lazy" /><span data-i18n="svc.consultancy.short">Consultancy</span></a></li>
-          <li style="--x:4.7%;--y:42%"><a class="portal" href="ai.html"><img src="./assets/media/posters/ai.webp" alt="" loading="lazy" /><span data-i18n="svc.ai.short">AI</span></a></li>
-          <li style="--x:20.4%;--y:14.8%"><a class="portal" href="home-watch.html"><img src="./assets/media/posters/homewatch.webp" alt="" loading="lazy" /><span data-i18n="svc.homewatch.short">Home Watch</span></a></li>
-        </ul>
-      </nav>
       <p class="scroll-hint" aria-hidden="true"><span data-i18n="ui.scroll">Scroll</span><i class="scroll-line"></i></p>
+    </section>
+
+
+    <!-- NINE FACETS — the services ring -->
+    <section class="facets" id="facets">
+      <h2 class="display-md center" data-i18n="orbit.title">One diamond. Nine facets.</h2>
+      <p class="lede dim center facets-lede" data-i18n="orbit.lede">Every facet is a service — and behind each one, the same team answers.</p>
+      <div class="facet-stage">
+        <div class="facet-glow" aria-hidden="true"></div>
+        <div class="facet-guide" aria-hidden="true"></div>
+        <div class="facet-core" aria-hidden="true">
+          <img src="./logo-mark-inverse.png" width="54" height="54" alt="" />
+        </div>
+        <ul class="facet-list">
+          <li style="--x:50%;--y:4%"><a class="facet" href="contracting.html"><span data-i18n="svc.contracting.short">Contracting</span></a></li>
+          <li style="--x:79.6%;--y:14.8%"><a class="facet" href="project-management.html"><span data-i18n="svc.pm.short">Projects</span></a></li>
+          <li style="--x:95.3%;--y:42%"><a class="facet" href="facility-management.html"><span data-i18n="svc.facility.short">Facility</span></a></li>
+          <li style="--x:89.8%;--y:73%"><a class="facet" href="cinema.html"><span data-i18n="svc.cinema.short">Cinema</span></a></li>
+          <li style="--x:65.7%;--y:93.2%"><a class="facet" href="snagging.html"><span data-i18n="svc.snagging.short">Snagging</span></a></li>
+          <li style="--x:34.3%;--y:93.2%"><a class="facet" href="marketing.html"><span data-i18n="svc.marketing.short">Marketing</span></a></li>
+          <li style="--x:10.2%;--y:73%"><a class="facet" href="consultancy.html"><span data-i18n="svc.consultancy.short">Consultancy</span></a></li>
+          <li style="--x:4.7%;--y:42%"><a class="facet" href="ai.html"><span data-i18n="svc.ai.short">AI</span></a></li>
+          <li style="--x:20.4%;--y:14.8%"><a class="facet" href="home-watch.html"><span data-i18n="svc.homewatch.short">Home Watch</span></a></li>
+        </ul>
+      </div>
     </section>
 
     <!-- MANIFESTO -->

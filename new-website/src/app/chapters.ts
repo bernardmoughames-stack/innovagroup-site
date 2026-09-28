@@ -45,7 +45,7 @@ export function initChapters(lite: boolean): void {
     );
     films.forEach((v) => {
       loader.observe(v);
-      player.observe(v);
+      if (!v.closest('.chapters')) player.observe(v);
     });
     const hero = films.find((v) => v.dataset.film === 'herofilm');
     if (hero) attach(hero);
@@ -106,6 +106,7 @@ function initStack(): void {
   const chapters = Array.from(document.querySelectorAll<HTMLElement>('.chapters .chapter'));
   if (!chapters.length) return;
   let ticking = false;
+  const revealed = chapters.map(() => false);
   const update = (): void => {
     ticking = false;
     const vh = innerHeight;
@@ -115,11 +116,22 @@ function initStack(): void {
       c.classList.toggle('covered', covered);
       const v = c.querySelector<HTMLVideoElement>('.film');
       if (!v || !v.src) return;
-      const inView = !covered && tops[i] < vh && tops[i] > -vh * 1.5;
-      if (inView) {
-        if (v.paused && !v.ended) void v.play().catch(() => {});
-      } else if (!v.paused) {
-        v.pause();
+      // A film starts once its chapter is truly revealed (over half the
+      // viewport), not the moment its edge appears — otherwise a
+      // play-once film can finish before anyone sees it. Coming back to
+      // a finished chapter restarts its film.
+      const shown = !covered && tops[i] < vh * 0.55 && tops[i] > -vh * 1.5;
+      if (shown) {
+        if (!revealed[i]) {
+          revealed[i] = true;
+          if (v.ended) v.currentTime = 0;
+          void v.play().catch(() => {});
+        } else if (v.paused && !v.ended) {
+          void v.play().catch(() => {});
+        }
+      } else {
+        revealed[i] = false;
+        if (!v.paused) v.pause();
       }
     });
   };
@@ -134,6 +146,11 @@ function initStack(): void {
     { passive: true }
   );
   window.addEventListener('resize', update);
+  // Films get their src lazily, sometimes after the last scroll event
+  // (a fast fling, a jump). Re-check when media becomes ready and on a
+  // slow heartbeat so a revealed chapter never sits on a frozen poster.
+  document.addEventListener('canplay', () => update(), true);
+  window.setInterval(update, 500);
   update();
 }
 

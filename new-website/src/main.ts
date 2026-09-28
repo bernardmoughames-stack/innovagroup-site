@@ -21,14 +21,14 @@ function isLite(): boolean {
 const lite = isLite();
 if (lite) document.documentElement.classList.add('lite');
 
-// Arriving over a link always starts at the top (browsers sometimes carry
-// the previous page's scroll position over); back/forward keeps its place.
-const navEntry = performance.getEntriesByType('navigation')[0] as
-  | PerformanceNavigationTiming
-  | undefined;
-if (navEntry?.type === 'navigate' && !location.hash) {
-  window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior });
-}
+// Every page open starts at the top — the owner wants this on all
+// navigations, so scroll restoration is fully manual.
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+const toTop = (): void => {
+  if (!location.hash) window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior });
+};
+toTop();
+window.addEventListener('pageshow', toTop);
 
 initChrome();
 initChapters(lite);

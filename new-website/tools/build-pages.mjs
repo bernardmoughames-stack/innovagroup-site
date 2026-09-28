@@ -172,20 +172,25 @@ ${qs}
       </div>`;
 }
 
-function relatedBlock(slug, lang, i) {
+function relatedHead(lang, i) {
+  return `      <div ${langAttrs(lang)}>
+        <div class="svc-head" data-reveal>
+          <p class="eyebrow">${pick(L.related, i)}</p>
+          <h2>${pick(L.relatedT, i)}</h2>
+        </div>
+      </div>`;
+}
+
+// The cards swap their text through data-i18n, so they are emitted ONCE —
+// one copy per language here would show both grids at the same time.
+function relatedGrid(slug) {
   const others = ORDER.filter((s) => s !== slug && s !== 'home-watch').slice(0, 3);
   const cards = others.map((s) => `          <a class="rel-card" href="${s}.html" data-reveal>
             <h3 data-i18n="svc.${I18N[s]}.name">${esc(NAME_EN[s])}</h3>
             <p data-i18n="svc.${I18N[s]}.desc"></p>
             <span class="rel-go" data-i18n="ui.explore">Full service page</span>
           </a>`).join('\n');
-  return `      <div ${langAttrs(lang)}>
-        <div class="svc-head" data-reveal>
-          <p class="eyebrow">${pick(L.related, i)}</p>
-          <h2>${pick(L.relatedT, i)}</h2>
-        </div>
-      </div>
-      <div class="rel-grid">
+  return `      <div class="rel-grid">
 ${cards}
       </div>`;
 }
@@ -315,7 +320,8 @@ ${dd((d, lang, i) => faqBlock(d, lang, i))}
     </section>
 
     <section class="svc-section alt" id="related">
-${dual((lang, i) => relatedBlock(slug, lang, i))}
+${dual((lang, i) => relatedHead(lang, i))}
+${relatedGrid(slug)}
     </section>
 
     <section class="chapter chapter-cta svc-talk" id="talk">
