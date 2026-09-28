@@ -20,6 +20,10 @@ export function initChapters(lite: boolean): void {
       v.dataset.ready = '1';
       const name = v.dataset.film!;
       v.src = h264 ? FILM(name, 'mp4') : FILM(name, 'webm');
+      // start buffering right away (a viewport ahead of the visit), so
+      // the film has decoded frames the moment its chapter slides in
+      v.preload = 'auto';
+      v.load();
     };
 
     const loader = new IntersectionObserver(
@@ -130,7 +134,7 @@ function initStack(): void {
       // A film starts once its chapter is truly revealed (over half the
       // viewport), not the moment its edge appears — otherwise a
       // play-once film can finish before anyone sees it.
-      const shown = !covered[i] && tops[i] < vh * 0.55 && tops[i] > -vh * 1.5;
+      const shown = !covered[i] && tops[i] < vh * 0.8 && tops[i] > -vh * 1.5;
       if (shown) {
         if (!revealed[i]) {
           revealed[i] = true;
