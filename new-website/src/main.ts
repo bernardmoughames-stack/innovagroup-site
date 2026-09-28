@@ -42,7 +42,7 @@ function enableLite(): void {
     img.src = HERO_STILL;
     img.onerror = () => {
       img.onerror = null;
-      img.src = './logo-mark.svg';
+      img.src = './logo-mark-inverse.png';
       img.classList.remove('is-art');
     };
     img.alt = '';

@@ -18,7 +18,7 @@ export class Loader {
     this.el.id = 'loader';
     this.el.setAttribute('role', 'status');
     this.el.innerHTML = `
-      <img class="loader-mark" src="./logo-mark.svg" alt="" aria-hidden="true" />
+      <img class="loader-mark" src="./logo-mark-inverse.png" alt="" aria-hidden="true" />
       <div class="loader-counter" aria-hidden="true">0</div>
       <div class="loader-bar" aria-hidden="true"><i></i></div>
       <div class="loader-enter">

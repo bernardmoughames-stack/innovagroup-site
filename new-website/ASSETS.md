@@ -35,8 +35,35 @@ loading/failure fallback. #12 requires the official logo image (upload it to
 the repo or make it reachable), since innovagroup.co.ae is blocked from this
 build environment.
 
-## Generation records
+## Generation records — batch of 2026-09-28
 
-_None yet. For every approved job, record here: date, tool, model, prompt,
-settings, job/generation ID, credits debited, output URL, and the committed
-file path._
+All prompts (written by a write→adversarial-refine→harmonize agent workflow)
+are archived verbatim in `ASSETS-prompts.json`. Settings for every video:
+Seedance 2.5, 6s, 21:9, 1080p, no audio, text-to-video. Source files arrived
+as HEVC 10-bit and were re-encoded to H.264 yuv420p 1680px (`ffmpeg -crf 22
+-preset medium -movflags +faststart -an`) for universal browser playback.
+Originals remain in the Higgsfield library under the same job IDs.
+
+| File | Job ID | Credits |
+|---|---|---|
+| `hero.webp` + `og.jpg` (GPT Image 2.5, 21:9, high, 2K) | b57e024b-4696-4e58-9278-318e15b77545 | 2.75 |
+| `contracting.mp4` | 26b9f1f9-16c7-440c-9246-d2f0afa6ef7f | 72 |
+| `pm.mp4` | bb405154-5e79-4ef4-b219-de69d55fdb77 | 72 |
+| `facility.mp4` | cd18b47e-6b5e-427f-9d40-c3487040b77a | 72 |
+| `cinema.mp4` | ccc0b2c8-60f7-48d0-88f2-9205cbd1916e | 72 |
+| `snagging.mp4` | d7e3b8c0-b92d-4f75-ba49-0be22817a30f | 72 |
+| (marketing, attempt 1 — rejected by IP filter, refunded) | 6941fb17-1d27-4440-94d0-54e747ae0725 | 0 |
+| `marketing.mp4` (attempt 2, "emblem" reworded to abstract light) | 09802d09-c5d4-4b7f-b131-67297ebe0da3 | 72 |
+| `consultancy.mp4` | 85ab3f88-d9fb-4e18-b852-21348ffb190b | 72 |
+| `ai.mp4` | b53e3d12-a3da-437f-920f-26b1a5387e61 | 72 |
+| `homewatch.mp4` | ac0c2c5b-b90f-4f7c-bbc4-d8e70255504f | 72 |
+| `skyline.mp4` | aaa5ef56-c604-457a-86ee-2cfdf453185d | 72 |
+| **Total** | | **722.75** |
+
+Balance after batch: 487.25 credits (from 1,210). A re-roll of any single
+clip costs 72 credits.
+
+The official logo was fetched from innovagroup.co.ae once the build
+environment's network policy allowed it: `public/logo-mark-inverse.png`
+(cropped from `logo-inverse.png`) is used in the header, footer and loader;
+`public/logo-full-inverse.png` holds the full lock-up.
