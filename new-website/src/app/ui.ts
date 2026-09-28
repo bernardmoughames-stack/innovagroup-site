@@ -21,6 +21,25 @@ export function initChrome(): void {
   initServicesDropdown();
   initMenu();
   initReveals();
+  initToTop();
+}
+
+/** Floating back-to-top button, on every page, once you start scrolling. */
+function initToTop(): void {
+  const btn = document.createElement('button');
+  btn.id = 'to-top';
+  btn.type = 'button';
+  btn.setAttribute('data-i18n-aria', 'ui.toTop');
+  btn.setAttribute('aria-label', 'Back to top');
+  btn.innerHTML =
+    '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5.5 11.5 12 5l6.5 6.5"/></svg>';
+  document.body.appendChild(btn);
+  btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  const onScroll = (): void => {
+    btn.classList.toggle('show', window.scrollY > 500);
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
 }
 
 /** Day / night mode — remembered, defaulting to the visitor's system choice. */

@@ -516,9 +516,9 @@ html[data-theme="light"] #theme-toggle .ic-moon { display: block; }
 
 /* ---------- custom cursor ---------- */
 
-/* a normal arrow cursor, in gold (brighter over interactive elements) */
-html, body { cursor: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2222%22%20height%3D%2222%22%20viewBox%3D%220%200%2022%2022%22%3E%3Cpath%20d%3D%22M3.2%201.6%20L3.2%2018.6%20L7.8%2014.4%20L10.7%2020.6%20L13.5%2019.3%20L10.7%2013.2%20L16.8%2012.8%20Z%22%20fill%3D%22%23DCB44E%22%20stroke%3D%22%23101A2E%22%20stroke-width%3D%221.2%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E") 3 2, auto; }
-a, button, summary, [role="button"], .lang-switch button, .menu-btn { cursor: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2222%22%20height%3D%2222%22%20viewBox%3D%220%200%2022%2022%22%3E%3Cpath%20d%3D%22M3.2%201.6%20L3.2%2018.6%20L7.8%2014.4%20L10.7%2020.6%20L13.5%2019.3%20L10.7%2013.2%20L16.8%2012.8%20Z%22%20fill%3D%22%23F2D57E%22%20stroke%3D%22%23101A2E%22%20stroke-width%3D%221.2%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E") 3 2, pointer; }
+/* a crisp classic arrow — white in calm, gold over anything clickable */
+html, body { cursor: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M5.5%202.2%20L5.5%2019.8%20L9.9%2015.7%20L12.5%2021.3%20L15.4%2020%20L12.8%2014.5%20L18.8%2014%20Z%22%20fill%3D%22%23FBF8F1%22%20stroke%3D%22%2317233D%22%20stroke-width%3D%221.3%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E") 5 2, auto; }
+a, button, summary, [role="button"], .lang-switch button, .menu-btn { cursor: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M5.5%202.2%20L5.5%2019.8%20L9.9%2015.7%20L12.5%2021.3%20L15.4%2020%20L12.8%2014.5%20L18.8%2014%20Z%22%20fill%3D%22%23F2D57E%22%20stroke%3D%22%2317233D%22%20stroke-width%3D%221.3%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E") 5 2, pointer; }
 input, textarea, select { cursor: auto; }
 
 /* ---------- reveal on scroll ---------- */
@@ -730,11 +730,15 @@ body.preload * { transition: none !important; }
 
 .svc-talk { min-height: 74svh; }
 
-/* the nine chapters stack as a deck: each next film slides over the last */
-.chapters .chapter { position: sticky; top: 0; }
-.chapters .chapter + .chapter { box-shadow: 0 -36px 90px rgba(3, 6, 13, 0.6); }
-.chapters .chapter.covered .film,
-.chapters .chapter.covered .chapter-copy { visibility: hidden; }
+/* the nine chapters stack as a deck: each next film slides over the last.
+   Desktop only — small screens scroll normally (mobile viewports resize
+   with the URL bar and made pinned films misbehave). */
+@media (min-width: 701px) {
+  .chapters .chapter { position: sticky; top: 0; }
+  .chapters .chapter + .chapter { box-shadow: 0 -36px 90px rgba(3, 6, 13, 0.6); }
+  .chapters .chapter.covered .film,
+  .chapters .chapter.covered .chapter-copy { visibility: hidden; }
+}
 
 /* homepage chapters now lead somewhere: the whole copy block invites the tap */
 .chapter-copy h2[data-link], .chapter .tagline[data-link] { cursor: pointer; }
@@ -856,17 +860,38 @@ html[data-theme="light"] .facet-guide { border-color: rgba(154, 122, 34, 0.4); }
 }
 a.facet {
   pointer-events: auto;
+  position: relative;
   flex: 0 0 auto;
   display: grid; place-items: center;
   width: clamp(6.2rem, 9.6vw, 7.8rem);
   aspect-ratio: 1;
   border-radius: 50%;
-  border: 1px solid rgba(217, 180, 74, 0.6);
-  background: radial-gradient(circle at 50% 36%, rgba(217, 180, 74, 0.17), rgba(11, 19, 35, 0.82) 74%);
-  box-shadow: 0 0 24px rgba(217, 180, 74, 0.18), inset 0 0 22px rgba(217, 180, 74, 0.1);
+  border: 1px solid rgba(217, 180, 74, 0.55);
+  /* a sphere, not a disc: sky reflection, golden core light, shaded base */
+  background:
+    radial-gradient(circle at 32% 24%, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0) 26%),
+    radial-gradient(circle at 50% 30%, rgba(217, 180, 74, 0.3), rgba(217, 180, 74, 0) 55%),
+    radial-gradient(circle at 50% 115%, rgba(217, 180, 74, 0.25), rgba(217, 180, 74, 0) 55%),
+    radial-gradient(circle at 50% 45%, #1D3059, #0A1120 85%);
+  box-shadow:
+    0 14px 30px rgba(2, 5, 10, 0.55),
+    0 0 24px rgba(217, 180, 74, 0.2),
+    inset 0 -10px 26px rgba(2, 5, 10, 0.55),
+    inset 0 10px 22px rgba(217, 180, 74, 0.12);
   text-decoration: none;
   animation: facet-spin-rev 80s linear infinite;
-  transition: border-color 0.25s, box-shadow 0.25s;
+  transition: border-color 0.3s, box-shadow 0.3s, filter 0.3s;
+}
+/* sheen that sweeps around the rim on hover */
+a.facet::after {
+  content: ""; position: absolute; inset: -1px;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, transparent 0 70%, rgba(255, 233, 168, 0.55) 82%, transparent 94%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+  -webkit-mask: radial-gradient(circle, transparent 62%, #000 66%);
+  mask: radial-gradient(circle, transparent 62%, #000 66%);
 }
 a.facet span {
   padding: 0 0.55rem;
@@ -874,33 +899,36 @@ a.facet span {
   font-size: 0.7rem; font-weight: 700;
   letter-spacing: 0.1em; text-transform: uppercase;
   line-height: 1.35;
-  transition: color 0.25s;
+  text-shadow: 0 1px 6px rgba(2, 5, 10, 0.8);
+  transition: color 0.3s, transform 0.3s;
 }
 [dir="rtl"] a.facet span { letter-spacing: 0.02em; }
 a.facet:hover {
   border-color: var(--gold-3);
-  box-shadow: 0 0 44px rgba(217, 180, 74, 0.5), inset 0 0 28px rgba(217, 180, 74, 0.2);
+  filter: brightness(1.22);
+  box-shadow:
+    0 20px 44px rgba(2, 5, 10, 0.6),
+    0 0 56px rgba(217, 180, 74, 0.55),
+    inset 0 -10px 26px rgba(2, 5, 10, 0.45),
+    inset 0 12px 26px rgba(217, 180, 74, 0.24);
 }
-a.facet:hover span { color: #FFE9A8; }
+a.facet:hover::after { opacity: 1; animation: facet-sheen 1.6s linear infinite; }
+a.facet:hover span { color: #FFE9A8; transform: scale(1.09); }
 .facet-stage:hover .facet-list,
 .facet-stage:hover a.facet { animation-play-state: paused; }
 @keyframes facet-spin { to { transform: rotate(360deg); } }
 @keyframes facet-spin-rev { to { transform: rotate(-360deg); } }
+@keyframes facet-sheen { to { transform: rotate(360deg); } }
 html.lite .facet-list, html.lite a.facet, html.lite .facet-core { animation: none; }
 
 @media (max-width: 700px) {
-  /* small screens: the ring becomes a wrap of gold chips */
-  .facet-stage { width: auto; aspect-ratio: auto; margin-top: var(--space-2); }
-  .facet-glow, .facet-guide, .facet-core { display: none; }
-  .facet-list { position: static; display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; inset: auto; animation: none; }
-  .facet-list li { position: static; transform: none; width: auto; height: auto; }
-  a.facet {
-    animation: none; width: auto; aspect-ratio: auto;
-    border-radius: 999px; padding: 0.45rem 0.9rem;
-    background: rgba(11, 19, 35, 0.6);
-    box-shadow: none;
-  }
-  a.facet span { font-size: 0.7rem; padding: 0; }
+  /* the same ring, scaled to the phone */
+  .facet-stage { width: min(96vw, 26rem); margin-top: var(--space-2); }
+  .facet-list { inset: 5%; }
+  .facet-guide { inset: 5%; }
+  a.facet { width: clamp(4rem, 20vw, 4.9rem); }
+  a.facet span { font-size: 0.5rem; letter-spacing: 0.05em; padding: 0 0.3rem; }
+  .facet-core { width: 4.6rem; }
 }
 
 /* the hero copy keeps left; the filmed diamond owns the right side */
@@ -962,3 +990,32 @@ body.page-leave #page-fade { opacity: 1; pointer-events: auto; }
 @keyframes hero-settle { from { transform: scale(1.45); } to { transform: none; } }
 @keyframes hero-copy-in { from { transform: translateY(22px); opacity: 0; } to { transform: none; opacity: 1; } }
 html.lite .svc-hero .film, html.lite .svc-hero .chapter-copy { animation: none; }
+
+
+/* ---------- back to top ---------- */
+
+#to-top {
+  position: fixed;
+  inset-inline-end: 1.4rem;
+  bottom: 1.4rem;
+  z-index: 140;
+  width: 3rem; height: 3rem;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  border: 1px solid rgba(217, 180, 74, 0.55);
+  background: rgba(8, 13, 26, 0.82);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: var(--gold-3);
+  box-shadow: 0 8px 26px rgba(2, 5, 10, 0.45);
+  opacity: 0; transform: translateY(14px);
+  pointer-events: none;
+  transition: opacity 0.3s, transform 0.3s, border-color 0.25s, box-shadow 0.25s;
+}
+#to-top.show { opacity: 1; transform: none; pointer-events: auto; }
+#to-top:hover { border-color: var(--gold-3); box-shadow: 0 8px 30px rgba(217, 180, 74, 0.35); }
+html[data-theme="light"] #to-top { background: rgba(248, 244, 235, 0.9); color: #7C621D; border-color: rgba(154, 122, 34, 0.5); }
+@media (max-width: 700px) {
+  #to-top { bottom: calc(4.2rem + env(safe-area-inset-bottom, 0)); width: 2.7rem; height: 2.7rem; }
+  body.menu-open #to-top { opacity: 0; pointer-events: none; }
+}

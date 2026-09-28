@@ -256,6 +256,7 @@ function page(slug) {
       <span class="brand-name">INNOVA <b>GROUP</b></span>
     </a>
     <nav class="site-nav" id="site-nav" aria-label="Main">
+      <a href="index.html" data-i18n="nav.home">Home</a>
       <div class="nav-item">
         <button type="button" class="nav-drop-btn" aria-expanded="false" aria-controls="services-menu">
           <span data-i18n="nav.services">Services</span><span class="drop-caret" aria-hidden="true">▾</span>

@@ -37,15 +37,18 @@ export function initChapters(lite: boolean): void {
       (entries) => {
         for (const e of entries) {
           const v = e.target as HTMLVideoElement;
-          if (e.intersectionRatio >= 0.25 && v.src && !v.ended) void v.play().catch(() => {});
-          else if (!v.paused) v.pause();
+          if (e.intersectionRatio >= 0.25 && v.src) {
+            if (v.ended) v.currentTime = 0;
+            void v.play().catch(() => {});
+          } else if (!v.paused) v.pause();
         }
       },
       { threshold: [0, 0.25] }
     );
+    const smallScreen = window.matchMedia('(max-width: 700px)').matches;
     films.forEach((v) => {
       loader.observe(v);
-      if (!v.closest('.chapters')) player.observe(v);
+      if (smallScreen || !v.closest('.chapters')) player.observe(v);
     });
     const hero = films.find((v) => v.dataset.film === 'herofilm');
     if (hero) attach(hero);
@@ -53,7 +56,7 @@ export function initChapters(lite: boolean): void {
 
   if (!lite) {
     initCrossfade();
-    initStack();
+    if (!window.matchMedia('(max-width: 700px)').matches) initStack();
   }
   initPageTransitions(lite);
   initChapterLinks();
