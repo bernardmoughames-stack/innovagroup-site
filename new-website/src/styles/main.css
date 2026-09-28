@@ -243,14 +243,16 @@ body.scrolled .site-header::before {
   display: flex; flex-direction: column; justify-content: flex-end;
   padding: var(--space-4) var(--gutter);
   overflow: hidden;
-  background: var(--navy-0);
+  /* fixed dark ground in both themes: a film that isn't painting for a
+     frame (loading, seeking, deck handover) must never flash white */
+  background: #0A1120;
 }
 
 .film {
   position: absolute; inset: 0;
   width: 100%; height: 100%;
   object-fit: cover;
-  filter: saturate(1.08) brightness(1.07);
+  background: #0A1120;
 }
 
 /* readability without killing the film: side + bottom gradients */
@@ -734,7 +736,7 @@ body.preload * { transition: none !important; }
    On phones the chapters size to the LARGEST viewport (100lvh) so a
    collapsing URL bar never leaves a gap under a pinned film. */
 .chapters .chapter { position: sticky; top: 0; }
-.chapters .chapter + .chapter { box-shadow: 0 -36px 90px rgba(3, 6, 13, 0.6); }
+.chapters .chapter + .chapter { box-shadow: 0 -16px 40px rgba(3, 6, 13, 0.5); }
 .chapters .chapter.covered .film,
 .chapters .chapter.covered .chapter-copy { visibility: hidden; }
 @supports (min-height: 100lvh) {

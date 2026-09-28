@@ -109,24 +109,31 @@ function initStack(): void {
   if (!chapters.length) return;
   let ticking = false;
   const revealed = chapters.map(() => false);
+  const covered = chapters.map(() => false);
   const update = (): void => {
     ticking = false;
     const vh = innerHeight;
     const tops = chapters.map((c) => c.getBoundingClientRect().top);
     chapters.forEach((c, i) => {
-      const covered = i + 1 < chapters.length && tops[i + 1] <= 2;
-      c.classList.toggle('covered', covered);
+      // Hysteresis: hide a chapter only once the next one is well past
+      // the top, un-hide as soon as it slips back — no flicker at the
+      // boundary while the browser rounds sticky positions.
+      const nextTop = i + 1 < chapters.length ? tops[i + 1] : Infinity;
+      if (covered[i]) {
+        if (nextTop > 4) covered[i] = false;
+      } else if (nextTop <= -24) {
+        covered[i] = true;
+      }
+      c.classList.toggle('covered', covered[i]);
       const v = c.querySelector<HTMLVideoElement>('.film');
       if (!v || !v.src) return;
       // A film starts once its chapter is truly revealed (over half the
       // viewport), not the moment its edge appears — otherwise a
-      // play-once film can finish before anyone sees it. Coming back to
-      // a finished chapter restarts its film.
-      const shown = !covered && tops[i] < vh * 0.55 && tops[i] > -vh * 1.5;
+      // play-once film can finish before anyone sees it.
+      const shown = !covered[i] && tops[i] < vh * 0.55 && tops[i] > -vh * 1.5;
       if (shown) {
         if (!revealed[i]) {
           revealed[i] = true;
-          if (v.ended) v.currentTime = 0;
           void v.play().catch(() => {});
         } else if (v.paused && !v.ended) {
           void v.play().catch(() => {});
@@ -134,6 +141,9 @@ function initStack(): void {
       } else {
         revealed[i] = false;
         if (!v.paused) v.pause();
+        // rewind a finished film while it is off screen, so returning to
+        // it never shows a visible seek (that blank blip on some GPUs)
+        if (v.ended) v.currentTime = 0;
       }
     });
   };
