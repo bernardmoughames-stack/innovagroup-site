@@ -21,7 +21,6 @@ export function initChrome(): void {
   initServicesDropdown();
   initMenu();
   initReveals();
-  initCursor();
 }
 
 /** Day / night mode — remembered, defaulting to the visitor's system choice. */
@@ -141,32 +140,4 @@ function initReveals(): void {
     { threshold: 0.18 }
   );
   targets.forEach((el) => io.observe(el));
-}
-
-function initCursor(): void {
-  const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!fine || reduced || document.documentElement.classList.contains('lite')) return;
-
-  document.documentElement.classList.add('has-cursor');
-  const dot = document.createElement('div');
-  dot.id = 'cursor-dot';
-  document.body.append(dot);
-
-  dot.style.transform = 'translate(-100px, -100px)';
-  window.addEventListener(
-    'pointermove',
-    (e) => {
-      dot.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
-    },
-    { passive: true }
-  );
-
-  const interactive = 'a, button, [role="button"], input';
-  document.addEventListener('pointerover', (e) => {
-    if ((e.target as HTMLElement).closest(interactive)) document.body.classList.add('cursor-hover');
-  });
-  document.addEventListener('pointerout', (e) => {
-    if ((e.target as HTMLElement).closest(interactive)) document.body.classList.remove('cursor-hover');
-  });
 }

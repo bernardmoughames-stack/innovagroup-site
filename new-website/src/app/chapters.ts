@@ -37,7 +37,7 @@ export function initChapters(lite: boolean): void {
       (entries) => {
         for (const e of entries) {
           const v = e.target as HTMLVideoElement;
-          if (e.intersectionRatio >= 0.25 && v.src) void v.play().catch(() => {});
+          if (e.intersectionRatio >= 0.25 && v.src && !v.ended) void v.play().catch(() => {});
           else if (!v.paused) v.pause();
         }
       },
@@ -51,7 +51,10 @@ export function initChapters(lite: boolean): void {
     if (hero) attach(hero);
   }
 
-  if (!lite) initCrossfade();
+  if (!lite) {
+    initCrossfade();
+    initStack();
+  }
   initPageTransitions(lite);
   initChapterLinks();
   initProcessLine();
@@ -63,7 +66,9 @@ export function initChapters(lite: boolean): void {
  * dark ground instead of hard-cutting from one film to the next.
  */
 function initCrossfade(): void {
-  const films = Array.from(document.querySelectorAll<HTMLVideoElement>('.chapter .film'));
+  const films = Array.from(
+    document.querySelectorAll<HTMLVideoElement>('.chapter-hero .film, .chapter-cta .film')
+  );
   if (!films.length) return;
   let ticking = false;
   const update = (): void => {
@@ -76,6 +81,47 @@ function initCrossfade(): void {
       const o = Math.max(0, Math.min(1, Math.min((vh - r.top) / zone, r.bottom / zone)));
       film.style.opacity = o.toFixed(3);
     }
+  };
+  window.addEventListener(
+    'scroll',
+    () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    },
+    { passive: true }
+  );
+  window.addEventListener('resize', update);
+  update();
+}
+
+
+/**
+ * The service chapters are a sticky deck: each next chapter slides over
+ * the pinned previous one. This keeps only the visible films playing and
+ * hides fully covered chapters so the GPU isn't compositing nine films.
+ */
+function initStack(): void {
+  const chapters = Array.from(document.querySelectorAll<HTMLElement>('.chapters .chapter'));
+  if (!chapters.length) return;
+  let ticking = false;
+  const update = (): void => {
+    ticking = false;
+    const vh = innerHeight;
+    const tops = chapters.map((c) => c.getBoundingClientRect().top);
+    chapters.forEach((c, i) => {
+      const covered = i + 1 < chapters.length && tops[i + 1] <= 2;
+      c.classList.toggle('covered', covered);
+      const v = c.querySelector<HTMLVideoElement>('.film');
+      if (!v || !v.src) return;
+      const inView = !covered && tops[i] < vh && tops[i] > -vh * 1.5;
+      if (inView) {
+        if (v.paused && !v.ended) void v.play().catch(() => {});
+      } else if (!v.paused) {
+        v.pause();
+      }
+    });
   };
   window.addEventListener(
     'scroll',
@@ -114,7 +160,7 @@ function initPageTransitions(lite: boolean): void {
     document.body.classList.add('page-leave');
     window.setTimeout(() => {
       location.href = href;
-    }, 430);
+    }, 640);
   };
   leaveTo = go;
 

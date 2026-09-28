@@ -21,6 +21,15 @@ function isLite(): boolean {
 const lite = isLite();
 if (lite) document.documentElement.classList.add('lite');
 
+// Arriving over a link always starts at the top (browsers sometimes carry
+// the previous page's scroll position over); back/forward keeps its place.
+const navEntry = performance.getEntriesByType('navigation')[0] as
+  | PerformanceNavigationTiming
+  | undefined;
+if (navEntry?.type === 'navigate' && !location.hash) {
+  window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior });
+}
+
 initChrome();
 initChapters(lite);
 document.body.classList.remove('preload');

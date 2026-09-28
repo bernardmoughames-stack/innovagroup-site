@@ -282,7 +282,7 @@ ${dropdown}
   <main id="main">
 
     <section class="chapter svc-hero hero-${film}" id="top">
-      <video class="film" muted loop playsinline autoplay
+      <video class="film" muted playsinline autoplay
              poster="./assets/media/posters/${film}.webp" data-film="${film}" aria-hidden="true"></video>
       <div class="scrim" aria-hidden="true"></div>
       <div class="chapter-copy">
@@ -319,7 +319,7 @@ ${dual((lang, i) => relatedBlock(slug, lang, i))}
     </section>
 
     <section class="chapter chapter-cta svc-talk" id="talk">
-      <video class="film" muted loop playsinline preload="none"
+      <video class="film" muted playsinline preload="none"
              poster="./assets/media/posters/skyline.webp" data-film="skyline" aria-hidden="true"></video>
       <div class="scrim scrim-heavy" aria-hidden="true"></div>
       <div class="chapter-copy center">

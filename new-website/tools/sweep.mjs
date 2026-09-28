@@ -17,7 +17,37 @@ async function newPage(width, height) {
   page.on('console', (m) => {
     if (m.type() === 'error' && !m.text().includes('CERT')) errors.push(`console [${page.url()}]: ${m.text()}`);
   });
+  page.on('load', () => {
+    page.evaluate(() => { document.documentElement.style.scrollBehavior = 'auto'; }).catch(() => {});
+  });
   return page;
+}
+
+async function clickNav(page, sel, pattern, label) {
+  try {
+    await page.click(sel, { timeout: 8000 });
+    await page.waitForURL(pattern, { timeout: 12000 });
+  } catch (e) {
+    errors.push(`${label} did not navigate: ${e.message.split('\n')[0]}`);
+  }
+}
+
+// A pinned deck chapter always reports top:0, so scrolling "to it" means
+// scrolling to its flow position inside .chapters (index * viewport height).
+async function showChapter(page, svc) {
+  await page.evaluate((s) => {
+    const cont = document.querySelector('.chapters');
+    const list = [...cont.querySelectorAll('.chapter')];
+    const i = list.findIndex((c) => c.dataset.service === s);
+    const contTop = cont.getBoundingClientRect().top + scrollY;
+    scrollTo({ top: contTop + i * innerHeight + 2, behavior: 'instant' });
+  }, svc);
+}
+
+async function home(page) {
+  await page.goto(BASE, { waitUntil: 'networkidle' });
+  await page.evaluate(() => { document.documentElement.style.scrollBehavior = 'auto'; });
+  await page.waitForTimeout(600);
 }
 
 const PAGES = ['contracting', 'project-management', 'facility-management', 'cinema',
@@ -30,37 +60,26 @@ const PAGES = ['contracting', 'project-management', 'facility-management', 'cine
   await page.waitForTimeout(2500);
   await page.screenshot({ path: `${SHOTS}/01-hero.png` });
   for (const svc of ['contracting', 'cinema', 'homewatch']) {
-    await page.evaluate((s) => document.querySelector(`[data-service="${s}"]`)?.scrollIntoView(), svc);
+    await showChapter(page, svc);
     await page.waitForTimeout(1800);
     await page.screenshot({ path: `${SHOTS}/ch-${svc}.png` });
   }
   // Chapter button navigates to the service page
-  await page.evaluate(() => document.querySelector('[data-service="contracting"]')?.scrollIntoView());
+  await showChapter(page, 'contracting');
   await page.waitForTimeout(600);
-  await Promise.all([
-    page.waitForURL('**/contracting.html'),
-    page.click('[data-service="contracting"] .chapter-actions a.btn'),
-  ]).catch(() => errors.push('chapter button did not navigate to contracting.html'));
-  await page.goBack({ waitUntil: 'networkidle' });
+  await clickNav(page, '[data-service="contracting"] .chapter-actions a.btn', '**/contracting.html', 'chapter button');
+  await home(page);
   // Chapter TITLE click navigates too
-  await page.evaluate(() => document.querySelector('[data-service="cinema"]')?.scrollIntoView());
+  await showChapter(page, 'cinema');
   await page.waitForTimeout(700);
-  await Promise.all([
-    page.waitForURL('**/cinema.html'),
-    page.click('[data-service="cinema"] .chapter-copy h2'),
-  ]).catch(() => errors.push('chapter title did not navigate to cinema.html'));
-  await page.goBack({ waitUntil: 'networkidle' });
+  await clickNav(page, '[data-service="cinema"] .chapter-copy h2', '**/cinema.html', 'chapter title');
+  await home(page);
   // Dropdown navigates
-  await page.evaluate(() => window.scrollTo(0, 0));
-  await page.waitForTimeout(400);
-  await page.click('.nav-drop-btn');
+  await page.click('.nav-drop-btn', { timeout: 8000 });
   await page.waitForTimeout(350);
   await page.screenshot({ path: `${SHOTS}/02-dropdown.png` });
-  await Promise.all([
-    page.waitForURL('**/snagging.html'),
-    page.click('#services-menu a[href="snagging.html"]'),
-  ]).catch(() => errors.push('dropdown did not navigate to snagging.html'));
-  await page.goBack({ waitUntil: 'networkidle' });
+  await clickNav(page, '#services-menu a[href="snagging.html"]', '**/snagging.html', 'dropdown link');
+  await home(page);
   for (const [name, id] of [['03-why', 'why'], ['04-process', 'process'], ['05-cta', 'contact']]) {
     await page.evaluate((i) => document.getElementById(i)?.scrollIntoView(), id);
     await page.waitForTimeout(1500);
@@ -136,11 +155,11 @@ for (const slug of PAGES) {
   await page.evaluate(() => document.getElementById('related')?.scrollIntoView());
   await page.waitForTimeout(700);
   await page.screenshot({ path: `${SHOTS}/deep-related.png` });
-  await Promise.all([
-    page.waitForURL('**/project-management.html'),
-    page.click('.rel-card[href="project-management.html"]'),
-  ]).catch(() => errors.push('related card did not navigate'));
-  await page.goBack({ waitUntil: 'networkidle' });
+  await clickNav(page, '.rel-card[href="project-management.html"]', '**/project-management.html', 'related card');
+  await page.waitForTimeout(700);
+  const backTop = await page.evaluate(() => scrollY);
+  if (backTop > 4) errors.push(`service->service navigation landed at scrollY=${backTop}, not top`);
+  await page.goto(`${BASE}/contracting.html`, { waitUntil: 'networkidle' });
   // Talk finale
   await page.evaluate(() => document.getElementById('talk')?.scrollIntoView());
   await page.waitForTimeout(1800);

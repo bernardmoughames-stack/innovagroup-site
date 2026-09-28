@@ -92,3 +92,11 @@ audio and orbit were removed; posters/ holds a poster frame per film.
 Running total spent: 1,106.75 of 1,210 · reserve 103.25.
 All eleven films re-encoded as forward-then-reverse (ping-pong) loops so
 playback never visibly restarts; sizes roughly doubled (1.5–3 MB mp4).
+
+## 2026-09-28 — play-once re-encode
+
+Client direction: films should play once and hold on their final frame
+instead of looping. Every film was re-cut back to its forward pass only
+(the first half of the ping-pong file, `-t duration/2`, x264 crf 20 +
+vp9 crf 36 twins). `loop` attributes removed; playback ends and holds,
+and paused/ended films are never restarted. No new generation — 0 credits.
