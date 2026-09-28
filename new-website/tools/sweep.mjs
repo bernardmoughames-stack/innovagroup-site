@@ -41,13 +41,33 @@ async function newPage(width, height) {
   await page.screenshot({ path: `${SHOTS}/11-story-scrolled.png` });
   await page.keyboard.press('Escape');
   await page.waitForTimeout(500);
-  const stillOpen = await page.evaluate(() => Boolean(document.querySelector('dialog[open]')));
+  const stillOpen = await page.evaluate(() => Boolean(document.querySelector('.story:not([hidden])')));
   if (stillOpen) errors.push('story dialog did not close on Escape');
   for (const [name, id] of [['12-why', 'why'], ['13-process', 'process'], ['14-cta', 'contact']]) {
     await page.evaluate((i) => document.getElementById(i)?.scrollIntoView(), id);
     await page.waitForTimeout(1600);
     await page.screenshot({ path: `${SHOTS}/${name}.png` });
   }
+  // Day mode + services dropdown
+  await page.click('#theme-toggle');
+  await page.waitForTimeout(400);
+  await page.evaluate(() => document.getElementById('why')?.scrollIntoView());
+  await page.waitForTimeout(700);
+  await page.screenshot({ path: `${SHOTS}/16-day-quiet.png` });
+  await page.evaluate(() => document.querySelector('[data-service="snagging"]')?.scrollIntoView());
+  await page.waitForTimeout(1800);
+  await page.screenshot({ path: `${SHOTS}/17-day-chapter.png` });
+  await page.click('[data-service="snagging"] .open-story');
+  await page.waitForTimeout(900);
+  await page.screenshot({ path: `${SHOTS}/18-day-story.png` });
+  await page.keyboard.press('Escape');
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await page.waitForTimeout(500);
+  await page.click('.nav-drop-btn');
+  await page.waitForTimeout(400);
+  await page.screenshot({ path: `${SHOTS}/19-dropdown.png` });
+  await page.click('#theme-toggle');
+  await page.waitForTimeout(300);
   // Arabic
   await page.click('.lang-switch button[data-lang="ar"]');
   await page.waitForTimeout(800);

@@ -44,12 +44,31 @@
       <span class="brand-name">INNOVA <b>GROUP</b></span>
     </a>
     <nav class="site-nav" id="site-nav" aria-label="Main">
-      <a href="#services" data-i18n="nav.services">Services</a>
+      <div class="nav-item">
+        <button type="button" class="nav-drop-btn" aria-expanded="false" aria-controls="services-menu">
+          <span data-i18n="nav.services">Services</span><span class="drop-caret" aria-hidden="true">▾</span>
+        </button>
+        <div class="nav-drop" id="services-menu">
+          <a href="#svc-contracting" data-i18n="svc.contracting.name">Turnkey Contracting</a>
+          <a href="#svc-pm" data-i18n="svc.pm.name">Project Management</a>
+          <a href="#svc-facility" data-i18n="svc.facility.name">Maintenance &amp; Facility Management</a>
+          <a href="#svc-cinema" data-i18n="svc.cinema.name">Cinema &amp; Home Theatre</a>
+          <a href="#svc-snagging" data-i18n="svc.snagging.name">Snagging</a>
+          <a href="#svc-marketing" data-i18n="svc.marketing.name">Marketing, PR &amp; Communication</a>
+          <a href="#svc-consultancy" data-i18n="svc.consultancy.name">Management Consultancies</a>
+          <a href="#svc-ai" data-i18n="svc.ai.name">AI Research &amp; Consultancy</a>
+          <a href="#svc-homewatch" data-i18n="svc.homewatch.name">Home Watch &amp; Property Concierge</a>
+        </div>
+      </div>
       <a href="#why" data-i18n="nav.why">Why Innova</a>
       <a href="#process" data-i18n="nav.process">How we work</a>
-      <a class="nav-cta" href="https://innovagroup.co.ae/contact/" data-i18n="nav.enquire">Enquire</a>
+      <a class="nav-cta" href="#contact" data-i18n="nav.enquire">Enquire</a>
     </nav>
     <div class="header-tools">
+      <button id="theme-toggle" class="icon-btn" type="button" data-i18n-aria="ui.theme" aria-label="Switch between day and night mode">
+        <svg class="ic-sun" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.4M12 19.1v2.4M2.5 12h2.4M19.1 12h2.4M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M19.1 4.9l-1.7 1.7M6.6 17.4l-1.7 1.7"/></svg>
+        <svg class="ic-moon" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/></svg>
+      </button>
       <div class="lang-switch" role="group" aria-label="Language">
         <button type="button" data-lang="en" aria-pressed="true" lang="en">EN</button>
         <button type="button" data-lang="ar" aria-pressed="false" lang="ar">ع</button>
@@ -74,7 +93,7 @@
         <h1 class="display" data-i18n="hero.title">We build it, we run it, and we make it smarter.</h1>
         <p class="lede" data-i18n="hero.lede">Build. Manage. Innovate. Eight service lines under one licensed team — and one point of accountability.</p>
         <div class="cta-row">
-          <a class="btn btn-gold" href="https://innovagroup.co.ae/contact/" data-i18n="cta.enquire">Start an enquiry</a>
+          <a class="btn btn-gold story-enquire" href="#contact" data-i18n="cta.enquire">Start an enquiry</a>
           <a class="btn btn-ghost" href="https://wa.me/971505097758" rel="noopener" data-i18n="cta.whatsapp">WhatsApp us</a>
         </div>
       </div>
@@ -90,7 +109,7 @@
     <!-- THE NINE FILMS -->
     <div id="services" class="chapters">
 
-      <section class="chapter" data-service="contracting">
+      <section class="chapter" data-service="contracting" id="svc-contracting">
         <video class="film" muted loop playsinline preload="none"
                poster="./assets/media/posters/contracting.webp" data-film="contracting" aria-hidden="true"></video>
         <div class="scrim" aria-hidden="true"></div>
@@ -101,10 +120,9 @@
           <p class="line" data-i18n="svc.contracting.desc">Design, build and hand over under one contract — from empty shell to a completed, tested, ready-to-occupy space.</p>
           <div class="chapter-actions">
             <button class="btn btn-line open-story" type="button" data-i18n="ui.read">Read the full story</button>
-            <a class="text-link" href="https://innovagroup.co.ae/contracting/" data-i18n="ui.explore">Full service page</a>
           </div>
         </div>
-        <dialog class="story">
+        <div class="story" role="dialog" aria-modal="true" hidden>
           <div class="story-inner">
             <button class="story-close" type="button" data-i18n-aria="ui.close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <p class="kicker" data-i18n="svc.contracting.tag">One contract, from empty shell to open doors.</p>
@@ -118,14 +136,13 @@
             <h4 data-i18n="ui.packsTitle">Packages</h4>
             <p class="story-packs" data-i18n="svc.contracting.pack">Fit-Out Essential · Turnkey Complete · Design &amp; Build Plus</p>
             <div class="cta-row">
-              <a class="btn btn-gold" href="https://innovagroup.co.ae/contact/" data-i18n="cta.enquire">Start an enquiry</a>
-              <a class="btn btn-ghost" href="https://innovagroup.co.ae/contracting/" data-i18n="ui.explore">Full service page</a>
+              <a class="btn btn-gold story-enquire" href="#contact" data-i18n="cta.enquire">Start an enquiry</a>
             </div>
           </div>
-        </dialog>
+        <div class="story-void" aria-hidden="true"></div></div>
       </section>
 
-      <section class="chapter" data-service="pm">
+      <section class="chapter" data-service="pm" id="svc-pm">
         <video class="film" muted loop playsinline preload="none"
                poster="./assets/media/posters/pm.webp" data-film="pm" aria-hidden="true"></video>
         <div class="scrim" aria-hidden="true"></div>
@@ -136,10 +153,9 @@
           <p class="line" data-i18n="svc.pm.desc">Independent control of programme, cost, quality and risk on your behalf — from brief and tender through to handover.</p>
           <div class="chapter-actions">
             <button class="btn btn-line open-story" type="button" data-i18n="ui.read">Read the full story</button>
-            <a class="text-link" href="https://innovagroup.co.ae/project-management/" data-i18n="ui.explore">Full service page</a>
           </div>
         </div>
-        <dialog class="story">
+        <div class="story" role="dialog" aria-modal="true" hidden>
           <div class="story-inner">
             <button class="story-close" type="button" data-i18n-aria="ui.close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <p class="kicker" data-i18n="svc.pm.tag">Your interests, represented on site.</p>
@@ -153,14 +169,13 @@
             <h4 data-i18n="ui.packsTitle">Packages</h4>
             <p class="story-packs" data-i18n="svc.pm.pack">Advisory · Managed Delivery · Programme Office</p>
             <div class="cta-row">
-              <a class="btn btn-gold" href="https://innovagroup.co.ae/contact/" data-i18n="cta.enquire">Start an enquiry</a>
-              <a class="btn btn-ghost" href="https://innovagroup.co.ae/project-management/" data-i18n="ui.explore">Full service page</a>
+              <a class="btn btn-gold story-enquire" href="#contact" data-i18n="cta.enquire">Start an enquiry</a>
             </div>
           </div>
-        </dialog>
+        <div class="story-void" aria-hidden="true"></div></div>
       </section>
 
-      <section class="chapter" data-service="facility">
+      <section class="chapter" data-service="facility" id="svc-facility">
         <video class="film" muted loop playsinline preload="none"
                poster="./assets/media/posters/facility.webp" data-film="facility" aria-hidden="true"></video>
         <div class="scrim" aria-hidden="true"></div>
@@ -171,10 +186,9 @@
           <p class="line" data-i18n="svc.facility.desc">Planned and reactive maintenance that keeps buildings, systems and occupants running without interruption.</p>
           <div class="chapter-actions">
             <button class="btn btn-line open-story" type="button" data-i18n="ui.read">Read the full story</button>
-            <a class="text-link" href="https://innovagroup.co.ae/facility-management/" data-i18n="ui.explore">Full service page</a>
           </div>
         </div>
-        <dialog class="story">
+        <div class="story" role="dialog" aria-modal="true" hidden>
           <div class="story-inner">
             <button class="story-close" type="button" data-i18n-aria="ui.close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <p class="kicker" data-i18n="svc.facility.tag">Buildings that keep working after everyone goes home.</p>
@@ -188,14 +202,13 @@
             <h4 data-i18n="ui.packsTitle">Packages</h4>
             <p class="story-packs" data-i18n="svc.facility.pack">Care · Care Plus · Integrated FM</p>
             <div class="cta-row">
-              <a class="btn btn-gold" href="https://innovagroup.co.ae/contact/" data-i18n="cta.enquire">Start an enquiry</a>
-              <a class="btn btn-ghost" href="https://innovagroup.co.ae/facility-management/" data-i18n="ui.explore">Full service page</a>
+              <a class="btn btn-gold story-enquire" href="#contact" data-i18n="cta.enquire">Start an enquiry</a>
             </div>
           </div>
-        </dialog>
+        <div class="story-void" aria-hidden="true"></div></div>
       </section>
 
-      <section class="chapter" data-service="cinema">
+      <section class="chapter" data-service="cinema" id="svc-cinema">
         <video class="film" muted loop playsinline preload="none"
                poster="./assets/media/posters/cinema.webp" data-film="cinema" aria-hidden="true"></video>
         <div class="scrim" aria-hidden="true"></div>
@@ -206,10 +219,9 @@
           <p class="line" data-i18n="svc.cinema.desc">Private cinemas and media rooms — engineered for acoustics, calibrated for picture, maintained for the long term.</p>
           <div class="chapter-actions">
             <button class="btn btn-line open-story" type="button" data-i18n="ui.read">Read the full story</button>
-            <a class="text-link" href="https://innovagroup.co.ae/cinema/" data-i18n="ui.explore">Full service page</a>
           </div>
         </div>
-        <dialog class="story">
+        <div class="story" role="dialog" aria-modal="true" hidden>
           <div class="story-inner">
             <button class="story-close" type="button" data-i18n-aria="ui.close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <p class="kicker" data-i18n="svc.cinema.tag">A room that disappears, so the film doesn&rsquo;t.</p>
@@ -223,14 +235,13 @@
             <h4 data-i18n="ui.packsTitle">Packages</h4>
             <p class="story-packs" data-i18n="svc.cinema.pack">Media Room · Dedicated Cinema · Reference Cinema</p>
             <div class="cta-row">
-              <a class="btn btn-gold" href="https://innovagroup.co.ae/contact/" data-i18n="cta.enquire">Start an enquiry</a>
-              <a class="btn btn-ghost" href="https://innovagroup.co.ae/cinema/" data-i18n="ui.explore">Full service page</a>
+              <a class="btn btn-gold story-enquire" href="#contact" data-i18n="cta.enquire">Start an enquiry</a>
             </div>
           </div>
-        </dialog>
+        <div class="story-void" aria-hidden="true"></div></div>
       </section>
 
-      <section class="chapter" data-service="snagging">
+      <section class="chapter" data-service="snagging" id="svc-snagging">
         <video class="film" muted loop playsinline preload="none"
                poster="./assets/media/posters/snagging.webp" data-film="snagging" aria-hidden="true"></video>
         <div class="scrim" aria-hidden="true"></div>
@@ -241,10 +252,9 @@
           <p class="line" data-i18n="svc.snagging.desc">Independent pre-handover inspection with a photographic, room-by-room defect report your developer can act on.</p>
           <div class="chapter-actions">
             <button class="btn btn-line open-story" type="button" data-i18n="ui.read">Read the full story</button>
-            <a class="text-link" href="https://innovagroup.co.ae/snagging/" data-i18n="ui.explore">Full service page</a>
           </div>
         </div>
-        <dialog class="story">
+        <div class="story" role="dialog" aria-modal="true" hidden>
           <div class="story-inner">
             <button class="story-close" type="button" data-i18n-aria="ui.close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <p class="kicker" data-i18n="svc.snagging.tag">Find it before you sign for it.</p>
@@ -258,14 +268,13 @@
             <h4 data-i18n="ui.packsTitle">Packages</h4>
             <p class="story-packs" data-i18n="svc.snagging.pack">Standard Snag · Snag &amp; Re-Inspect · Villa &amp; Portfolio</p>
             <div class="cta-row">
-              <a class="btn btn-gold" href="https://innovagroup.co.ae/contact/" data-i18n="cta.enquire">Start an enquiry</a>
-              <a class="btn btn-ghost" href="https://innovagroup.co.ae/snagging/" data-i18n="ui.explore">Full service page</a>
+              <a class="btn btn-gold story-enquire" href="#contact" data-i18n="cta.enquire">Start an enquiry</a>
             </div>
           </div>
-        </dialog>
+        <div class="story-void" aria-hidden="true"></div></div>
       </section>
 
-      <section class="chapter" data-service="marketing">
+      <section class="chapter" data-service="marketing" id="svc-marketing">
         <video class="film" muted loop playsinline preload="none"
                poster="./assets/media/posters/marketing.webp" data-film="marketing" aria-hidden="true"></video>
         <div class="scrim" aria-hidden="true"></div>
@@ -276,10 +285,9 @@
           <p class="line" data-i18n="svc.marketing.desc">Brand, campaign and reputation work for companies that need to be understood before they can be chosen.</p>
           <div class="chapter-actions">
             <button class="btn btn-line open-story" type="button" data-i18n="ui.read">Read the full story</button>
-            <a class="text-link" href="https://innovagroup.co.ae/marketing/" data-i18n="ui.explore">Full service page</a>
           </div>
         </div>
-        <dialog class="story">
+        <div class="story" role="dialog" aria-modal="true" hidden>
           <div class="story-inner">
             <button class="story-close" type="button" data-i18n-aria="ui.close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <p class="kicker" data-i18n="svc.marketing.tag">Be understood before you&rsquo;re chosen.</p>
@@ -293,14 +301,13 @@
             <h4 data-i18n="ui.packsTitle">Packages</h4>
             <p class="story-packs" data-i18n="svc.marketing.pack">Brand Foundation · Always-On · Full Communications</p>
             <div class="cta-row">
-              <a class="btn btn-gold" href="https://innovagroup.co.ae/contact/" data-i18n="cta.enquire">Start an enquiry</a>
-              <a class="btn btn-ghost" href="https://innovagroup.co.ae/marketing/" data-i18n="ui.explore">Full service page</a>
+              <a class="btn btn-gold story-enquire" href="#contact" data-i18n="cta.enquire">Start an enquiry</a>
             </div>
           </div>
-        </dialog>
+        <div class="story-void" aria-hidden="true"></div></div>
       </section>
 
-      <section class="chapter" data-service="consultancy">
+      <section class="chapter" data-service="consultancy" id="svc-consultancy">
         <video class="film" muted loop playsinline preload="none"
                poster="./assets/media/posters/consultancy.webp" data-film="consultancy" aria-hidden="true"></video>
         <div class="scrim" aria-hidden="true"></div>
@@ -311,10 +318,9 @@
           <p class="line" data-i18n="svc.consultancy.desc">Operating models, processes and governance rebuilt so that growth doesn&rsquo;t outpace control.</p>
           <div class="chapter-actions">
             <button class="btn btn-line open-story" type="button" data-i18n="ui.read">Read the full story</button>
-            <a class="text-link" href="https://innovagroup.co.ae/consultancy/" data-i18n="ui.explore">Full service page</a>
           </div>
         </div>
-        <dialog class="story">
+        <div class="story" role="dialog" aria-modal="true" hidden>
           <div class="story-inner">
             <button class="story-close" type="button" data-i18n-aria="ui.close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <p class="kicker" data-i18n="svc.consultancy.tag">Growth outruns process. We help it catch up.</p>
@@ -328,14 +334,13 @@
             <h4 data-i18n="ui.packsTitle">Packages</h4>
             <p class="story-packs" data-i18n="svc.consultancy.pack">Diagnostic · Build &amp; Implement · Embedded Advisory</p>
             <div class="cta-row">
-              <a class="btn btn-gold" href="https://innovagroup.co.ae/contact/" data-i18n="cta.enquire">Start an enquiry</a>
-              <a class="btn btn-ghost" href="https://innovagroup.co.ae/consultancy/" data-i18n="ui.explore">Full service page</a>
+              <a class="btn btn-gold story-enquire" href="#contact" data-i18n="cta.enquire">Start an enquiry</a>
             </div>
           </div>
-        </dialog>
+        <div class="story-void" aria-hidden="true"></div></div>
       </section>
 
-      <section class="chapter" data-service="ai">
+      <section class="chapter" data-service="ai" id="svc-ai">
         <video class="film" muted loop playsinline preload="none"
                poster="./assets/media/posters/ai.webp" data-film="ai" aria-hidden="true"></video>
         <div class="scrim" aria-hidden="true"></div>
@@ -346,10 +351,9 @@
           <p class="line" data-i18n="svc.ai.desc">Applied artificial intelligence — where it creates real value in your business, and how to deploy it safely.</p>
           <div class="chapter-actions">
             <button class="btn btn-line open-story" type="button" data-i18n="ui.read">Read the full story</button>
-            <a class="text-link" href="https://innovagroup.co.ae/ai/" data-i18n="ui.explore">Full service page</a>
           </div>
         </div>
-        <dialog class="story">
+        <div class="story" role="dialog" aria-modal="true" hidden>
           <div class="story-inner">
             <button class="story-close" type="button" data-i18n-aria="ui.close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <p class="kicker" data-i18n="svc.ai.tag">Artificial intelligence, applied where it actually pays.</p>
@@ -363,14 +367,13 @@
             <h4 data-i18n="ui.packsTitle">Packages</h4>
             <p class="story-packs" data-i18n="svc.ai.pack">AI Readiness · Pilot Build · AI Partner</p>
             <div class="cta-row">
-              <a class="btn btn-gold" href="https://innovagroup.co.ae/contact/" data-i18n="cta.enquire">Start an enquiry</a>
-              <a class="btn btn-ghost" href="https://innovagroup.co.ae/ai/" data-i18n="ui.explore">Full service page</a>
+              <a class="btn btn-gold story-enquire" href="#contact" data-i18n="cta.enquire">Start an enquiry</a>
             </div>
           </div>
-        </dialog>
+        <div class="story-void" aria-hidden="true"></div></div>
       </section>
 
-      <section class="chapter" data-service="homewatch">
+      <section class="chapter" data-service="homewatch" id="svc-homewatch">
         <video class="film" muted loop playsinline preload="none"
                poster="./assets/media/posters/homewatch.webp" data-film="homewatch" aria-hidden="true"></video>
         <div class="scrim" aria-hidden="true"></div>
@@ -381,10 +384,10 @@
           <p class="line" data-i18n="svc.homewatch.desc">Regular inspections, guest readiness and concierge care for your villa while you&rsquo;re away. Launching soon.</p>
           <div class="chapter-actions">
             <button class="btn btn-line open-story" type="button" data-i18n="ui.read">Read the full story</button>
-            <a class="text-link" href="https://innovagroup.co.ae/contact/" data-i18n="ui.notify">Ask about launch</a>
+            <a class="text-link" href="#contact" data-i18n="ui.notify">Ask about launch</a>
           </div>
         </div>
-        <dialog class="story">
+        <div class="story" role="dialog" aria-modal="true" hidden>
           <div class="story-inner">
             <button class="story-close" type="button" data-i18n-aria="ui.close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <p class="kicker"><span class="soon-badge" data-i18n="ui.comingSoon">Coming soon</span></p>
@@ -398,10 +401,10 @@
             <h4 data-i18n="ui.packsTitle">Packages</h4>
             <p class="story-packs" data-i18n="svc.homewatch.pack">Watch visits · Arrival prep · Concierge on demand</p>
             <div class="cta-row">
-              <a class="btn btn-gold" href="https://innovagroup.co.ae/contact/" data-i18n="ui.notify">Ask about launch</a>
+              <a class="btn btn-gold story-enquire" href="#contact" data-i18n="ui.notify">Ask about launch</a>
             </div>
           </div>
-        </dialog>
+        <div class="story-void" aria-hidden="true"></div></div>
       </section>
     </div>
 
@@ -444,7 +447,7 @@
         <h2 class="display-lg" data-i18n="cta.title">Tell us what you&rsquo;re planning.</h2>
         <p class="lede dim" data-i18n="cta.lede">Whether it&rsquo;s a fit-out, a handover inspection, a rebrand or an AI pilot — start with a conversation. No obligation.</p>
         <div class="cta-row center">
-          <a class="btn btn-gold" href="https://innovagroup.co.ae/contact/" data-i18n="cta.enquire">Start an enquiry</a>
+          <a class="btn btn-gold story-enquire" href="#contact" data-i18n="cta.enquire">Start an enquiry</a>
           <a class="btn btn-ghost" href="https://wa.me/971505097758" rel="noopener" data-i18n="cta.whatsapp">WhatsApp us</a>
           <a class="btn btn-ghost" href="tel:+971505097758" data-i18n="cta.call">Call +971 50 509 7758</a>
         </div>
@@ -474,7 +477,7 @@
   <nav class="sticky-bar" aria-label="Quick contact">
     <a href="tel:+971505097758" data-i18n="sticky.call">Call</a>
     <a href="https://wa.me/971505097758" rel="noopener">WhatsApp</a>
-    <a class="is-gold" href="https://innovagroup.co.ae/contact/" data-i18n="sticky.enquire">Enquire</a>
+    <a class="is-gold" href="#contact" data-i18n="sticky.enquire">Enquire</a>
   </nav>
 
   <script type="module" src="/src/main.ts"></script>

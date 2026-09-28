@@ -82,3 +82,13 @@ Running total spent: 1,034.75 of 1,210 · reserve 175.25. The replaced
 abstract clips remain in the Higgsfield library under their original
 job IDs (Batch 1). Site v2 is film-first: the WebGL scene, ambient
 audio and orbit were removed; posters/ holds a poster frame per film.
+
+## Batch 3 — 2026-09-28, feedback round
+
+| File | Job ID | Credits |
+|---|---|---|
+| `snagging.mp4` — inspector walking a finished apartment (replaces the laser-beam clip the client read as welding) | 2e1c0a77-df69-4b00-9c75-b12a935abe4d | 72 |
+
+Running total spent: 1,106.75 of 1,210 · reserve 103.25.
+All eleven films re-encoded as forward-then-reverse (ping-pong) loops so
+playback never visibly restarts; sizes roughly doubled (1.5–3 MB mp4).

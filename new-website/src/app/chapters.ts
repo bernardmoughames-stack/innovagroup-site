@@ -1,10 +1,11 @@
 import { FILM } from '../content/media';
 
 /**
- * Film chapters: each full-bleed <video> gets its source lazily as the
- * visitor approaches (H.264 with a VP9 fallback), plays only while its
- * chapter is on screen, and pauses off screen. Story overlays are native
- * <dialog>s — real page scroll, free focus trap, Escape included.
+ * Film chapters: each full-bleed <video> gets its source lazily (H.264 with
+ * a VP9 fallback), plays while its chapter is on screen and pauses off
+ * screen. Films are baked as forward-then-reverse loops, so playback never
+ * jumps. Story overlays are fixed panels UNDER the header (menu always
+ * available) with the chapter's film still running beside them.
  * In lite mode nothing is wired: posters stand in for the films.
  */
 export function initChapters(lite: boolean): void {
@@ -21,7 +22,6 @@ export function initChapters(lite: boolean): void {
       v.src = h264 ? FILM(name, 'mp4') : FILM(name, 'webm');
     };
 
-    // Load when a chapter comes within a viewport of the visitor
     const loader = new IntersectionObserver(
       (entries) => {
         for (const e of entries) {
@@ -33,7 +33,6 @@ export function initChapters(lite: boolean): void {
       },
       { rootMargin: '100% 0px' }
     );
-    // Play only while meaningfully visible
     const player = new IntersectionObserver(
       (entries) => {
         for (const e of entries) {
@@ -48,29 +47,83 @@ export function initChapters(lite: boolean): void {
       loader.observe(v);
       player.observe(v);
     });
-    // Hero starts immediately
     const hero = films.find((v) => v.dataset.film === 'herofilm');
     if (hero) attach(hero);
   }
 
-  // Story overlays
+  initStories();
+  initProcessLine();
+}
+
+function initStories(): void {
+  let openStory: HTMLElement | null = null;
+  let opener: HTMLElement | null = null;
+
+  const close = (): void => {
+    if (!openStory) return;
+    openStory.hidden = true;
+    document.body.classList.remove('story-open');
+    opener?.focus();
+    openStory = null;
+    opener = null;
+  };
+
   document.querySelectorAll<HTMLElement>('.chapter').forEach((chapter) => {
-    const dialog = chapter.querySelector<HTMLDialogElement>('dialog.story');
-    const open = chapter.querySelector<HTMLButtonElement>('.open-story');
-    if (!dialog || !open) return;
-    open.addEventListener('click', () => {
-      dialog.showModal();
+    const story = chapter.querySelector<HTMLElement>('.story');
+    if (!story) return;
+
+    const open = (from: HTMLElement): void => {
+      close();
+      openStory = story;
+      opener = from;
+      story.hidden = false;
+      chapter.classList.add('story-showing');
       document.body.classList.add('story-open');
+      story.querySelector<HTMLElement>('.story-close')?.focus();
+    };
+
+    const btn = chapter.querySelector<HTMLButtonElement>('.open-story');
+    btn?.addEventListener('click', () => open(btn));
+    // The title and tagline invite the same tap
+    chapter.querySelectorAll<HTMLElement>('.chapter-copy h2, .chapter-copy .tagline').forEach((el) => {
+      el.style.cursor = 'pointer';
+      el.addEventListener('click', () => open(btn ?? el));
     });
-    dialog.addEventListener('close', () => document.body.classList.remove('story-open'));
-    dialog.querySelector('.story-close')?.addEventListener('click', () => dialog.close());
-    dialog.addEventListener('click', (e) => {
-      // Click on the dimmed edge (the dialog element itself) closes
-      if (e.target === dialog) dialog.close();
+
+    story.querySelector('.story-close')?.addEventListener('click', close);
+    story.querySelector('.story-void')?.addEventListener('click', close);
+    // Enquire inside a story: close first so the page can scroll to #contact
+    story.querySelectorAll<HTMLAnchorElement>('.story-enquire').forEach((a) => {
+      a.addEventListener('click', () => close());
     });
   });
 
-  initProcessLine();
+  window.addEventListener('keydown', (e) => {
+    if (!openStory) return;
+    if (e.key === 'Escape') {
+      e.preventDefault();
+      close();
+      return;
+    }
+    if (e.key === 'Tab') {
+      const items = Array.from(
+        openStory.querySelectorAll<HTMLElement>('a[href], button:not([disabled])')
+      );
+      if (!items.length) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
+  });
+
+  // Navigating anywhere (header menu, services dropdown) closes the story
+  window.addEventListener('hashchange', close);
 }
 
 /** The gold line draws itself as the process section crosses the viewport. */

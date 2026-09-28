@@ -17,9 +17,69 @@ export function initChrome(): void {
     btn.addEventListener('click', () => setLang(btn.dataset.lang as Lang));
   });
 
+  initTheme();
+  initServicesDropdown();
   initMenu();
   initReveals();
   initCursor();
+}
+
+/** Day / night mode — remembered, defaulting to the visitor's system choice. */
+function initTheme(): void {
+  const KEY = 'innova-theme';
+  let theme: string;
+  try {
+    theme = localStorage.getItem(KEY) ?? '';
+  } catch {
+    theme = '';
+  }
+  if (theme !== 'light' && theme !== 'dark') {
+    theme = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  }
+  const apply = (t: string): void => {
+    document.documentElement.dataset.theme = t;
+    document
+      .querySelector('meta[name="theme-color"]')
+      ?.setAttribute('content', t === 'light' ? '#F6F1E6' : '#0C1526');
+  };
+  apply(theme);
+  document.getElementById('theme-toggle')?.addEventListener('click', () => {
+    theme = theme === 'light' ? 'dark' : 'light';
+    apply(theme);
+    try {
+      localStorage.setItem(KEY, theme);
+    } catch {
+      /* private mode */
+    }
+  });
+}
+
+/** The full services list lives in the top bar at all times. */
+function initServicesDropdown(): void {
+  const item = document.querySelector<HTMLElement>('.nav-item');
+  const btn = item?.querySelector<HTMLButtonElement>('.nav-drop-btn');
+  if (!item || !btn) return;
+  const set = (open: boolean): void => {
+    item.classList.toggle('open', open);
+    btn.setAttribute('aria-expanded', String(open));
+  };
+  btn.addEventListener('click', () => set(!item.classList.contains('open')));
+  document.addEventListener('click', (e) => {
+    if (!item.contains(e.target as Node)) set(false);
+  });
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && item.classList.contains('open')) {
+      set(false);
+      btn.focus();
+    }
+  });
+  item.querySelectorAll('a').forEach((a) =>
+    a.addEventListener('click', () => {
+      set(false);
+      document.body.classList.remove('menu-open');
+      document.getElementById('menu-toggle')?.setAttribute('aria-expanded', 'false');
+    })
+  );
 }
 
 function initMenu(): void {
