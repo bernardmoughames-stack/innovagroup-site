@@ -254,6 +254,10 @@ body.scrolled .site-header::before {
   object-fit: cover;
   background: #0A1120;
 }
+/* the snagging inspector stands a third from the left of the wide frame:
+   shift the visible window so phones (which crop hard) keep him in shot */
+[data-service="snagging"] .film,
+.hero-snagging .film { object-position: 28% 50%; }
 
 /* readability without killing the film: side + bottom gradients */
 .scrim {

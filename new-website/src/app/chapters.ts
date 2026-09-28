@@ -104,51 +104,62 @@ function initCrossfade(): void {
 
 
 /**
- * The service chapters are a sticky deck: each next chapter slides over
- * the pinned previous one. This keeps only the visible films playing and
- * hides fully covered chapters so the GPU isn't compositing nine films.
+ * The service chapters are a sticky deck, and SCROLL IS THE PLAY HEAD:
+ * scrolling down runs a chapter's film forward, scrolling back up runs
+ * it backwards. Each film's timeline is mapped over the chapter's whole
+ * visible life (sliding in + pinned), and fully covered chapters hide so
+ * the GPU isn't compositing nine films. Films are encoded with a
+ * keyframe every 12 frames so seeking is cheap.
  */
 function initStack(): void {
-  const chapters = Array.from(document.querySelectorAll<HTMLElement>('.chapters .chapter'));
+  const container = document.querySelector<HTMLElement>('.chapters');
+  if (!container) return;
+  const chapters = Array.from(container.querySelectorAll<HTMLElement>('.chapter'));
   if (!chapters.length) return;
-  let ticking = false;
-  const revealed = chapters.map(() => false);
+
   const covered = chapters.map(() => false);
+  let flowTops: number[] = [];
+  let heights: number[] = [];
+  const measure = (): void => {
+    let acc = container.getBoundingClientRect().top + scrollY;
+    flowTops = [];
+    heights = [];
+    for (const c of chapters) {
+      flowTops.push(acc);
+      const h = c.offsetHeight;
+      heights.push(h);
+      acc += h;
+    }
+  };
+
+  let ticking = false;
   const update = (): void => {
     ticking = false;
     const vh = innerHeight;
-    const tops = chapters.map((c) => c.getBoundingClientRect().top);
+    const y = scrollY;
+    const rectTops = chapters.map((c) => c.getBoundingClientRect().top);
     chapters.forEach((c, i) => {
       // Hysteresis: hide a chapter only once the next one is well past
-      // the top, un-hide as soon as it slips back — no flicker at the
-      // boundary while the browser rounds sticky positions.
-      const nextTop = i + 1 < chapters.length ? tops[i + 1] : Infinity;
+      // the top, un-hide as soon as it slips back.
+      const nextTop = i + 1 < chapters.length ? rectTops[i + 1] : Infinity;
       if (covered[i]) {
         if (nextTop > 4) covered[i] = false;
       } else if (nextTop <= -24) {
         covered[i] = true;
       }
       c.classList.toggle('covered', covered[i]);
+
       const v = c.querySelector<HTMLVideoElement>('.film');
       if (!v || !v.src) return;
-      // A film starts once its chapter is truly revealed (over half the
-      // viewport), not the moment its edge appears — otherwise a
-      // play-once film can finish before anyone sees it.
-      const shown = !covered[i] && tops[i] < vh * 0.8 && tops[i] > -vh * 1.5;
-      if (shown) {
-        if (!revealed[i]) {
-          revealed[i] = true;
-          void v.play().catch(() => {});
-        } else if (v.paused && !v.ended) {
-          void v.play().catch(() => {});
-        }
-      } else {
-        revealed[i] = false;
-        if (!v.paused) v.pause();
-        // rewind a finished film while it is off screen, so returning to
-        // it never shows a visible seek (that blank blip on some GPUs)
-        if (v.ended) v.currentTime = 0;
-      }
+      if (!v.paused) v.pause();
+      const d = v.duration;
+      if (!Number.isFinite(d) || d <= 0) return;
+      const start = flowTops[i] - vh;
+      const end = flowTops[i] + heights[i];
+      const p = (y - start) / (end - start);
+      if (p < -0.05 || p > 1.05) return;
+      const t = Math.min(Math.max(p, 0), 1) * Math.max(d - 0.05, 0);
+      if (Math.abs(v.currentTime - t) > 0.02) v.currentTime = t;
     });
   };
   window.addEventListener(
@@ -161,12 +172,14 @@ function initStack(): void {
     },
     { passive: true }
   );
-  window.addEventListener('resize', update);
-  // Films get their src lazily, sometimes after the last scroll event
-  // (a fast fling, a jump). Re-check when media becomes ready and on a
-  // slow heartbeat so a revealed chapter never sits on a frozen poster.
-  document.addEventListener('canplay', () => update(), true);
-  window.setInterval(update, 500);
+  window.addEventListener('resize', () => {
+    measure();
+    update();
+  });
+  // a film whose metadata arrives after the last scroll event still
+  // needs its first frame set
+  document.addEventListener('loadedmetadata', () => update(), true);
+  measure();
   update();
 }
 

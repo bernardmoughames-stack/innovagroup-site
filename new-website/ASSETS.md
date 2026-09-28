@@ -100,3 +100,12 @@ instead of looping. Every film was re-cut back to its forward pass only
 (the first half of the ping-pong file, `-t duration/2`, x264 crf 20 +
 vp9 crf 36 twins). `loop` attributes removed; playback ends and holds,
 and paused/ended films are never restarted. No new generation — 0 credits.
+
+## 2026-09-28 — HQ remaster + scroll-scrub encode
+
+All eleven films re-encoded from the original Seedance masters
+(re-downloaded from the Higgsfield library, 2206×946 native — no new
+generation, 0 credits): x264 crf 19 at native resolution. The nine
+chapter films use a 12-frame GOP so scroll-scrubbing (scroll = play
+head) seeks smoothly; herofilm is a ping-pong loop again; skyline plays
+once. VP9 twins + 2016w posters regenerated. Total media ~53 MB.
