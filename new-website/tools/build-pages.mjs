@@ -31,6 +31,16 @@ const NAME_EN = {
   'home-watch': 'Home Watch & Property Concierge',
 };
 
+// Home Watch runs on its own dedicated line; every other page uses the
+// main company number.
+const PHONES = {
+  default: { tel: '+971505097758', wa: '971505097758', pretty: '+971 50 509 7758',
+             call: ['Call +971 50 509 7758', 'اتصل بنا 7758 509 50 971+'] },
+  'home-watch': { tel: '+971581851231', wa: '971581851231', pretty: '+971 58 185 1231',
+                  call: ['Call +971 58 185 1231', 'اتصل بنا 1231 185 58 971+'] },
+};
+const phoneFor = (slug) => PHONES[slug] ?? PHONES.default;
+
 const esc = (s) => String(s)
   .replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;')
   .replaceAll('"', '&quot;');
@@ -241,19 +251,19 @@ ${cards}
       </div>`;
 }
 
-function talkBlock(d, lang, i) {
+function talkBlock(d, lang, i, ph) {
   return `      <div ${langAttrs(lang)}>
         <h2 class="display-lg">${esc(d.talk.title)}</h2>
         <p class="lede dim">${esc(d.talk.p)}</p>
         <div class="cta-row center">
           <a class="btn btn-gold" href="mailto:info@innovagroup.co.ae">${pick(L.email, i)}</a>
-          <a class="btn btn-ghost" href="https://wa.me/971505097758" rel="noopener">${pick(L.whatsapp, i)}</a>
-          <a class="btn btn-ghost" href="tel:+971505097758">${pick(L.call, i)}</a>
+          <a class="btn btn-ghost" href="https://wa.me/${ph.wa}" rel="noopener">${pick(L.whatsapp, i)}</a>
+          <a class="btn btn-ghost" href="tel:${ph.tel}">${pick(ph.call, i)}</a>
         </div>
         <address class="contact-lines">
           <span>${pick(L.addr, i)}</span>
           <a href="mailto:info@innovagroup.co.ae">info@innovagroup.co.ae</a>
-          <a href="tel:+971505097758" dir="ltr">+971 50 509 7758</a>
+          <a href="tel:${ph.tel}" dir="ltr">${ph.pretty}</a>
         </address>
       </div>`;
 }
@@ -379,7 +389,7 @@ ${relatedGrid(slug)}
              poster="./assets/media/posters/skyline.webp" data-film="skyline" aria-hidden="true"></video>
       <div class="scrim scrim-heavy" aria-hidden="true"></div>
       <div class="chapter-copy center">
-${dd((d, lang, i) => talkBlock(d, lang, i))}
+${dd((d, lang, i) => talkBlock(d, lang, i, phoneFor(slug)))}
 ${FORM(slug)}
       </div>
     </section>
@@ -399,8 +409,8 @@ ${FORM(slug)}
   </footer>
 
   <nav class="sticky-bar" aria-label="Quick contact">
-    <a href="tel:+971505097758" data-i18n="sticky.call">Call</a>
-    <a href="https://wa.me/971505097758" rel="noopener">WhatsApp</a>
+    <a href="tel:${phoneFor(slug).tel}" data-i18n="sticky.call">Call</a>
+    <a href="https://wa.me/${phoneFor(slug).wa}" rel="noopener">WhatsApp</a>
     <a class="is-gold" href="#talk" data-i18n="sticky.enquire">Enquire</a>
   </nav>
 
