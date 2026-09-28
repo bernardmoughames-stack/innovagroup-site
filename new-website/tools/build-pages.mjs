@@ -290,7 +290,8 @@ function page(slug) {
   <meta property="og:image" content="https://innovagroup.co.ae/assets/media/og.jpg" />
   <meta property="og:locale" content="en_AE" />
   <meta property="og:locale:alternate" content="ar_AE" />
-  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+  <link rel="icon" type="image/png" href="./favicon.png" />
+  <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Manrope:wght@300;400;600;700&family=Noto+Kufi+Arabic:wght@300;400;600;700&display=swap" rel="stylesheet" />
