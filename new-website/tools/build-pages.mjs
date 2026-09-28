@@ -75,12 +75,12 @@ const FORM = (slug) => `
         </div>
         <div class="field-row">
           <div class="field">
-            <label for="cf-email" data-i18n="form.email">Email</label>
-            <input id="cf-email" name="email" type="email" autocomplete="email" dir="ltr" required />
+            <label for="cf-email" data-i18n="form.email">Email (optional)</label>
+            <input id="cf-email" name="email" type="email" autocomplete="email" dir="ltr" />
           </div>
           <div class="field">
-            <label for="cf-phone" data-i18n="form.phone">Phone (optional)</label>
-            <input id="cf-phone" name="phone" type="tel" autocomplete="tel" dir="ltr" />
+            <label for="cf-phone" data-i18n="form.phone">Phone</label>
+            <input id="cf-phone" name="phone" type="tel" autocomplete="tel" dir="ltr" required />
           </div>
         </div>
         <div class="field">
