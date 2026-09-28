@@ -6,13 +6,5 @@ export default defineConfig({
   build: {
     target: 'es2019',
     assetsInlineLimit: 2048,
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          three: ['three'],
-          gsap: ['gsap'],
-        },
-      },
-    },
   },
 });

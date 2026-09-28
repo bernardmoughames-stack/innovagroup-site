@@ -1,28 +1,20 @@
 import { setLang, initialLang } from './i18n';
-import { setMuted, isMuted } from './audio';
 import type { Lang } from '../content/copy';
 
-/** Shared chrome: header, menu, language switch, cursor, reveals, sound toggle. */
+/** Shared chrome: header, menu, language switch, cursor, reveals. */
 export function initChrome(): void {
   setLang(initialLang());
 
   document.getElementById('year')!.textContent = String(new Date().getFullYear());
 
-  // Header background after scroll
   const onScroll = (): void => {
     document.body.classList.toggle('scrolled', window.scrollY > 30);
   };
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
-  // Language switch
   document.querySelectorAll<HTMLButtonElement>('.lang-switch button').forEach((btn) => {
     btn.addEventListener('click', () => setLang(btn.dataset.lang as Lang));
-  });
-
-  // Sound toggle (preference works even before the audio engine starts)
-  document.getElementById('sound-toggle')?.addEventListener('click', () => {
-    setMuted(!isMuted());
   });
 
   initMenu();
@@ -54,7 +46,6 @@ function initMenu(): void {
       return;
     }
     if (e.key === 'Tab') {
-      // Contain focus inside the open menu (links + the close button)
       const items = [...nav.querySelectorAll<HTMLElement>('a'), btn as HTMLElement];
       const first = items[0];
       const last = items[items.length - 1];
@@ -71,7 +62,7 @@ function initMenu(): void {
 
 function initReveals(): void {
   const targets = document.querySelectorAll<HTMLElement>(
-    '.scene-copy, .service-card, .why-grid li, .process-steps li, .contact-lines'
+    '.chapter-copy, .manifesto > *, .why-grid li, .process-steps li'
   );
   targets.forEach((el) => el.classList.add('reveal'));
   if (!('IntersectionObserver' in window)) {
@@ -104,7 +95,6 @@ function initCursor(): void {
   ring.id = 'cursor-ring';
   document.body.append(dot, ring);
 
-  // Parked offscreen until the pointer first moves
   let mx = -100;
   let my = -100;
   let rx = mx;
@@ -127,7 +117,7 @@ function initCursor(): void {
   };
   loop();
 
-  const interactive = 'a, button, [role="button"], input, .service-card';
+  const interactive = 'a, button, [role="button"], input';
   document.addEventListener('pointerover', (e) => {
     if ((e.target as HTMLElement).closest(interactive)) document.body.classList.add('cursor-hover');
   });

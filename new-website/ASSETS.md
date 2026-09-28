@@ -67,3 +67,18 @@ The official logo was fetched from innovagroup.co.ae once the build
 environment's network policy allowed it: `public/logo-mark-inverse.png`
 (cropped from `logo-inverse.png`) is used in the header, footer and loader;
 `public/logo-full-inverse.png` holds the full lock-up.
+
+## Batch 2 — 2026-09-28, film-first rebuild
+
+| File | Job ID | Credits |
+|---|---|---|
+| `herofilm.mp4` — the living diamond (image-to-video from the key art, 8s) | 881f60b6-a6d3-4608-8c23-46b762e30f22 | 96 |
+| `contracting.mp4` — real supertall under construction, dusk (replaces abstract v1) | 62b5ade0-fe6d-4d7e-9a98-e568774c20ee | 72 |
+| `marketing.mp4` — rooftop launch event, skyline (replaces abstract v1) | 1c07eb84-59f6-4be5-9ec5-588c2a7e3130 | 72 |
+| `consultancy.mp4` — boardroom over the city (replaces abstract v1) | a445e512-447c-481a-b572-20f5dbe1c5dd | 72 |
+| **Batch 2 total** | | **312** |
+
+Running total spent: 1,034.75 of 1,210 · reserve 175.25. The replaced
+abstract clips remain in the Higgsfield library under their original
+job IDs (Batch 1). Site v2 is film-first: the WebGL scene, ambient
+audio and orbit were removed; posters/ holds a poster frame per film.

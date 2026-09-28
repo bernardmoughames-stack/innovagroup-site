@@ -3,17 +3,14 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "Innova Group LLC — cinematic single-page experience (The Innova Diamond)",
+  "description": "Innova Group LLC \u2014 cinematic single-page experience (The Innova Diamond)",
   "scripts": {
     "dev": "vite",
     "typecheck": "tsc --noEmit",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview --host"
   },
-  "dependencies": {
-    "gsap": "^3.12.5",
-    "three": "^0.169.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@types/three": "^0.169.0",
     "playwright-core": "^1.63.0",
