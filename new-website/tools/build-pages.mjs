@@ -65,7 +65,6 @@ function heroBlock(d, lang, i, soon) {
   const seeP = pick(L.seePackages, i); const enq = pick(soon ? L.register : L.enquire, i);
   return `      <div ${langAttrs(lang)}>
         <p class="crumbs"><a href="index.html">${pick(L.home, i)}</a><span>/</span><a href="index.html#services">${pick(L.services, i)}</a><span>/</span>${esc(d.crumb)}</p>
-        <p class="eyebrow">${pick(L.service, i)} ${d.num}${soon ? ` · <span class="soon-badge">${pick(L.soon, i)}</span>` : ''}</p>
         <h1 class="display">${esc(d.h1)}</h1>
         <p class="lede">${esc(d.lede)}</p>
         <div class="cta-row">
@@ -282,7 +281,7 @@ ${dropdown}
 
   <main id="main">
 
-    <section class="chapter svc-hero" id="top">
+    <section class="chapter svc-hero hero-${film}" id="top">
       <video class="film" muted loop playsinline autoplay
              poster="./assets/media/posters/${film}.webp" data-film="${film}" aria-hidden="true"></video>
       <div class="scrim" aria-hidden="true"></div>
@@ -339,7 +338,6 @@ ${dd((d, lang, i) => talkBlock(d, lang, i))}
       <a href="https://www.instagram.com/innovagroupuae" rel="noopener">Instagram</a>
       <a href="https://www.linkedin.com/company/innova-group-llc/" rel="noopener">LinkedIn</a>
     </nav>
-    <p class="foot-note"><span data-i18n="footer.soon">Home Watch &amp; Property Concierge — coming soon.</span></p>
     <p class="foot-legal">© <span id="year">2026</span> Innova Group LLC · Meydan, Dubai</p>
   </footer>
 

@@ -1029,16 +1029,15 @@
   "slug": "home-watch",
   "film": "homewatch",
   "num": "09",
-  "soon": true,
   "crumb": "Home Watch & Property Concierge",
   "h1": "Watched over, always.",
-  "lede": "Regular inspections, guest readiness and concierge care for your villa while you’re away. Launching soon.",
+  "lede": "Regular inspections, guest readiness and concierge care for your villa while you’re away.",
   "offer": {
    "title": "Watched over while you’re away",
    "paras": [
     "A villa that stands empty still lives: AC cycles, water moves, dust settles, deliveries arrive. Small issues become expensive ones only when nobody is there to notice.",
     "Home Watch puts a trained eye inside your property on a schedule you set — every visit documented with photographs, every issue flagged before it grows, every arrival prepared for. It is run by the same team that maintains the property, so what we find, we can also fix.",
-    "The service is in its final preparation and launches soon. Tell us about your property now and you will be first in line when bookings open."
+    "The service runs today across Dubai. Tell us about your property and how you use it, and we will build the visit routine around it."
    ]
   },
   "scope": {
@@ -1062,7 +1061,7 @@
   },
   "packages": {
    "title": "Three ways to be looked after",
-   "intro": "Final packages and pricing will be published at launch. Registered owners see them first.",
+   "intro": "Priced after a walkthrough of the property, so the routine matches how you actually live in it.",
    "list": [
     {
      "tag": null,
@@ -1107,12 +1106,12 @@
    "title": "From first call to close-out",
    "steps": [
     {
-     "t": "Register",
-     "d": "Tell us about the property and how often you are away. Registration carries no obligation."
+     "t": "Enquire",
+     "d": "Tell us about the property and how often you are away. A conversation first, never an obligation."
     },
     {
      "t": "Walkthrough",
-     "d": "Before launch we visit, record the property’s baseline condition and agree the visit routine."
+     "d": "We visit, record the property’s baseline condition and agree the visit routine with you."
     },
     {
      "t": "Watch",
@@ -1126,8 +1125,8 @@
   },
   "faq": [
    {
-    "q": "When does the service launch?",
-    "a": "Soon. The team, checklists and reporting are in final preparation. Owners who register now will be contacted first when bookings open."
+    "q": "How quickly can visits start?",
+    "a": "Usually within a week of the walkthrough. Tell us your travel dates and we will schedule the first visit around them."
    },
    {
     "q": "Is this the same as a maintenance contract?",
@@ -1143,8 +1142,8 @@
    }
   ],
   "talk": {
-   "title": "Ask about Home Watch & Property Concierge",
-   "p": "Tell us where the property is and how you use it. We will come back with launch details and early access to the packages."
+   "title": "Talk to us about Home Watch & Property Concierge",
+   "p": "Tell us where the property is and how you use it. We will come back with a visit routine and a written quote."
   }
  }
 }

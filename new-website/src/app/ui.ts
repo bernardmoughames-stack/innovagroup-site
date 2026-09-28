@@ -151,31 +151,16 @@ function initCursor(): void {
   document.documentElement.classList.add('has-cursor');
   const dot = document.createElement('div');
   dot.id = 'cursor-dot';
-  const ring = document.createElement('div');
-  ring.id = 'cursor-ring';
-  document.body.append(dot, ring);
+  document.body.append(dot);
 
-  let mx = -100;
-  let my = -100;
-  let rx = mx;
-  let ry = my;
-  dot.style.transform = ring.style.transform = 'translate(-100px, -100px)';
+  dot.style.transform = 'translate(-100px, -100px)';
   window.addEventListener(
     'pointermove',
     (e) => {
-      mx = e.clientX;
-      my = e.clientY;
-      dot.style.transform = `translate(${mx}px, ${my}px)`;
+      dot.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
     },
     { passive: true }
   );
-  const loop = (): void => {
-    rx += (mx - rx) * 0.16;
-    ry += (my - ry) * 0.16;
-    ring.style.transform = `translate(${rx}px, ${ry}px)`;
-    requestAnimationFrame(loop);
-  };
-  loop();
 
   const interactive = 'a, button, [role="button"], input';
   document.addEventListener('pointerover', (e) => {

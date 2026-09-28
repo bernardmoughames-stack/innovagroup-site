@@ -51,8 +51,91 @@ export function initChapters(lite: boolean): void {
     if (hero) attach(hero);
   }
 
+  if (!lite) initCrossfade();
+  initPageTransitions(lite);
   initChapterLinks();
   initProcessLine();
+}
+
+/**
+ * Films crossfade as chapters hand over: each film's opacity follows how
+ * much of its chapter is on screen, so scrolling dips through the page's
+ * dark ground instead of hard-cutting from one film to the next.
+ */
+function initCrossfade(): void {
+  const films = Array.from(document.querySelectorAll<HTMLVideoElement>('.chapter .film'));
+  if (!films.length) return;
+  let ticking = false;
+  const update = (): void => {
+    ticking = false;
+    const vh = innerHeight;
+    const zone = vh * 0.35;
+    for (const film of films) {
+      const r = film.parentElement!.getBoundingClientRect();
+      if (r.bottom < -120 || r.top > vh + 120) continue;
+      const o = Math.max(0, Math.min(1, Math.min((vh - r.top) / zone, r.bottom / zone)));
+      film.style.opacity = o.toFixed(3);
+    }
+  };
+  window.addEventListener(
+    'scroll',
+    () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    },
+    { passive: true }
+  );
+  window.addEventListener('resize', update);
+  update();
+}
+
+let leaveTo: ((href: string, chapter?: HTMLElement | null) => void) | null = null;
+
+/**
+ * Leaving for another page zooms into the chapter's film and fades the
+ * screen to the page ground; the service page answers by settling its
+ * hero film out of the same zoom. Modified clicks (new tab etc.) are
+ * left alone, and bfcache restores reset the effect.
+ */
+function initPageTransitions(lite: boolean): void {
+  const fade = document.createElement('div');
+  fade.id = 'page-fade';
+  document.body.appendChild(fade);
+
+  const go = (href: string, chapter?: HTMLElement | null): void => {
+    if (document.body.classList.contains('page-leave')) return;
+    if (lite) {
+      location.href = href;
+      return;
+    }
+    chapter?.classList.add('zooming');
+    document.body.classList.add('page-leave');
+    window.setTimeout(() => {
+      location.href = href;
+    }, 430);
+  };
+  leaveTo = go;
+
+  const plain = (e: MouseEvent): boolean =>
+    e.button === 0 && !e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey;
+
+  document.querySelectorAll<HTMLAnchorElement>('a[href$=".html"]').forEach((a) => {
+    if (a.host !== location.host) return;
+    a.addEventListener('click', (e) => {
+      if (!plain(e)) return;
+      e.preventDefault();
+      go(a.href, a.closest<HTMLElement>('.chapter'));
+    });
+  });
+
+  window.addEventListener('pageshow', (e) => {
+    if ((e as PageTransitionEvent).persisted) {
+      document.body.classList.remove('page-leave');
+      document.querySelectorAll('.chapter.zooming').forEach((c) => c.classList.remove('zooming'));
+    }
+  });
 }
 
 /** The chapter's title and tagline lead to the same page as its button. */
@@ -63,7 +146,8 @@ function initChapterLinks(): void {
     chapter.querySelectorAll<HTMLElement>('.chapter-copy h2, .chapter-copy .tagline').forEach((el) => {
       el.dataset.link = '1';
       el.addEventListener('click', () => {
-        location.href = link.href;
+        if (leaveTo) leaveTo(link.href, chapter);
+        else location.href = link.href;
       });
     });
   });
