@@ -1,5 +1,5 @@
-# Builds the website and publishes it, automatically, on every change.
-# You never need to open or edit this file.
+# Builds the website (new-website/) and publishes it, automatically,
+# on every change to main.
 
 name: Publish website
 
@@ -20,17 +20,30 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: new-website
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Build the site
-        run: node build.js
+          cache: npm
+          cache-dependency-path: new-website/package-lock.json
+      - name: Install
+        run: npm ci
+      - name: Generate service pages
+        run: node tools/build-pages.mjs
+      - name: Typecheck
+        run: npx tsc --noEmit
+      - name: Build
+        run: npx vite build --base=/
+      - name: Production layout (URL parity, sitemap, redirects)
+        run: node tools/prepare-deploy.mjs
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: dist
+          path: new-website/dist
 
   deploy:
     needs: build
