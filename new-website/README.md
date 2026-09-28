@@ -42,12 +42,15 @@ node tools/sweep.mjs # headless QA: every page, AR/RTL, themes, mobile, lite,
                      # click-fuzz (needs `npm run preview` running)
 ```
 
-Deploy: any static host, output `dist/`. No env vars, no server code.
+**Production deploy:** pushing to `main` runs `.github/workflows/deploy.yml`,
+which builds this folder (`vite build --base=/` + `tools/prepare-deploy.mjs`)
+and publishes to GitHub Pages at **https://innovagroup.co.ae** — with
+directory-style service URLs, `/ar/...` + `/contact/` + `/about/` redirects,
+robots.txt, sitemap.xml, llms.txt and a 404 page. No env vars, no server code.
 
-**URL parity at launch:** the old site serves `/contracting/`,
-`/project-management/`, … . This build produces flat `contracting.html` etc.
-Add rewrites on the host (e.g. `/contracting/ → /contracting.html`) so every
-existing URL keeps working, and set the canonical/og:url tags (NOTES.md).
+**URL parity:** handled by `tools/prepare-deploy.mjs` — every URL the old
+site served keeps working (`/<service>/` real pages, `/ar/…`, `/contact/`,
+`/about/` redirects). Canonical/og tags point at innovagroup.co.ae.
 
 ## Where to edit things
 

@@ -282,10 +282,12 @@ function page(slug) {
   <title>${esc(name)} — Innova Group LLC | Meydan, Dubai</title>
   <meta name="description" content="${esc(en.lede)}" />
   <meta name="theme-color" content="#070d1c" />
+  <link rel="canonical" href="https://innovagroup.co.ae/${slug}/" />
   <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://innovagroup.co.ae/${slug}/" />
   <meta property="og:title" content="${esc(name)} — Innova Group LLC" />
   <meta property="og:description" content="${esc(en.lede)}" />
-  <meta property="og:image" content="./assets/media/og.jpg" />
+  <meta property="og:image" content="https://innovagroup.co.ae/assets/media/og.jpg" />
   <meta property="og:locale" content="en_AE" />
   <meta property="og:locale:alternate" content="ar_AE" />
   <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
