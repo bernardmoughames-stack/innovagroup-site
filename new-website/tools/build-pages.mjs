@@ -293,6 +293,10 @@ function page(slug) {
   <meta name="description" content="${esc(en.lede)}" />
   <meta name="theme-color" content="#070d1c" />
   <link rel="canonical" href="https://innovagroup.co.ae/${slug}/" />
+  <link rel="alternate" hreflang="en" href="https://innovagroup.co.ae/${slug}/" />
+  <link rel="alternate" hreflang="ar" href="https://innovagroup.co.ae/${slug}/?lang=ar" />
+  <link rel="alternate" hreflang="x-default" href="https://innovagroup.co.ae/${slug}/" />
+  <link rel="preload" as="image" href="./assets/media/posters/${film}.webp" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://innovagroup.co.ae/${slug}/" />
   <meta property="og:title" content="${esc(name)} — Innova Group LLC" />
@@ -305,6 +309,34 @@ function page(slug) {
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Manrope:wght@300;400;600;700&family=Noto+Kufi+Arabic:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "${esc(name)}",
+    "serviceType": "${esc(name)}",
+    "description": "${esc(en.lede)}",
+    "url": "https://innovagroup.co.ae/${slug}/",
+    "areaServed": { "@type": "City", "name": "Dubai" },
+    "provider": {
+      "@type": "Organization",
+      "name": "Innova Group LLC",
+      "url": "https://innovagroup.co.ae/",
+      "telephone": "+971505097758",
+      "email": "info@innovagroup.co.ae"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://innovagroup.co.ae/" },
+      { "@type": "ListItem", "position": 2, "name": "${esc(name)}", "item": "https://innovagroup.co.ae/${slug}/" }
+    ]
+  }
+  </script>
 </head>
 <body class="preload svc-page">
   <a class="skip-link" href="#main" data-i18n="ui.skip">Skip to content</a>

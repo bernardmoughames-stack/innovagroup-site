@@ -51,12 +51,12 @@ html[data-theme="light"] {
   --navy-0: #F6F1E6;
   --navy-1: #EFE8d8;
   --navy-2: #E6DCC6;
-  --gold-3: #8A6A1B;
-  --gold-2: #9A7A22;
+  --gold-3: #78590F;
+  --gold-2: #856A15;
   --gold-1: #B08A28;
   --ink: #1A2742;
   --ink-dim: rgba(26, 39, 66, 0.78);
-  --ink-faint: rgba(26, 39, 66, 0.58);
+  --ink-faint: rgba(26, 39, 66, 0.7);
   --line: rgba(154, 122, 34, 0.4);
   --bg-raise: rgba(246, 241, 230, 0.9);
   --panel: rgba(248, 244, 235, 0.97);
@@ -73,6 +73,7 @@ html[data-theme="light"] .site-header .icon-btn { color: #F5F0E7; }
 html[data-theme="light"] body.scrolled .site-header { background: var(--bg-raise); }
 html[data-theme="light"] .site-nav .nav-drop a { color: var(--ink-dim); }
 html[data-theme="light"] .site-nav .nav-drop a:hover { color: var(--gold-3); background: rgba(154, 122, 34, 0.1); }
+html[data-theme="light"] body.scrolled .lang-switch button { color: var(--ink); }
 html[data-theme="light"] body.scrolled .site-header .brand-name,
 html[data-theme="light"] body.scrolled .site-nav a,
 html[data-theme="light"] body.scrolled .nav-drop-btn,
