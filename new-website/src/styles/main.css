@@ -504,7 +504,9 @@ html[data-theme="light"] #theme-toggle .ic-moon { display: block; }
 .sticky-bar a {
   padding: 0.95rem 0.5rem;
   text-align: center; text-decoration: none;
-  color: var(--ink); font-size: 0.82rem; font-weight: 600;
+  /* the bar is dark in both themes, so its labels stay light —
+     var(--ink) turned them navy-on-black in day mode */
+  color: #F5F0E7; font-size: 0.82rem; font-weight: 600;
   letter-spacing: 0.1em; text-transform: uppercase;
 }
 [dir="rtl"] .sticky-bar a { letter-spacing: 0.02em; }
