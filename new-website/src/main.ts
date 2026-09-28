@@ -1,6 +1,7 @@
 import './styles/main.css';
 import { initChrome } from './app/ui';
 import { initChapters } from './app/chapters';
+import { initForms } from './app/form';
 
 /**
  * Film-first site: full-bleed generated films with the copy over them.
@@ -32,4 +33,5 @@ window.addEventListener('pageshow', toTop);
 
 initChrome();
 initChapters(lite);
+initForms();
 document.body.classList.remove('preload');

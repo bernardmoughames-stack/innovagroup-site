@@ -731,13 +731,16 @@ body.preload * { transition: none !important; }
 .svc-talk { min-height: 74svh; }
 
 /* the nine chapters stack as a deck: each next film slides over the last.
-   Desktop only — small screens scroll normally (mobile viewports resize
-   with the URL bar and made pinned films misbehave). */
-@media (min-width: 701px) {
-  .chapters .chapter { position: sticky; top: 0; }
-  .chapters .chapter + .chapter { box-shadow: 0 -36px 90px rgba(3, 6, 13, 0.6); }
-  .chapters .chapter.covered .film,
-  .chapters .chapter.covered .chapter-copy { visibility: hidden; }
+   On phones the chapters size to the LARGEST viewport (100lvh) so a
+   collapsing URL bar never leaves a gap under a pinned film. */
+.chapters .chapter { position: sticky; top: 0; }
+.chapters .chapter + .chapter { box-shadow: 0 -36px 90px rgba(3, 6, 13, 0.6); }
+.chapters .chapter.covered .film,
+.chapters .chapter.covered .chapter-copy { visibility: hidden; }
+@supports (min-height: 100lvh) {
+  @media (max-width: 700px) {
+    .chapters .chapter { min-height: 100lvh; }
+  }
 }
 
 /* homepage chapters now lead somewhere: the whole copy block invites the tap */
@@ -1019,3 +1022,66 @@ html[data-theme="light"] #to-top { background: rgba(248, 244, 235, 0.9); color: 
   #to-top { bottom: calc(4.2rem + env(safe-area-inset-bottom, 0)); width: 2.7rem; height: 2.7rem; }
   body.menu-open #to-top { opacity: 0; pointer-events: none; }
 }
+
+
+/* ---------- enquiry form (film finale, both themes) ---------- */
+
+.enquiry-form {
+  position: relative; z-index: 2;
+  margin: var(--space-3) auto 0;
+  width: min(37rem, 100%);
+  text-align: start;
+  display: grid; gap: 0.95rem;
+  background: rgba(8, 13, 26, 0.68);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(217, 180, 74, 0.28);
+  border-radius: 20px;
+  padding: clamp(1.2rem, 3vw, 2rem);
+}
+.enquiry-form .hp { position: absolute; left: -9999px; width: 1px; height: 1px; }
+.form-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--step-1);
+  color: #F5F0E7;
+}
+[dir="rtl"] .form-title { font-family: var(--font-ar); font-weight: 600; }
+.enquiry-form .field { display: grid; gap: 0.35rem; }
+.enquiry-form .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.95rem; }
+@media (max-width: 560px) { .enquiry-form .field-row { grid-template-columns: 1fr; } }
+.enquiry-form label {
+  font-size: 0.7rem; font-weight: 600;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: #F2D57E;
+}
+[dir="rtl"] .enquiry-form label { letter-spacing: 0.04em; }
+.enquiry-form input:not([type="checkbox"]),
+.enquiry-form select,
+.enquiry-form textarea {
+  width: 100%;
+  background: rgba(5, 8, 15, 0.55);
+  border: 1px solid rgba(244, 239, 230, 0.22);
+  border-radius: 10px;
+  padding: 0.7rem 0.9rem;
+  color: #F5F0E7;
+  font: inherit; font-size: var(--step-0);
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+.enquiry-form select { appearance: none; background-image: linear-gradient(45deg, transparent 50%, #D9B44A 50%), linear-gradient(135deg, #D9B44A 50%, transparent 50%); background-position: calc(100% - 1.15rem) 1.25rem, calc(100% - 0.85rem) 1.25rem; background-size: 0.3rem 0.3rem; background-repeat: no-repeat; }
+[dir="rtl"] .enquiry-form select { background-position: 1.15rem 1.25rem, 0.85rem 1.25rem; }
+.enquiry-form select option { background: #0F1B33; color: #F5F0E7; }
+.enquiry-form textarea { resize: vertical; min-height: 7.5rem; }
+.enquiry-form input:focus-visible,
+.enquiry-form select:focus-visible,
+.enquiry-form textarea:focus-visible {
+  outline: none;
+  border-color: var(--gold-2);
+  box-shadow: 0 0 0 3px rgba(217, 180, 74, 0.2);
+}
+.enquiry-form button[type="submit"] { justify-self: start; }
+.enquiry-form button[disabled] { opacity: 0.6; }
+.form-status { margin: 0; min-height: 1.1em; color: #FFA7A7; font-size: var(--step--1); }
+.form-done { margin: 0; color: #F2D57E; font-size: var(--step-1); font-family: var(--font-display); }
+[dir="rtl"] .form-done { font-family: var(--font-ar); }
+.form-note { margin: 0; color: rgba(245, 240, 231, 0.55); font-size: var(--step--1); }

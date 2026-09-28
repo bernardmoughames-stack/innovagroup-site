@@ -45,10 +45,9 @@ export function initChapters(lite: boolean): void {
       },
       { threshold: [0, 0.25] }
     );
-    const smallScreen = window.matchMedia('(max-width: 700px)').matches;
     films.forEach((v) => {
       loader.observe(v);
-      if (smallScreen || !v.closest('.chapters')) player.observe(v);
+      if (!v.closest('.chapters')) player.observe(v);
     });
     const hero = films.find((v) => v.dataset.film === 'herofilm');
     if (hero) attach(hero);
@@ -56,7 +55,7 @@ export function initChapters(lite: boolean): void {
 
   if (!lite) {
     initCrossfade();
-    if (!window.matchMedia('(max-width: 700px)').matches) initStack();
+    initStack();
   }
   initPageTransitions(lite);
   initChapterLinks();

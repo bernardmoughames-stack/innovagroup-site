@@ -61,6 +61,52 @@ const L = {
 const langAttrs = (lang) => lang === 'ar' ? 'class="l10n" lang="ar" dir="rtl"' : 'class="l10n" lang="en" dir="ltr"';
 const pick = (pair, i) => pair[i];
 
+const FORM = (slug) => `
+      <form class="enquiry-form" novalidate>
+        <input type="hidden" name="access_key" value="9d13a26f-c140-4c17-a421-2141ea9f6343" />
+        <input type="hidden" name="subject" value="Website enquiry" />
+        <input type="hidden" name="from_name" value="Innova Group website" />
+        <input type="hidden" name="language" value="en"${slug === 'en' ? ' selected' : ''} />
+        <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+        <p class="form-title" data-i18n="form.title">Or send it from right here</p>
+        <div class="field">
+          <label for="cf-name" data-i18n="form.name">Your name</label>
+          <input id="cf-name" name="name" type="text" autocomplete="name" required />
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="cf-email" data-i18n="form.email">Email</label>
+            <input id="cf-email" name="email" type="email" autocomplete="email" dir="ltr" required />
+          </div>
+          <div class="field">
+            <label for="cf-phone" data-i18n="form.phone">Phone (optional)</label>
+            <input id="cf-phone" name="phone" type="tel" autocomplete="tel" dir="ltr" />
+          </div>
+        </div>
+        <div class="field">
+          <label for="cf-service" data-i18n="form.service">Which service?</label>
+          <select id="cf-service" name="service">
+          <option value="" data-i18n="form.notSure">Not sure yet</option>
+          <option value="contracting"${slug === 'contracting' ? ' selected' : ''} data-i18n="svc.contracting.name">contracting</option>
+          <option value="project-management"${slug === 'project-management' ? ' selected' : ''} data-i18n="svc.pm.name">project-management</option>
+          <option value="facility-management"${slug === 'facility-management' ? ' selected' : ''} data-i18n="svc.facility.name">facility-management</option>
+          <option value="cinema"${slug === 'cinema' ? ' selected' : ''} data-i18n="svc.cinema.name">cinema</option>
+          <option value="snagging"${slug === 'snagging' ? ' selected' : ''} data-i18n="svc.snagging.name">snagging</option>
+          <option value="marketing"${slug === 'marketing' ? ' selected' : ''} data-i18n="svc.marketing.name">marketing</option>
+          <option value="consultancy"${slug === 'consultancy' ? ' selected' : ''} data-i18n="svc.consultancy.name">consultancy</option>
+          <option value="ai"${slug === 'ai' ? ' selected' : ''} data-i18n="svc.ai.name">ai</option>
+          <option value="home-watch"${slug === 'home-watch' ? ' selected' : ''} data-i18n="svc.homewatch.name">home-watch</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="cf-message" data-i18n="form.message">What are you planning?</label>
+          <textarea id="cf-message" name="message" rows="5" required></textarea>
+        </div>
+        <button class="btn btn-gold" type="submit" data-i18n="form.send">Send enquiry</button>
+        <p class="form-status" role="alert"></p>
+        <p class="form-note" data-i18n="form.note">Prefer email? Write to us directly at info@innovagroup.co.ae — we reply to every enquiry.</p>
+      </form>`;
+
 function heroBlock(d, lang, i, soon) {
   const seeP = pick(L.seePackages, i); const enq = pick(soon ? L.register : L.enquire, i);
   return `      <div ${langAttrs(lang)}>
@@ -331,6 +377,7 @@ ${relatedGrid(slug)}
       <div class="scrim scrim-heavy" aria-hidden="true"></div>
       <div class="chapter-copy center">
 ${dd((d, lang, i) => talkBlock(d, lang, i))}
+${FORM(slug)}
       </div>
     </section>
   </main>

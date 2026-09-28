@@ -387,6 +387,51 @@
           <a href="tel:+971505097758" dir="ltr">+971 50 509 7758</a>
         </address>
       </div>
+
+      <form class="enquiry-form" novalidate>
+        <input type="hidden" name="access_key" value="9d13a26f-c140-4c17-a421-2141ea9f6343" />
+        <input type="hidden" name="subject" value="Website enquiry" />
+        <input type="hidden" name="from_name" value="Innova Group website" />
+        <input type="hidden" name="language" value="en" />
+        <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+        <p class="form-title" data-i18n="form.title">Or send it from right here</p>
+        <div class="field">
+          <label for="cf-name" data-i18n="form.name">Your name</label>
+          <input id="cf-name" name="name" type="text" autocomplete="name" required />
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="cf-email" data-i18n="form.email">Email</label>
+            <input id="cf-email" name="email" type="email" autocomplete="email" dir="ltr" required />
+          </div>
+          <div class="field">
+            <label for="cf-phone" data-i18n="form.phone">Phone (optional)</label>
+            <input id="cf-phone" name="phone" type="tel" autocomplete="tel" dir="ltr" />
+          </div>
+        </div>
+        <div class="field">
+          <label for="cf-service" data-i18n="form.service">Which service?</label>
+          <select id="cf-service" name="service">
+          <option value="" data-i18n="form.notSure">Not sure yet</option>
+          <option value="contracting" data-i18n="svc.contracting.name">contracting</option>
+          <option value="project-management" data-i18n="svc.pm.name">project-management</option>
+          <option value="facility-management" data-i18n="svc.facility.name">facility-management</option>
+          <option value="cinema" data-i18n="svc.cinema.name">cinema</option>
+          <option value="snagging" data-i18n="svc.snagging.name">snagging</option>
+          <option value="marketing" data-i18n="svc.marketing.name">marketing</option>
+          <option value="consultancy" data-i18n="svc.consultancy.name">consultancy</option>
+          <option value="ai" selected data-i18n="svc.ai.name">ai</option>
+          <option value="home-watch" data-i18n="svc.homewatch.name">home-watch</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="cf-message" data-i18n="form.message">What are you planning?</label>
+          <textarea id="cf-message" name="message" rows="5" required></textarea>
+        </div>
+        <button class="btn btn-gold" type="submit" data-i18n="form.send">Send enquiry</button>
+        <p class="form-status" role="alert"></p>
+        <p class="form-note" data-i18n="form.note">Prefer email? Write to us directly at info@innovagroup.co.ae — we reply to every enquiry.</p>
+      </form>
       </div>
     </section>
   </main>
