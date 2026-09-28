@@ -22,33 +22,40 @@ function build(): void {
   master.gain.value = 0;
   master.connect(ctx.destination);
 
-  // Dark pad
+  // Warm, welcoming pad: an airy A-major glow (A3 + E4 fifth + a whisper of
+  // A4) instead of a low drone — light, hotel-lobby-at-dusk rather than vault.
   const padGain = ctx.createGain();
-  padGain.gain.value = 0.24;
+  padGain.gain.value = 0.16;
   const padFilter = ctx.createBiquadFilter();
   padFilter.type = 'lowpass';
-  padFilter.frequency.value = 220;
+  padFilter.frequency.value = 1300;
   padFilter.connect(padGain).connect(master);
 
   const oscA = ctx.createOscillator();
   oscA.type = 'sine';
-  oscA.frequency.value = 55; // A1
+  oscA.frequency.value = 220; // A3
   const oscB = ctx.createOscillator();
   oscB.type = 'sine';
-  oscB.frequency.value = 110.6; // slightly detuned octave — slow beating
+  oscB.frequency.value = 329.9; // E4, a hair sharp for gentle movement
   const oscGainB = ctx.createGain();
-  oscGainB.gain.value = 0.5;
+  oscGainB.gain.value = 0.55;
+  const oscC = ctx.createOscillator();
+  oscC.type = 'triangle';
+  oscC.frequency.value = 440; // A4 whisper
+  const oscGainC = ctx.createGain();
+  oscGainC.gain.value = 0.12;
   oscA.connect(padFilter);
   oscB.connect(oscGainB).connect(padFilter);
+  oscC.connect(oscGainC).connect(padFilter);
 
-  // Slow LFO opens the filter like light moving over a surface
+  // Slow breathing of the filter, like light drifting over gold
   const lfo = ctx.createOscillator();
-  lfo.frequency.value = 0.05;
+  lfo.frequency.value = 0.06;
   const lfoGain = ctx.createGain();
-  lfoGain.gain.value = 90;
+  lfoGain.gain.value = 420;
   lfo.connect(lfoGain).connect(padFilter.frequency);
 
-  // Air / shimmer: filtered noise, barely audible
+  // Air / sparkle: brighter, quieter shimmer
   const seconds = 2;
   const buffer = ctx.createBuffer(1, ctx.sampleRate * seconds, ctx.sampleRate);
   const data = buffer.getChannelData(0);
@@ -58,17 +65,49 @@ function build(): void {
   noise.loop = true;
   const noiseFilter = ctx.createBiquadFilter();
   noiseFilter.type = 'bandpass';
-  noiseFilter.frequency.value = 2400;
-  noiseFilter.Q.value = 1.8;
+  noiseFilter.frequency.value = 3400;
+  noiseFilter.Q.value = 2.2;
   const noiseGain = ctx.createGain();
-  noiseGain.gain.value = 0.015;
+  noiseGain.gain.value = 0.008;
   noise.connect(noiseFilter).connect(noiseGain).connect(master);
 
   oscA.start();
   oscB.start();
+  oscC.start();
   lfo.start();
   noise.start();
   started = true;
+}
+
+/** Two soft bell notes — the welcome. */
+function welcomeChime(): void {
+  if (!ctx || !master) return;
+  const notes: Array<[number, number]> = [
+    [659.26, 0], // E5
+    [880.0, 0.4], // A5
+  ];
+  for (const [freq, at] of notes) {
+    const t0 = ctx.currentTime + 0.15 + at;
+    const osc = ctx.createOscillator();
+    osc.type = 'sine';
+    osc.frequency.value = freq;
+    const harm = ctx.createOscillator();
+    harm.type = 'sine';
+    harm.frequency.value = freq * 2;
+    const hGain = ctx.createGain();
+    hGain.gain.value = 0.18;
+    const g = ctx.createGain();
+    g.gain.setValueAtTime(0.0001, t0);
+    g.gain.exponentialRampToValueAtTime(0.07, t0 + 0.04);
+    g.gain.exponentialRampToValueAtTime(0.0001, t0 + 2.2);
+    osc.connect(g);
+    harm.connect(hGain).connect(g);
+    g.connect(master);
+    osc.start(t0);
+    harm.start(t0);
+    osc.stop(t0 + 2.4);
+    harm.stop(t0 + 2.4);
+  }
 }
 
 function ramp(to: number, secs = 1.2): void {
@@ -84,6 +123,7 @@ export function startAudio(withSound: boolean): void {
     build();
     void ctx?.resume();
     ramp(MASTER_LEVEL, 2.5);
+    welcomeChime();
   }
   syncToggle();
 }

@@ -32,7 +32,7 @@ No environment variables, no server code, no credentials anywhere.
 | Service list, "Explore" URLs, coming-soon flags | `SERVICES` in `src/content/copy.ts` |
 | Contact links (enquiry / WhatsApp / phone) | `index.html` + constants at the top of `src/content/copy.ts` |
 | Colors, type scale, spacing | CSS tokens at the top of `src/styles/main.css` |
-| Logo | `public/logo-mark.svg` — **placeholder**; drop the official file over it |
+| Logo | `public/logo-mark-inverse.png` (official mark, cropped from the live site's logo-inverse.png); `logo-mark.svg` remains as a drawn fallback |
 | Diamond shape & material | `src/app/diamond.ts` |
 | Scroll choreography (camera keyframes per section, effect windows) | `STATES` + `frame()` in `src/app/scrollScenes.ts` |
 | The nine service worlds | `src/app/worlds.ts` (one factory per service) |
@@ -73,10 +73,11 @@ NOTES.md              assumption log (things to confirm with the client)
   are the only outbound destinations, all supplied by the owner.
 - **No form is embedded** — the CTA intentionally routes to the existing
   contact page, so no fake submit can occur.
-- **Placeholder:** the logo SVG, per-service "Explore" URLs (currently the
-  homepage — set the real service-page URLs in `src/content/copy.ts`), and the
-  "Why Innova" six points + package names (paraphrased from the brief; see
-  NOTES.md).
-- **Visuals are 100% procedural** right now (no downloaded media). Approved
-  Higgsfield footage can be layered in later — the plan and records live in
-  ASSETS.md; place approved files under `public/assets/media/`.
+- **Real content:** service taglines, descriptions, offer copy, capability
+  lists, package names, the six "Why Innova" pillars and every "Full service
+  page" link come from the live innovagroup.co.ae pages (fetched 2026-09-28).
+  Arabic is a fresh translation of that copy — native review recommended.
+- **Generated media:** the hero key art and ten Seedance clips are committed
+  under `public/assets/media/` with full records in ASSETS.md. Worlds show
+  the clip in a cinematic letterbox with a light 3D atmosphere; the full
+  procedural scenes remain as automatic fallback if a clip cannot play.

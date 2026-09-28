@@ -29,28 +29,59 @@ export class Diamond {
   private coreLight: THREE.PointLight;
   private glass: THREE.MeshPhysicalMaterial;
   private triangles: THREE.Triangle[] = [];
+  private rays: THREE.Mesh[] = [];
+  private goldRim = { value: 0.9 };
   rotateSpeed = 0.14;
 
   constructor(quality: Quality) {
-    // Polished navy-metal gem: metalness tints every reflection with the
-    // body colour, so facets read deep navy with gold rims — not white glass.
+    // Deep navy gem with a molten-gold fresnel rim: the body stays dark
+    // (metalness tints reflections navy) while grazing angles catch liquid
+    // gold, matching the generated key art. The uniform lets scroll dim it.
     this.glass = new THREE.MeshPhysicalMaterial({
-      color: 0x14264d,
-      metalness: 0.82,
-      roughness: 0.16,
-      clearcoat: 0.9,
-      clearcoatRoughness: 0.22,
-      envMapIntensity: quality === 'high' ? 1.0 : 0.8,
-      emissive: 0x081226,
-      emissiveIntensity: 0.5,
+      color: 0x0c1a38,
+      metalness: 0.85,
+      roughness: 0.3,
+      clearcoat: 0.12,
+      clearcoatRoughness: 0.6,
+      envMapIntensity: quality === 'high' ? 0.18 : 0.16,
+      emissive: 0x060e20,
+      emissiveIntensity: 0.6,
       transparent: true,
       opacity: 0.98,
     });
+    this.glass.onBeforeCompile = (shader) => {
+      shader.uniforms.uGoldRim = this.goldRim;
+      shader.vertexShader = shader.vertexShader
+        .replace(
+          '#include <common>',
+          '#include <common>\nvarying vec3 vWorldNormal;\nvarying vec3 vViewDir;'
+        )
+        .replace(
+          '#include <fog_vertex>',
+          `#include <fog_vertex>
+           vWorldNormal = normalize(mat3(modelMatrix) * objectNormal);
+           vViewDir = normalize(cameraPosition - (modelMatrix * vec4(transformed, 1.0)).xyz);`
+        );
+      shader.fragmentShader = shader.fragmentShader
+        .replace(
+          '#include <common>',
+          '#include <common>\nvarying vec3 vWorldNormal;\nvarying vec3 vViewDir;\nuniform float uGoldRim;'
+        )
+        .replace(
+          '#include <opaque_fragment>',
+          `float rim = pow(1.0 - abs(dot(normalize(vWorldNormal), normalize(vViewDir))), 2.6);
+           vec3 gold = vec3(1.0, 0.78, 0.34);
+           outgoingLight += gold * rim * uGoldRim;
+           // faint depth gradient: crown breathes lighter navy
+           outgoingLight += vec3(0.05, 0.09, 0.19) * smoothstep(-0.4, 1.0, vWorldNormal.y) * 0.35;
+           #include <opaque_fragment>`
+        );
+    };
 
     const edgeMat = new THREE.LineBasicMaterial({
-      color: 0xe8c55c,
+      color: 0xf5ce62,
       transparent: true,
-      opacity: 0.7,
+      opacity: 0.85,
       blending: THREE.AdditiveBlending,
       depthWrite: false,
     });
@@ -106,6 +137,26 @@ export class Diamond {
     this.coreLight = new THREE.PointLight(GOLD, 0, 10, 1.6);
     this.bob.add(this.core, this.coreLight);
 
+    // Light rays that escape through the open gaps during the split
+    const rayGeo = new THREE.PlaneGeometry(0.09, 5.5);
+    const rayMat = new THREE.MeshBasicMaterial({
+      color: 0xffdf8a,
+      transparent: true,
+      opacity: 0,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+      side: THREE.DoubleSide,
+    });
+    for (let i = 0; i < 9; i++) {
+      const ray = new THREE.Mesh(rayGeo, rayMat.clone());
+      const a = (i / 9) * Math.PI * 2;
+      ray.position.set(Math.cos(a) * 0.4, Math.sin(a * 1.7) * 0.3, Math.sin(a) * 0.4);
+      ray.rotation.z = a + Math.PI / 3;
+      ray.rotation.y = a * 0.7;
+      this.rays.push(ray);
+      this.bob.add(ray);
+    }
+
     this.spin.add(this.bob);
     this.group.add(this.spin);
   }
@@ -120,6 +171,11 @@ export class Diamond {
     (this.core.material as THREE.MeshBasicMaterial).opacity = eased * 0.55;
     this.core.scale.setScalar(1 + eased * 0.2);
     this.coreLight.intensity = eased * 50;
+    this.rays.forEach((ray, i) => {
+      (ray.material as THREE.MeshBasicMaterial).opacity = eased * (0.07 + (i % 3) * 0.035);
+      ray.scale.y = 0.4 + eased * (0.8 + (i % 4) * 0.2);
+    });
+    this.goldRim.value = 0.75 + eased * 0.5;
   }
 
   setEdgeOpacity(v: number): void {

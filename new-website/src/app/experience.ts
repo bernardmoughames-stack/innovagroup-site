@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { gsap } from 'gsap';
 import { Stage } from './stage';
 import { Diamond } from './diamond';
-import { AssemblyParticles } from './particles';
+import { AssemblyParticles, AuraParticles } from './particles';
 import { PortalRing } from './orbit';
 import { WorldManager } from './worldManager';
 import { ScrollRig } from './scrollScenes';
@@ -31,16 +31,21 @@ export function startExperience(): void {
   );
   mainGroup.add(particles.points);
 
+  const aura = new AuraParticles(stage.quality === 'high' ? 260 : 120);
+  aura.points.position.y = 0.45;
+  mainGroup.add(aura.points);
+
   const orbitEl = document.getElementById('orbit-head') ?? document.body;
   const ring = new PortalRing(orbitEl);
   mainGroup.add(ring.group);
 
-  const rig = new ScrollRig(stage, diamond, ring, mainGroup);
+  const rig = new ScrollRig(stage, diamond, ring, mainGroup, aura);
 
   const worldMgr = new WorldManager(stage, {
     hideMain: () => {
       mainGroup.visible = false;
       ring.hideLabels();
+      rig.suspendVideo();
     },
     showMain: () => {
       mainGroup.visible = true;
@@ -66,6 +71,7 @@ export function startExperience(): void {
 
   stage.onFrame((dt, t) => {
     particles.update(t);
+    aura.update(t);
     if (worldMgr.active) return;
     if (entered) {
       diamond.update(dt, t);
@@ -105,6 +111,7 @@ export function startExperience(): void {
       { x: 0.93, y: 0.93, z: 0.93 },
       { x: 1, y: 1, z: 1, duration: 1.8, ease: 'elastic.out(1, 0.6)', delay: 0.2 }
     );
+    gsap.to(rig, { auraBase: 0.42, duration: 2.4, ease: 'power2.out', delay: 0.6 });
   });
 
   const progress = { v: 0 };

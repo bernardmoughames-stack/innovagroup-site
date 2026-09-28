@@ -47,9 +47,24 @@ function initMenu(): void {
   });
   nav.querySelectorAll('a').forEach((a) => a.addEventListener('click', close));
   window.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && document.body.classList.contains('menu-open')) {
+    if (!document.body.classList.contains('menu-open')) return;
+    if (e.key === 'Escape') {
       close();
       (btn as HTMLElement).focus();
+      return;
+    }
+    if (e.key === 'Tab') {
+      // Contain focus inside the open menu (links + the close button)
+      const items = [...nav.querySelectorAll<HTMLElement>('a'), btn as HTMLElement];
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
     }
   });
 }

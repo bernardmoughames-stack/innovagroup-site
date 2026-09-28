@@ -27,6 +27,13 @@ export function setLang(lang: Lang): void {
     if (value !== undefined) el.textContent = value;
   });
 
+  // Accessibility strings follow the language too
+  document.querySelectorAll<HTMLElement>('[data-i18n-aria]').forEach((el) => {
+    const key = el.dataset.i18nAria!;
+    const value = dict[key] ?? MESSAGES.en[key];
+    if (value !== undefined) el.setAttribute('aria-label', value);
+  });
+
   document.querySelectorAll<HTMLButtonElement>('.lang-switch button').forEach((b) => {
     b.setAttribute('aria-pressed', String(b.dataset.lang === lang));
   });

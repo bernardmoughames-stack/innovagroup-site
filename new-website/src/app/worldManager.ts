@@ -101,11 +101,12 @@ export class WorldManager {
       this.renderPanel();
     });
     this.veilOut(tl);
-    tl.from(
-      this.panel.children,
-      { y: 34, opacity: 0, duration: 0.7, stagger: 0.07, ease: 'power3.out', clearProps: 'all' },
-      '-=0.35'
-    );
+    // Targets must be harvested AFTER renderPanel ran inside the timeline
+    tl.add(() => {
+      gsap.from(this.panel.querySelectorAll('.world-scroll > *'), {
+        y: 34, opacity: 0, duration: 0.7, stagger: 0.05, ease: 'power3.out', clearProps: 'all',
+      });
+    }, '-=0.35');
   }
 
   close(): void {
@@ -117,7 +118,6 @@ export class WorldManager {
       onComplete: () => {
         this.layer.classList.remove('open');
         document.body.classList.remove('in-world');
-        this.active = false;
         this.transitioning = false;
         this.origin?.focus();
       },
@@ -126,6 +126,9 @@ export class WorldManager {
     tl.add(() => {
       this.unmount();
       this.hooks.showMain();
+      // Hand the camera back to the scroll rig while the veil still covers
+      // the frame — no frozen wrong-camera flash on the way out.
+      this.active = false;
     });
     this.veilOut(tl);
   }
@@ -144,11 +147,15 @@ export class WorldManager {
       this.renderPanel();
     });
     this.veilOut(tl);
-    tl.from(
-      this.panel.children,
-      { y: 26, opacity: 0, duration: 0.5, stagger: 0.05, ease: 'power3.out', clearProps: 'all' },
-      '-=0.3'
-    );
+    tl.add(() => {
+      gsap.from(this.panel.querySelectorAll('.world-scroll > *'), {
+        y: 26, opacity: 0, duration: 0.5, stagger: 0.04, ease: 'power3.out', clearProps: 'all',
+      });
+      // Announce the swap to keyboard/AT users
+      const title = this.panel.querySelector<HTMLElement>('h2');
+      title?.setAttribute('tabindex', '-1');
+      title?.focus({ preventScroll: true });
+    }, '-=0.3');
   }
 
   private veilIn(tl: gsap.core.Timeline, at: number): void {
@@ -166,10 +173,22 @@ export class WorldManager {
   }
 
   private mount(index: number): void {
-    this.world = createWorld(SERVICES[index].world, this.stage.quality);
-    const url = WORLD_VIDEO[SERVICES[index].world];
+    const worldId = SERVICES[index].world;
+    const url = WORLD_VIDEO[worldId];
+    // With footage, the clip carries the scene and only a light atmosphere
+    // sits in front of it; the full procedural scene is the fallback.
+    this.world = createWorld(worldId, this.stage.quality, Boolean(url));
     if (url) {
-      this.backdrop = new VideoBackdrop(url, { z: -11, y: 3.2, opacity: 0.5 });
+      // Sized to the true screen width at this depth: the 21:9 clip sits in a
+      // cinematic letterbox with dark atmosphere above and below, never zoomed.
+      this.backdrop = new VideoBackdrop(url, { width: 21.5, z: -11, y: 1.7, opacity: 0.95 });
+      this.backdrop.onError = () => {
+        if (!this.active || !this.world) return;
+        const fallback = createWorld(worldId, this.stage.quality, false);
+        disposeWorld(this.world);
+        this.world = fallback;
+        this.stage.scene.add(fallback.group);
+      };
       this.world.group.add(this.backdrop.mesh);
     }
     this.stage.scene.add(this.world.group);
@@ -190,17 +209,26 @@ export class WorldManager {
   private renderPanel(): void {
     const lang = getLang();
     const svc = SERVICES[this.index];
+    const k = (suffix: string): string => tr(lang, `svc.${svc.id}.${suffix}`);
     const soon = svc.soon
-      ? `<p class="kicker"><span class="soon-badge">${tr(lang, 'ui.comingSoon')}</span></p>`
-      : `<p class="kicker">${tr(lang, `svc.${svc.id}.tag`)}</p>`;
+      ? `<p class="kicker"><span class="soon-badge">${tr(lang, 'ui.comingSoon')}</span> ${k('tag')}</p>`
+      : `<p class="kicker">${k('tag')}</p>`;
     this.panel.innerHTML = `
-      ${soon}
-      <h2 id="world-title">${tr(lang, `svc.${svc.id}.name`)}</h2>
-      <p class="desc">${tr(lang, `svc.${svc.id}.desc`)}</p>
-      <p class="packages">${tr(lang, `svc.${svc.id}.pack`)}</p>
-      <div class="world-actions">
-        <a class="btn btn-gold" href="${CONTACT_URL}">${tr(lang, 'cta.enquire')}</a>
-        <a class="text-link" href="${svc.url}">${tr(lang, svc.soon ? 'ui.notify' : 'ui.explore')}</a>
+      <div class="world-scroll">
+        ${soon}
+        <h2 id="world-title">${k('name')}</h2>
+        <p class="desc">${k('desc')}</p>
+        <h3 class="world-h">${k('offerT')}</h3>
+        <p class="world-p">${k('offer1')}</p>
+        <p class="world-p">${k('offer2')}</p>
+        <h3 class="world-h">${tr(lang, 'ui.capsTitle')}</h3>
+        <p class="world-caps">${k('caps')}</p>
+        <h3 class="world-h">${tr(lang, 'ui.packsTitle')}</h3>
+        <p class="packages">${k('pack')}</p>
+        <div class="world-actions">
+          <a class="btn btn-gold" href="${CONTACT_URL}">${tr(lang, 'cta.enquire')}</a>
+          <a class="text-link" href="${svc.url}">${tr(lang, svc.soon ? 'ui.notify' : 'ui.explore')}</a>
+        </div>
       </div>`;
     this.layer.setAttribute('aria-labelledby', 'world-title');
     this.returnBtn.setAttribute('aria-label', tr(lang, 'world.return'));

@@ -8,11 +8,14 @@ import * as THREE from 'three';
  */
 export class VideoBackdrop {
   readonly mesh: THREE.Mesh;
+  /** Called once if the file is missing or cannot play — mount a fallback. */
+  onError: (() => void) | null = null;
   private video: HTMLVideoElement | null = null;
   private texture: THREE.VideoTexture | null = null;
   private material: THREE.MeshBasicMaterial;
   private targetOpacity: number;
   private loaded = false;
+  private lastPlayTry = 0;
 
   constructor(
     private url: string,
@@ -42,7 +45,9 @@ export class VideoBackdrop {
     v.playsInline = true;
     v.preload = 'auto';
     v.crossOrigin = 'anonymous';
-    v.src = this.url;
+    // H.264 where the browser has it, else the VP9 (.webm) twin.
+    const h264 = v.canPlayType('video/mp4; codecs="avc1.42E01E"');
+    v.src = h264 ? this.url : this.url.replace(/\.mp4$/, '.webm');
     this.video = v;
     v.addEventListener(
       'canplay',
@@ -57,7 +62,19 @@ export class VideoBackdrop {
       },
       { once: true }
     );
-    v.addEventListener('error', () => this.disposeMedia(), { once: true });
+    v.addEventListener(
+      'error',
+      () => {
+        this.disposeMedia();
+        this.onError?.();
+      },
+      { once: true }
+    );
+  }
+
+  /** True once footage is decoded and showing. */
+  get playing(): boolean {
+    return this.material.map !== null;
   }
 
   /** Call each frame: eases the fade, keeps playback paused while hidden. */
@@ -66,9 +83,23 @@ export class VideoBackdrop {
     const goal = wanted && this.material.map ? this.targetOpacity : 0;
     this.material.opacity += (goal - this.material.opacity) * Math.min(1, dt * 2.5);
     if (this.video && this.material.map) {
-      if (wanted && this.video.paused) void this.video.play().catch(() => {});
-      else if (!wanted && !this.video.paused && this.material.opacity < 0.01) this.video.pause();
+      if (wanted && this.video.paused) {
+        // At most one play() attempt per second — no rejected-promise storm
+        // when iOS Low Power Mode refuses autoplay.
+        const now = performance.now();
+        if (now - this.lastPlayTry > 1000) {
+          this.lastPlayTry = now;
+          void this.video.play().catch(() => {});
+        }
+      } else if (!wanted && !this.video.paused && this.material.opacity < 0.01) {
+        this.video.pause();
+      }
     }
+  }
+
+  /** Hard pause (e.g. while a service world hides the main journey). */
+  forcePause(): void {
+    this.video?.pause();
   }
 
   private disposeMedia(): void {

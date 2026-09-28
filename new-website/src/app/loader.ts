@@ -23,7 +23,7 @@ export class Loader {
       <div class="loader-bar" aria-hidden="true"><i></i></div>
       <div class="loader-enter">
         <button type="button" class="btn btn-gold" data-sound="1"></button>
-        <button type="button" class="btn btn-ghost" data-sound="0"></button>
+        <button type="button" class="loader-quiet" data-sound="0"></button>
       </div>`;
     document.body.appendChild(this.el);
     this.counter = this.el.querySelector('.loader-counter')!;
@@ -32,8 +32,8 @@ export class Loader {
 
     const label = (): void => {
       const lang = getLang();
-      this.el.querySelector('[data-sound="1"]')!.textContent = tr(lang, 'loader.enterSound');
-      this.el.querySelector('[data-sound="0"]')!.textContent = tr(lang, 'loader.enterQuiet');
+      this.el.querySelector('[data-sound="1"]')!.textContent = tr(lang, 'loader.enter');
+      this.el.querySelector('[data-sound="0"]')!.textContent = tr(lang, 'loader.quiet');
       this.el.setAttribute('aria-label', tr(lang, 'loader.preparing'));
     };
     label();

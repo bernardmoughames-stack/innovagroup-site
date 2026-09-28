@@ -4,6 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import type { Stage } from './stage';
 import type { Diamond } from './diamond';
 import type { PortalRing } from './orbit';
+import type { AuraParticles } from './particles';
 import { glowPlane } from './worlds';
 import { VideoBackdrop } from './videoBackdrop';
 import { SKYLINE_VIDEO } from '../content/media';
@@ -33,11 +34,11 @@ interface CamKey {
 
 const STATES: Record<string, Omit<CamKey, 'y'>> = {
   hero: {
-    pos: new THREE.Vector3(0, 0.55, 6.4),
-    look: new THREE.Vector3(0, 0.3, 0),
-    dScale: 1,
-    dPos: new THREE.Vector3(0, 0.35, 0),
-    edge: 0.7,
+    pos: new THREE.Vector3(0, 0.55, 6.2),
+    look: new THREE.Vector3(0, 0.35, 0),
+    dScale: 1.16,
+    dPos: new THREE.Vector3(0, 0.45, 0),
+    edge: 0.85,
   },
   gaps: {
     pos: new THREE.Vector3(0, 0.2, 5.6),
@@ -79,8 +80,10 @@ const STATES: Record<string, Omit<CamKey, 'y'>> = {
 export class ScrollRig {
   private keys: CamKey[] = [];
   private progress: Record<string, number> = {
-    gaps: 0, orbit: 0, orbitBand: 0, why: 0, process: 0, cta: 0,
+    gaps: 0, orbit: 0, orbitBand: 0, grid: 0, why: 0, process: 0, cta: 0,
   };
+  /** Aura fade-in level, tweened by the experience on Enter. */
+  auraBase = 0;
   private skyline: THREE.Group;
   private skyWindows: THREE.Points;
   private skyVideo: VideoBackdrop;
@@ -88,21 +91,23 @@ export class ScrollRig {
   private processPath: SVGPathElement | null;
   private processLen = 0;
   private processSteps: HTMLElement[] = [];
+  private lastDrawn = -1;
   private enabled = false;
 
   constructor(
     private stage: Stage,
     private diamond: Diamond,
     private ring: PortalRing,
-    readonly mainGroup: THREE.Group
+    readonly mainGroup: THREE.Group,
+    private aura?: AuraParticles
   ) {
     this.skyline = buildSkyline();
     this.skyWindows = this.skyline.getObjectByName('windows') as THREE.Points;
     this.skyline.visible = false;
     mainGroup.add(this.skyline);
 
-    // Generated aerial footage fades in behind the procedural skyline
-    this.skyVideo = new VideoBackdrop(SKYLINE_VIDEO, { width: 46, y: 6.5, z: -14, opacity: 0.4 });
+    // Generated aerial footage replaces the procedural skyline once decoded
+    this.skyVideo = new VideoBackdrop(SKYLINE_VIDEO, { width: 32, y: 3.0, z: -14, opacity: 0.85 });
     this.skyline.add(this.skyVideo.mesh);
 
     this.whyLights = new THREE.Group();
@@ -125,6 +130,11 @@ export class ScrollRig {
     window.addEventListener('resize', () => this.measure());
   }
 
+  /** Called while a service world hides the main journey. */
+  suspendVideo(): void {
+    this.skyVideo.forcePause();
+  }
+
   enable(): void {
     if (this.enabled) return;
     this.enabled = true;
@@ -133,7 +143,9 @@ export class ScrollRig {
       const el =
         name === 'orbitBand'
           ? document.getElementById('orbit-head')
-          : document.querySelector(`[data-scene="${name}"]`);
+          : name === 'grid'
+            ? document.getElementById('services-grid')
+            : document.querySelector(`[data-scene="${name}"]`);
       if (!el) continue;
       ScrollTrigger.create({
         trigger: el,
@@ -197,19 +209,29 @@ export class ScrollRig {
     const look = new THREE.Vector3().lerpVectors(a.look, b.look, f);
     cam.lookAt(look);
 
-    const dg = this.diamond.group;
-    dg.position.lerpVectors(a.dPos, b.dPos, f);
-    const s = THREE.MathUtils.lerp(a.dScale, b.dScale, f);
-    dg.scale.setScalar(s);
-    this.diamond.setEdgeOpacity(THREE.MathUtils.lerp(a.edge, b.edge, f));
-
     // -- per-section effects --
     const P = this.progress;
 
-    // The gaps: split open mid-band, reseal by the end
-    const explode = Math.sin(THREE.MathUtils.clamp(P.gaps, 0, 1) * Math.PI);
+    // While the service cards are on screen the diamond steps aside —
+    // nothing may float behind or between the cards.
+    const gv = Math.sin(THREE.MathUtils.clamp(P.grid, 0, 1) * Math.PI);
+
+    const dg = this.diamond.group;
+    dg.position.lerpVectors(a.dPos, b.dPos, f);
+    const s = THREE.MathUtils.lerp(a.dScale, b.dScale, f) * (1 - gv * 0.35);
+    dg.scale.setScalar(Math.max(s, 0.001));
+    this.diamond.setEdgeOpacity(THREE.MathUtils.lerp(a.edge, b.edge, f) * (1 - gv * 0.95));
+    this.diamond.setBodyOpacity(0.98 * (1 - gv * 0.92));
+    this.aura?.setOpacity(this.auraBase * (1 - gv * 0.97));
+
+    // The gaps: sealed while the words arrive, split at the heart of the
+    // band, resealed before the orbit — and the camera leans into the light.
+    const gp = THREE.MathUtils.clamp((P.gaps - 0.12) / 0.76, 0, 1);
+    const explode = Math.sin(gp * Math.PI);
     this.diamond.setExplode(explode);
-    this.diamond.rotateSpeed = 0.14 + explode * 0.1;
+    this.diamond.rotateSpeed = 0.14 + explode * 0.12;
+    cam.position.z -= explode * 1.05;
+    cam.lookAt(look);
 
     // Orbit ring visibility — bound to the orbit heading band only, so the
     // portals never bleed over the service cards or later sections
@@ -227,21 +249,31 @@ export class ScrollRig {
       child.lookAt(this.stage.camera.position);
     });
 
-    // Process: draw the gold line, light the stations
+    // Process: draw the gold line, light the stations (DOM writes only on change)
     if (this.processPath) {
       const drawn = THREE.MathUtils.smoothstep(P.process, 0.15, 0.75);
-      this.processPath.style.strokeDashoffset = String(this.processLen * (1 - drawn));
-      this.processSteps.forEach((li, i) => {
-        li.classList.toggle('lit', drawn > 0.12 + i * 0.25);
-      });
+      if (Math.abs(drawn - this.lastDrawn) > 0.0015) {
+        this.lastDrawn = drawn;
+        this.processPath.style.strokeDashoffset = String(this.processLen * (1 - drawn));
+        this.processSteps.forEach((li, i) => {
+          li.classList.toggle('lit', drawn > 0.12 + i * 0.25);
+        });
+      }
     }
 
-    // CTA: skyline rises, windows light up, aerial footage breathes behind it
+    // CTA: the real aerial footage takes over once decoded; the procedural
+    // towers appear only until then (or if the clip fails), never both.
     const cv = THREE.MathUtils.smoothstep(P.cta, 0.05, 0.6);
+    if (P.cta > 0.02) this.skyVideo.load(); // decode before the reveal
     this.skyline.visible = cv > 0.01;
     this.skyline.position.y = THREE.MathUtils.lerp(-4.5, -1.6, cv);
-    (this.skyWindows.material as THREE.PointsMaterial).opacity = cv * 0.9;
     this.skyVideo.update(dt, cv > 0.15);
+    const footage = this.skyVideo.playing;
+    for (const child of this.skyline.children) {
+      if (child === this.skyVideo.mesh) continue;
+      child.visible = !footage;
+    }
+    (this.skyWindows.material as THREE.PointsMaterial).opacity = footage ? 0 : cv * 0.9;
   }
 }
 

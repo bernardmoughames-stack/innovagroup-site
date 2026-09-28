@@ -96,3 +96,77 @@ export class AssemblyParticles {
     this.material.uniforms.uTime.value = t;
   }
 }
+
+/**
+ * The diamond's permanent aura: a slow river of gold micro-particles
+ * orbiting the stone on individual inclined paths — the "flow" that keeps
+ * the hero alive between scroll beats.
+ */
+export class AuraParticles {
+  readonly points: THREE.Points;
+  private material: THREE.ShaderMaterial;
+
+  constructor(count = 260) {
+    const radius = new Float32Array(count);
+    const speed = new Float32Array(count);
+    const phase = new Float32Array(count);
+    const incline = new Float32Array(count);
+    const size = new Float32Array(count);
+    for (let i = 0; i < count; i++) {
+      radius[i] = 1.55 + Math.random() * 1.6;
+      speed[i] = (0.12 + Math.random() * 0.25) * (Math.random() > 0.85 ? -1 : 1);
+      phase[i] = Math.random() * Math.PI * 2;
+      incline[i] = (Math.random() - 0.5) * 1.1;
+      size[i] = 0.35 + Math.random() * 0.85;
+    }
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(count * 3), 3));
+    geo.setAttribute('aRadius', new THREE.BufferAttribute(radius, 1));
+    geo.setAttribute('aSpeed', new THREE.BufferAttribute(speed, 1));
+    geo.setAttribute('aPhase', new THREE.BufferAttribute(phase, 1));
+    geo.setAttribute('aIncline', new THREE.BufferAttribute(incline, 1));
+    geo.setAttribute('aSize', new THREE.BufferAttribute(size, 1));
+
+    this.material = new THREE.ShaderMaterial({
+      transparent: true,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
+      uniforms: { uTime: { value: 0 }, uOpacity: { value: 0 } },
+      vertexShader: /* glsl */ `
+        attribute float aRadius; attribute float aSpeed; attribute float aPhase;
+        attribute float aIncline; attribute float aSize;
+        uniform float uTime;
+        varying float vGlow;
+        void main() {
+          float a = aPhase + uTime * aSpeed;
+          vec3 pos = vec3(cos(a) * aRadius, sin(a * 0.9 + aPhase) * aIncline, sin(a) * aRadius);
+          vGlow = 0.55 + 0.45 * sin(uTime * 2.4 + aPhase * 12.0);
+          vec4 mv = modelViewMatrix * vec4(pos, 1.0);
+          gl_PointSize = aSize * vGlow * (70.0 / -mv.z);
+          gl_Position = projectionMatrix * mv;
+        }
+      `,
+      fragmentShader: /* glsl */ `
+        uniform float uOpacity;
+        varying float vGlow;
+        void main() {
+          float d = length(gl_PointCoord - 0.5);
+          float a = smoothstep(0.5, 0.05, d);
+          vec3 gold = mix(vec3(0.78, 0.62, 0.2), vec3(1.0, 0.9, 0.6), vGlow);
+          gl_FragColor = vec4(gold, a * uOpacity);
+        }
+      `,
+    });
+    this.points = new THREE.Points(geo, this.material);
+    this.points.frustumCulled = false;
+  }
+
+  setOpacity(o: number): void {
+    this.material.uniforms.uOpacity.value = o;
+    this.points.visible = o > 0.003;
+  }
+
+  update(t: number): void {
+    this.material.uniforms.uTime.value = t;
+  }
+}

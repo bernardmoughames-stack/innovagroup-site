@@ -82,6 +82,9 @@ const solidMat = (): THREE.MeshStandardMaterial =>
 export function disposeWorld(world: World): void {
   world.group.traverse((obj) => {
     const mesh = obj as THREE.Mesh;
+    if ((mesh as THREE.InstancedMesh).isInstancedMesh) {
+      (mesh as THREE.InstancedMesh).dispose(); // frees instance GPU buffers
+    }
     if (mesh.geometry) mesh.geometry.dispose();
     const mat = mesh.material as THREE.Material | THREE.Material[] | undefined;
     if (Array.isArray(mat)) mat.forEach((m) => m.dispose());
@@ -875,9 +878,83 @@ function homewatchWorld(quality: Quality): World {
   };
 }
 
+/* ---------- atmosphere world (used when generated footage carries the scene) ----------
+   The film clip is the star: in front of it we keep only a fading ground,
+   drifting gold dust and one soft accent glow — no geometry that would
+   duplicate what the footage already shows. */
+
+const ATMO_ACCENTS: Record<string, { x: number; y: number; warm: number }> = {
+  contracting: { x: 1.6, y: 1.4, warm: 0xffc87a },
+  pm: { x: 1.8, y: 2.2, warm: 0xd9b44a },
+  facility: { x: 1.4, y: 2.6, warm: 0xd9b44a },
+  cinema: { x: 0, y: 1.9, warm: 0xffe9c0 },
+  snagging: { x: 0.6, y: 1.6, warm: 0xf2d57e },
+  marketing: { x: 1.8, y: 2.4, warm: 0xf2d57e },
+  consultancy: { x: 1.6, y: 2.0, warm: 0xd9b44a },
+  ai: { x: 1.8, y: 2.4, warm: 0xf2d57e },
+  homewatch: { x: 0, y: 1.2, warm: 0xffc87a },
+};
+
+function atmosphereWorld(id: ServiceDef['world'], quality: Quality): World {
+  const group = new THREE.Group();
+  group.add(ground(18));
+
+  const accent = ATMO_ACCENTS[id] ?? ATMO_ACCENTS.pm;
+  const glow = glowPlane(6, accent.warm, 0.1);
+  glow.position.set(accent.x, accent.y, -4);
+  group.add(glow);
+
+  const dustCount = quality === 'high' ? 140 : 60;
+  const dustPos = new Float32Array(dustCount * 3);
+  for (let i = 0; i < dustCount; i++) {
+    dustPos[i * 3] = (Math.random() - 0.5) * 14;
+    dustPos[i * 3 + 1] = Math.random() * 5;
+    dustPos[i * 3 + 2] = -6 + Math.random() * 9;
+  }
+  const dustGeo = new THREE.BufferGeometry();
+  dustGeo.setAttribute('position', new THREE.BufferAttribute(dustPos, 3));
+  const dust = new THREE.Points(
+    dustGeo,
+    new THREE.PointsMaterial({
+      color: 0xf2d57e,
+      size: 0.02,
+      transparent: true,
+      opacity: 0.45,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    })
+  );
+  group.add(dust);
+
+  const light = new THREE.PointLight(accent.warm, 8, 16, 1.8);
+  light.position.set(accent.x, accent.y + 0.5, -2);
+  group.add(light);
+
+  return {
+    group,
+    update(_dt, t) {
+      dust.rotation.y = t * 0.015;
+      dust.position.y = Math.sin(t * 0.3) * 0.15;
+      (glow.material as THREE.ShaderMaterial).uniforms.uOpacity.value =
+        0.08 + 0.04 * Math.sin(t * 0.8);
+      glow.lookAt(0, accent.y, 8);
+    },
+  };
+}
+
 /* ---------- factory ---------- */
 
-export function createWorld(id: ServiceDef['world'], quality: Quality): World {
+/**
+ * `backdrop: true` returns the minimal atmosphere layer for use in front of
+ * generated footage; `false` returns the full procedural scene (the fallback
+ * when a clip is missing or fails to load).
+ */
+export function createWorld(
+  id: ServiceDef['world'],
+  quality: Quality,
+  backdrop = false
+): World {
+  if (backdrop) return atmosphereWorld(id, quality);
   switch (id) {
     case 'contracting': return contractingWorld();
     case 'pm': return pmWorld();

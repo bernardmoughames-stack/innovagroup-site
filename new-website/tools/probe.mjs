@@ -1,0 +1,16 @@
+import { chromium } from 'playwright-core';
+const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium' });
+const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+const media = [];
+page.on('request', (r) => { if (r.url().includes('media')) media.push('REQ ' + r.url()); });
+page.on('requestfailed', (r) => { if (r.url().includes('media')) media.push('FAIL ' + r.url() + ' ' + r.failure()?.errorText); });
+page.on('response', (r) => { if (r.url().includes('media')) media.push('RES ' + r.status() + ' ' + r.url()); });
+await page.goto('http://localhost:4173', { waitUntil: 'networkidle' });
+await page.locator('.loader-enter button[data-sound="0"]').click();
+await page.waitForTimeout(2000);
+await page.evaluate(() => document.querySelector('.service-card[data-service="contracting"] .enter-world')?.scrollIntoView({ block: 'center' }));
+await page.waitForTimeout(500);
+await page.click('.service-card[data-service="contracting"] .enter-world');
+await page.waitForTimeout(4000);
+console.log(media.join('\n') || 'NO MEDIA REQUESTS AT ALL');
+await browser.close();
