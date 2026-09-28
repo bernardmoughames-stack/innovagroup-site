@@ -643,6 +643,13 @@ html.lite .lite-diamond {
   filter: drop-shadow(0 0 60px rgba(201, 162, 39, 0.25));
 }
 html:not(.lite) .lite-diamond { display: none; }
+html.lite .lite-diamond.is-art {
+  width: clamp(280px, 46vw, 640px);
+  border-radius: 16px;
+  opacity: 0.85;
+  mask-image: radial-gradient(80% 80% at 50% 50%, #000 55%, transparent 100%);
+  -webkit-mask-image: radial-gradient(80% 80% at 50% 50%, #000 55%, transparent 100%);
+}
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }

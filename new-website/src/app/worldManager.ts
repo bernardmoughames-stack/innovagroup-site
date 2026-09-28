@@ -3,6 +3,8 @@ import { gsap } from 'gsap';
 import type { Stage } from './stage';
 import { createWorld, disposeWorld, type World } from './worlds';
 import { SERVICES, CONTACT_URL, t as tr } from '../content/copy';
+import { WORLD_VIDEO } from '../content/media';
+import { VideoBackdrop } from './videoBackdrop';
 import { getLang } from './i18n';
 import { uiTick } from './audio';
 
@@ -22,6 +24,7 @@ export class WorldManager {
   private prevBtn: HTMLButtonElement;
   private nextBtn: HTMLButtonElement;
   private world: World | null = null;
+  private backdrop: VideoBackdrop | null = null;
   private index = 0;
   private origin: HTMLElement | null = null;
   private transitioning = false;
@@ -164,6 +167,11 @@ export class WorldManager {
 
   private mount(index: number): void {
     this.world = createWorld(SERVICES[index].world, this.stage.quality);
+    const url = WORLD_VIDEO[SERVICES[index].world];
+    if (url) {
+      this.backdrop = new VideoBackdrop(url, { z: -11, y: 3.2, opacity: 0.5 });
+      this.world.group.add(this.backdrop.mesh);
+    }
     this.stage.scene.add(this.world.group);
     this.camBase.set(0, 1.5, 7.4);
     this.stage.camera.position.copy(this.camBase);
@@ -171,6 +179,8 @@ export class WorldManager {
   }
 
   private unmount(): void {
+    this.backdrop?.dispose();
+    this.backdrop = null;
     if (this.world) {
       disposeWorld(this.world);
       this.world = null;
@@ -223,6 +233,7 @@ export class WorldManager {
   private frame(dt: number, t: number): void {
     if (!this.active || !this.world) return;
     this.world.update(dt, t);
+    this.backdrop?.update(dt, true);
     // Gentle parallax inside a world
     const p = this.stage.pointerSmooth;
     this.stage.camera.position.x = this.camBase.x + p.x * 0.45;

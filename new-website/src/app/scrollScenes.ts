@@ -5,6 +5,8 @@ import type { Stage } from './stage';
 import type { Diamond } from './diamond';
 import type { PortalRing } from './orbit';
 import { glowPlane } from './worlds';
+import { VideoBackdrop } from './videoBackdrop';
+import { SKYLINE_VIDEO } from '../content/media';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -81,6 +83,7 @@ export class ScrollRig {
   };
   private skyline: THREE.Group;
   private skyWindows: THREE.Points;
+  private skyVideo: VideoBackdrop;
   private whyLights: THREE.Group;
   private processPath: SVGPathElement | null;
   private processLen = 0;
@@ -97,6 +100,10 @@ export class ScrollRig {
     this.skyWindows = this.skyline.getObjectByName('windows') as THREE.Points;
     this.skyline.visible = false;
     mainGroup.add(this.skyline);
+
+    // Generated aerial footage fades in behind the procedural skyline
+    this.skyVideo = new VideoBackdrop(SKYLINE_VIDEO, { width: 46, y: 6.5, z: -14, opacity: 0.4 });
+    this.skyline.add(this.skyVideo.mesh);
 
     this.whyLights = new THREE.Group();
     for (let i = 0; i < 6; i++) {
@@ -229,13 +236,12 @@ export class ScrollRig {
       });
     }
 
-    // CTA: skyline rises, windows light up
+    // CTA: skyline rises, windows light up, aerial footage breathes behind it
     const cv = THREE.MathUtils.smoothstep(P.cta, 0.05, 0.6);
     this.skyline.visible = cv > 0.01;
     this.skyline.position.y = THREE.MathUtils.lerp(-4.5, -1.6, cv);
     (this.skyWindows.material as THREE.PointsMaterial).opacity = cv * 0.9;
-
-    void dt;
+    this.skyVideo.update(dt, cv > 0.15);
   }
 }
 

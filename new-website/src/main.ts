@@ -1,5 +1,6 @@
 import './styles/main.css';
 import { initChrome } from './app/ui';
+import { HERO_STILL } from './content/media';
 
 /**
  * Boot: decide between the FULL cinematic experience (WebGL + GSAP) and the
@@ -37,10 +38,16 @@ function enableLite(): void {
   const hero = document.querySelector('.scene-hero');
   if (hero && !hero.querySelector('.lite-diamond')) {
     const img = document.createElement('img');
-    img.src = './logo-mark.svg';
+    // Generated key-art when present; the logo mark as fallback.
+    img.src = HERO_STILL;
+    img.onerror = () => {
+      img.onerror = null;
+      img.src = './logo-mark.svg';
+      img.classList.remove('is-art');
+    };
     img.alt = '';
     img.setAttribute('aria-hidden', 'true');
-    img.className = 'lite-diamond';
+    img.className = 'lite-diamond is-art';
     hero.appendChild(img);
   }
 }
