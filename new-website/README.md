@@ -1,83 +1,61 @@
-# The Innova Diamond — innovagroup.co.ae cinematic experience
+# The Innova Film — innovagroup.co.ae, rebuilt film-first
 
-A single-page cinematic website for **Innova Group LLC** (Meydan, Dubai).
-The navy-and-gold diamond from the brand mark becomes a living 3D object:
-it assembles from gold particles, splits open along its facets ("Most projects
-fail in the gaps"), is ringed by nine service portals you can spin and dive
-through, and finally takes its place above the Dubai skyline at night.
+The replacement website for **Innova Group LLC** (Meydan, Dubai). Every
+screen is a full-bleed generated film (Higgsfield / Seedance 2.5 — real
+buildings under construction, real rooms, a living diamond) with the copy
+set over it. No WebGL, no audio, no runtime dependencies: Vite + TypeScript,
+~14 KB of gzipped JS.
 
-Built with **Vite + TypeScript + Three.js + GSAP ScrollTrigger** — no React,
-by design: the page is one continuous 3D scene with DOM content over it, and a
-framework re-render layer would add weight without adding structure. All copy
-is real, crawlable HTML; the WebGL canvas sits behind it.
+## Pages
+
+- `index.html` — the film journey: hero, manifesto, nine service chapters,
+  why, process, contact finale.
+- One full page per service, each with its own film hero and the **complete**
+  content of the corresponding live-site page (offer, full scope list,
+  packages with every feature, Home Care on facility, how-it-works, FAQs) in
+  **English and Arabic**:
+  `contracting.html`, `project-management.html`, `facility-management.html`,
+  `cinema.html`, `snagging.html`, `marketing.html`, `consultancy.html`,
+  `ai.html`, `home-watch.html` (coming-soon service, original copy).
+
+Service pages are **generated** — don't edit them by hand:
+
+- English content: `src/content/services-full.en.json`
+  (extracted from the live site, plus the authored Home Watch entry)
+- Arabic content: `src/content/ar/<slug>.json`
+- Template/generator: `tools/build-pages.mjs` (`npm run pages`)
+
+Page-level copy is duplicated per language in `.l10n` blocks; the language
+switch flips `html[dir]` and CSS shows the matching block. Shared chrome
+(nav, footer, sticky bar) still uses the `data-i18n` dictionary in
+`src/content/copy.ts`.
 
 ## Commands
 
 ```bash
-npm install        # once
-npm run dev        # local dev server (http://localhost:5173)
-npm run build      # typecheck + production build into dist/
-npm run preview    # serve the production build (http://localhost:4173)
-node tools/qa.mjs  # headless-browser QA pass (needs `npm run preview` running)
+npm install          # once
+npm run dev          # local dev server (http://localhost:5173)
+npm run pages        # regenerate the nine service pages from the JSON
+npm run build        # pages + typecheck + production build into dist/
+npm run preview      # serve the production build (http://localhost:4173)
+node tools/sweep.mjs # headless QA: every page, AR/RTL, themes, mobile, lite,
+                     # click-fuzz (needs `npm run preview` running)
 ```
 
-Deploy: any static host (Vercel: framework preset "Vite", output `dist/`).
-No environment variables, no server code, no credentials anywhere.
+Deploy: any static host, output `dist/`. No env vars, no server code.
+
+**URL parity at launch:** the old site serves `/contracting/`,
+`/project-management/`, … . This build produces flat `contracting.html` etc.
+Add rewrites on the host (e.g. `/contracting/ → /contracting.html`) so every
+existing URL keeps working, and set the canonical/og:url tags (NOTES.md).
 
 ## Where to edit things
 
 | What | Where |
 |---|---|
-| All copy (EN + AR) | `src/content/copy.ts` **and** the static English in `index.html` (keep both in sync — the HTML is what crawlers and no-JS visitors read) |
-| Service list, "Explore" URLs, coming-soon flags | `SERVICES` in `src/content/copy.ts` |
-| Contact links (enquiry / WhatsApp / phone) | `index.html` + constants at the top of `src/content/copy.ts` |
-| Colors, type scale, spacing | CSS tokens at the top of `src/styles/main.css` |
-| Logo | `public/logo-mark-inverse.png` (official mark, cropped from the live site's logo-inverse.png); `logo-mark.svg` remains as a drawn fallback |
-| Diamond shape & material | `src/app/diamond.ts` |
-| Scroll choreography (camera keyframes per section, effect windows) | `STATES` + `frame()` in `src/app/scrollScenes.ts` |
-| The nine service worlds | `src/app/worlds.ts` (one factory per service) |
-| Dive/return transition & world panel | `src/app/worldManager.ts` |
-| Loader / particles / portal ring | `src/app/loader.ts`, `particles.ts`, `orbit.ts` |
-| Ambient sound & UI ticks (synthesised, no files) | `src/app/audio.ts` |
-| Language switching / RTL | `src/app/i18n.ts` (dictionaries in `copy.ts`) |
-
-## Modes
-
-- **Full** — WebGL2 experience with loader, particle assembly, scroll-driven
-  camera, portals, worlds. Forced with `?full=1`.
-- **Lite** — static, normal document flow, no canvas, all content and CTAs.
-  Chosen automatically for `prefers-reduced-motion`, Save-Data, no WebGL2, or
-  very low-memory devices. Forced with `?lite=1`.
-- **Arabic** — the ع toggle (or `?lang=ar`) switches all copy and flips the
-  document to RTL. Preference is remembered in `localStorage`.
-
-## Structure
-
-```
-index.html            semantic content: hero, gaps, services (9 cards), why,
-                      process, contact, footer, sticky mobile bar, JSON-LD
-src/main.ts           boot: capability detection → full or lite
-src/app/…             the experience modules (see table above)
-src/content/copy.ts   EN/AR dictionaries + service registry
-public/               logo placeholder, favicon
-tools/qa.mjs          Playwright QA: screenshots + console/error sweep at
-                      desktop/mobile/tablet widths, EN/AR, full/lite
-ASSETS.md             generated-asset manifest & Higgsfield generation records
-NOTES.md              assumption log (things to confirm with the client)
-```
-
-## Integrations: real vs. placeholder
-
-- **Real:** enquiry button → `https://innovagroup.co.ae/contact/`, WhatsApp
-  (`wa.me/971505097758`), `tel:` link, `mailto:`, Instagram, LinkedIn. These
-  are the only outbound destinations, all supplied by the owner.
-- **No form is embedded** — the CTA intentionally routes to the existing
-  contact page, so no fake submit can occur.
-- **Real content:** service taglines, descriptions, offer copy, capability
-  lists, package names, the six "Why Innova" pillars and every "Full service
-  page" link come from the live innovagroup.co.ae pages (fetched 2026-09-28).
-  Arabic is a fresh translation of that copy — native review recommended.
-- **Generated media:** the hero key art and ten Seedance clips are committed
-  under `public/assets/media/` with full records in ASSETS.md. Worlds show
-  the clip in a cinematic letterbox with a light 3D atmosphere; the full
-  procedural scenes remain as automatic fallback if a clip cannot play.
+| Service page content (EN/AR) | `src/content/services-full.en.json`, `src/content/ar/*.json`, then `npm run pages` |
+| Homepage + chrome copy (EN/AR) | `src/content/copy.ts` (+ static English in `index.html`) |
+| Films & posters | `public/assets/media/` (`ASSETS.md` is the generation ledger) |
+| Film behaviour (lazy load, play/pause) | `src/app/chapters.ts` |
+| Header, theme, language, menus | `src/app/ui.ts` |
+| All styling & the day/night palettes | `src/styles/main.css` |

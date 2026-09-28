@@ -3,12 +3,13 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "Innova Group LLC \u2014 cinematic single-page experience (The Innova Diamond)",
+  "description": "Innova Group LLC \u2014 film-first multi-page site (The Innova Film)",
   "scripts": {
     "dev": "vite",
     "typecheck": "tsc --noEmit",
-    "build": "tsc --noEmit && vite build",
-    "preview": "vite preview --host"
+    "build": "node tools/build-pages.mjs && tsc --noEmit && vite build",
+    "preview": "vite preview --host",
+    "pages": "node tools/build-pages.mjs"
   },
   "dependencies": {},
   "devDependencies": {

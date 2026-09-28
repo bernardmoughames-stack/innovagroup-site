@@ -122,7 +122,7 @@ function initMenu(): void {
 
 function initReveals(): void {
   const targets = document.querySelectorAll<HTMLElement>(
-    '.chapter-copy, .manifesto > *, .why-grid li, .process-steps li'
+    '.chapter-copy, .manifesto > *, .why-grid li, .process-steps li, [data-reveal]'
   );
   targets.forEach((el) => el.classList.add('reveal'));
   if (!('IntersectionObserver' in window)) {
