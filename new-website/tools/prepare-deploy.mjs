@@ -18,6 +18,9 @@ const DOMAIN = 'https://innovagroup.co.ae';
 const SERVICES = ['contracting', 'project-management', 'facility-management', 'cinema',
   'snagging', 'marketing', 'consultancy', 'ai', 'home-watch'];
 
+// Guides: source file (without .html) -> public path
+const GUIDES = [['guide-snagging-checklist-dubai', 'guides/snagging-checklist-dubai']];
+
 // ---- 1) root-absolute internal references on every page ----
 const pages = readdirSync(dist).filter((f) => f.endsWith('.html'));
 for (const f of pages) {
@@ -30,7 +33,9 @@ for (const f of pages) {
     .replaceAll('href="index.html"', 'href="/"');
   for (const s of SERVICES) {
     html = html.replaceAll(`href="${s}.html"`, `href="/${s}/"`);
+    html = html.replaceAll(`href="${s}.html#`, `href="/${s}/#`);
   }
+  for (const [src, path] of GUIDES) html = html.replaceAll(`href="${src}.html"`, `href="/${path}/"`);
   writeFileSync(join(dist, f), html);
 }
 
@@ -40,6 +45,11 @@ for (const s of SERVICES) {
   mkdirSync(join(dist, s), { recursive: true });
   writeFileSync(join(dist, s, 'index.html'), readFileSync(src));
   rmSync(src);
+}
+for (const [src, path] of GUIDES) {
+  mkdirSync(join(dist, path), { recursive: true });
+  writeFileSync(join(dist, path, 'index.html'), readFileSync(join(dist, `${src}.html`)));
+  rmSync(join(dist, `${src}.html`));
 }
 
 // ---- 3) redirects for the remaining old URLs ----
@@ -91,7 +101,7 @@ Sitemap: ${DOMAIN}/sitemap.xml
 `);
 
 const today = new Date().toISOString().slice(0, 10);
-const urls = ['/', ...SERVICES.map((s) => `/${s}/`)];
+const urls = ['/', ...SERVICES.map((s) => `/${s}/`), ...GUIDES.map(([, p]) => `/${p}/`)];
 writeFileSync(join(dist, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
 ${urls.flatMap((u) => {
@@ -114,6 +124,9 @@ Build. Manage. Innovate. One team, one point of accountability.
 Services (each page carries the full offer, scope, packages and FAQs,
 in English and Arabic):
 ${SERVICES.map((s) => `- ${DOMAIN}/${s}/`).join('\n')}
+
+Guides:
+${GUIDES.map(([, p]) => `- ${DOMAIN}/${p}/`).join('\n')}
 
 Contact: info@innovagroup.co.ae · +971 50 509 7758 · ${DOMAIN}/#contact
 `);
