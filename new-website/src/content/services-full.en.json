@@ -576,7 +576,7 @@
       "Photographic defect register with locations",
       "Severity grading — critical, major, minor",
       "Developer-ready report format",
-      "Report issued within 48 hours",
+      "Report issued the same day",
       "Telephone debrief on the findings"
      ]
     },
@@ -624,7 +624,7 @@
     },
     {
      "t": "Report",
-     "d": "A severity-graded register issued within 48 hours, formatted so the developer can work from it directly."
+     "d": "A severity-graded register issued the same day, formatted so the developer can work from it directly."
     },
     {
      "t": "Re-inspect",
