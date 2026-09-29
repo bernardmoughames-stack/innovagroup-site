@@ -31,6 +31,26 @@ const toTop = (): void => {
 toTop();
 window.addEventListener('pageshow', toTop);
 
+// Lead tracking for Google Analytics: WhatsApp, phone and email taps are
+// sent as events so enquiries can be traced to the page they came from.
+type Gtag = (...args: unknown[]) => void;
+document.addEventListener('click', (e) => {
+  const link = (e.target as Element | null)?.closest?.('a[href]') as HTMLAnchorElement | null;
+  const gtag = (window as unknown as { gtag?: Gtag }).gtag;
+  if (!link || !gtag) return;
+  const href = link.getAttribute('href') || '';
+  let name = '';
+  if (href.includes('wa.me/')) name = 'whatsapp_click';
+  else if (href.startsWith('tel:')) name = 'phone_click';
+  else if (href.startsWith('mailto:')) name = 'email_click';
+  if (!name) return;
+  gtag('event', name, {
+    link_url: href,
+    page_path: location.pathname,
+    link_location: link.closest('header, footer, .sticky-bar, .mobile-bar, section[id]')?.id || link.className || 'page',
+  });
+});
+
 initChrome();
 initChapters(lite);
 initForms();
