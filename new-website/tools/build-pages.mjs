@@ -326,9 +326,18 @@ function page(slug) {
     "serviceType": "${esc(name)}",
     "description": "${esc(en.lede)}",
     "url": "https://innovagroup.co.ae/${slug}/",
-    "areaServed": { "@type": "City", "name": "Dubai" },
+    "areaServed": [
+      { "@type": "AdministrativeArea", "name": "Dubai" },
+      { "@type": "AdministrativeArea", "name": "Abu Dhabi" },
+      { "@type": "AdministrativeArea", "name": "Sharjah" },
+      { "@type": "AdministrativeArea", "name": "Ajman" },
+      { "@type": "AdministrativeArea", "name": "Ras Al Khaimah" },
+      { "@type": "AdministrativeArea", "name": "Fujairah" },
+      { "@type": "AdministrativeArea", "name": "Umm Al Quwain" }
+    ],
     "provider": {
       "@type": "Organization",
+      "@id": "https://innovagroup.co.ae/#organization",
       "name": "Innova Group LLC",
       "url": "https://innovagroup.co.ae/",
       "telephone": "+971505097758",
