@@ -293,6 +293,14 @@ function page(slug) {
   <meta name="description" content="${esc(en.lede)}" />
   <meta name="theme-color" content="#070d1c" />
   <meta name="google-site-verification" content="JLOmlqU0SaIaebH7DH5JGgVPuXdMjjIgGqIN8e8WMPA" />
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-BJZVWCG06F"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-BJZVWCG06F');
+  </script>
   <link rel="canonical" href="https://innovagroup.co.ae/${slug}/" />
   <link rel="alternate" hreflang="en" href="https://innovagroup.co.ae/${slug}/" />
   <link rel="alternate" hreflang="ar" href="https://innovagroup.co.ae/${slug}/?lang=ar" />
