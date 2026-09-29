@@ -93,8 +93,16 @@ Sitemap: ${DOMAIN}/sitemap.xml
 const today = new Date().toISOString().slice(0, 10);
 const urls = ['/', ...SERVICES.map((s) => `/${s}/`)];
 writeFileSync(join(dist, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls.map((u) => `  <url><loc>${DOMAIN}${u}</loc><lastmod>${today}</lastmod></url>`).join('\n')}
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+${urls.flatMap((u) => {
+  const alts = [
+    `    <xhtml:link rel="alternate" hreflang="en" href="${DOMAIN}${u}"/>`,
+    `    <xhtml:link rel="alternate" hreflang="ar" href="${DOMAIN}${u}?lang=ar"/>`,
+    `    <xhtml:link rel="alternate" hreflang="x-default" href="${DOMAIN}${u}"/>`,
+  ].join('\n');
+  return [`${DOMAIN}${u}`, `${DOMAIN}${u}?lang=ar`].map((loc) =>
+    `  <url>\n    <loc>${loc.replaceAll('&', '&amp;')}</loc>\n${alts}\n    <lastmod>${today}</lastmod>\n  </url>`);
+}).join('\n')}
 </urlset>
 `);
 
