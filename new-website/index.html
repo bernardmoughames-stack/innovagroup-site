@@ -35,14 +35,34 @@
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "Organization",
+    "@type": ["Organization", "ProfessionalService"],
+    "@id": "https://innovagroup.co.ae/#organization",
     "name": "Innova Group LLC",
     "slogan": "Build. Manage. Innovate.",
     "email": "info@innovagroup.co.ae",
     "telephone": "+971505097758",
     "url": "https://innovagroup.co.ae/",
     "logo": "https://innovagroup.co.ae/logo-full-inverse.png",
-    "address": { "@type": "PostalAddress", "addressLocality": "Meydan, Dubai", "addressCountry": "AE" },
+    "image": "https://innovagroup.co.ae/logo-full-inverse.png",
+    "priceRange": "$$",
+    "address": { "@type": "PostalAddress", "addressLocality": "Dubai", "addressRegion": "Dubai", "addressCountry": "AE" },
+    "areaServed": [
+      { "@type": "AdministrativeArea", "name": "Dubai" },
+      { "@type": "AdministrativeArea", "name": "Abu Dhabi" },
+      { "@type": "AdministrativeArea", "name": "Sharjah" },
+      { "@type": "AdministrativeArea", "name": "Ajman" },
+      { "@type": "AdministrativeArea", "name": "Ras Al Khaimah" },
+      { "@type": "AdministrativeArea", "name": "Fujairah" },
+      { "@type": "AdministrativeArea", "name": "Umm Al Quwain" }
+    ],
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "contactType": "customer service",
+      "telephone": "+971505097758",
+      "email": "info@innovagroup.co.ae",
+      "areaServed": "AE",
+      "availableLanguage": ["English", "Arabic"]
+    },
     "sameAs": [
       "https://www.instagram.com/innovagroupuae",
       "https://www.linkedin.com/company/innova-group-llc/"
