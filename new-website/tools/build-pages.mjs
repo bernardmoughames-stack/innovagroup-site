@@ -330,7 +330,8 @@ function page(slug) {
   <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Manrope:wght@300;400;600;700&family=Noto+Kufi+Arabic:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Marcellus&family=Manrope:wght@300;400;600;700&family=Noto+Kufi+Arabic:wght@300;400;600;700&display=swap" onload="this.onload=null;this.rel='stylesheet'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Marcellus&family=Manrope:wght@300;400;600;700&family=Noto+Kufi+Arabic:wght@300;400;600;700&display=swap" /></noscript>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
