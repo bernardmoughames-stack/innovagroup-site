@@ -38,6 +38,14 @@ export function setLang(lang: Lang): void {
     b.setAttribute('aria-pressed', String(b.dataset.lang === lang));
   });
 
+  // Keep the canonical URL in step with the language shown, so the
+  // English and ?lang=ar versions are indexed as a matching hreflang pair.
+  const canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+  if (canonical) {
+    const base = canonical.href.split('?')[0];
+    canonical.href = lang === 'ar' ? `${base}?lang=ar` : base;
+  }
+
   try { localStorage.setItem(STORE_KEY, lang); } catch { /* ignore */ }
   document.dispatchEvent(new CustomEvent('innova:lang', { detail: lang }));
 }
