@@ -21,6 +21,7 @@ export default defineConfig({
         consultancy: r('consultancy.html'),
         ai: r('ai.html'),
         'home-watch': r('home-watch.html'),
+        'guide-snagging-checklist-dubai': r('guide-snagging-checklist-dubai.html'),
       },
     },
   },
