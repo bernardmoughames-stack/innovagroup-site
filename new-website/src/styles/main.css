@@ -209,6 +209,8 @@ body.scrolled .site-header::before {
   transition: background 0.25s, color 0.25s;
 }
 .lang-switch button[aria-pressed="true"] { background: var(--gold-2); color: var(--navy-1); }
+/* Light theme: darker gold so the selected language meets WCAG AA contrast */
+html[data-theme="light"] .lang-switch button[aria-pressed="true"] { background: var(--gold-3); }
 .lang-switch button:focus-visible { outline-offset: -3px; }
 
 .menu-btn { display: none; }
