@@ -228,6 +228,19 @@ ${qs}
       </div>`;
 }
 
+// Free guides linked from their service page's FAQ section
+const GUIDE_LINKS = {
+  snagging: {
+    href: 'guide-snagging-checklist-dubai.html',
+    text: ['Doing a walk-through yourself? Read our free Dubai handover snagging checklist', 'تفحص بنفسك؟ اقرأ قائمتنا المجانية لفحص السناجينج عند الاستلام في دبي'],
+  },
+};
+function guideLink(slug, lang, i) {
+  const g = GUIDE_LINKS[slug];
+  if (!g) return '';
+  return `\n      <div ${langAttrs(lang)}>\n        <p class="guide-link" data-reveal><a class="btn btn-ghost" href="${g.href}">${esc(g.text[i])} →</a></p>\n      </div>`;
+}
+
 function relatedHead(lang, i) {
   return `      <div ${langAttrs(lang)}>
         <div class="svc-head" data-reveal>
@@ -426,7 +439,7 @@ ${dd((d, lang, i) => howBlock(d, lang, i))}
     </section>
 
     <section class="svc-section" id="faq">
-${dd((d, lang, i) => faqBlock(d, lang, i))}
+${dd((d, lang, i) => faqBlock(d, lang, i) + guideLink(slug, lang, i))}
     </section>
 
     <section class="svc-section alt" id="related">
