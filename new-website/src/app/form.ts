@@ -37,6 +37,13 @@ export function initForms(): void {
         .then((res) => res.json())
         .then((json: { success?: boolean }) => {
           if (!json.success) throw new Error('web3forms rejected');
+          const gtag = (window as unknown as { gtag?: (...a: unknown[]) => void }).gtag;
+          gtag?.('event', 'generate_lead', {
+            form_name: 'enquiry',
+            service: String(data.get('service') ?? ''),
+            page_path: location.pathname,
+            language: lang,
+          });
           const done = document.createElement('p');
           done.className = 'form-done';
           done.setAttribute('role', 'status');
