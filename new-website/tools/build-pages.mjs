@@ -234,6 +234,10 @@ const GUIDE_LINKS = {
     href: 'guide-snagging-checklist-dubai.html',
     text: ['Doing a walk-through yourself? Read our free Dubai handover snagging checklist', 'تفحص بنفسك؟ اقرأ قائمتنا المجانية لفحص السناجينج عند الاستلام في دبي'],
   },
+  cinema: {
+    href: 'guide-home-cinema-cost-dubai.html',
+    text: ['Planning a budget? Read our guide to home cinema costs in Dubai', 'تخطط لميزانيتك؟ اقرأ دليلنا لتكلفة السينما المنزلية في دبي'],
+  },
 };
 function guideLink(slug, lang, i) {
   const g = GUIDE_LINKS[slug];
