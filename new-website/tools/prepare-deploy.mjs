@@ -19,7 +19,10 @@ const SERVICES = ['contracting', 'project-management', 'facility-management', 'c
   'snagging', 'marketing', 'consultancy', 'ai', 'home-watch'];
 
 // Guides: source file (without .html) -> public path
-const GUIDES = [['guide-snagging-checklist-dubai', 'guides/snagging-checklist-dubai']];
+const GUIDES = [
+  ['guide-snagging-checklist-dubai', 'guides/snagging-checklist-dubai'],
+  ['guide-home-cinema-cost-dubai', 'guides/home-cinema-cost-dubai'],
+];
 
 // ---- 1) root-absolute internal references on every page ----
 const pages = readdirSync(dist).filter((f) => f.endsWith('.html'));
