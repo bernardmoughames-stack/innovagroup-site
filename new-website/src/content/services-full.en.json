@@ -589,7 +589,7 @@
       "Thermal imaging of AC and wet areas",
       "Moisture meter readings",
       "Water pressure and drainage testing",
-      "One re-inspection after developer rectification",
+      "One re-inspection after developer rectification (additional charge)",
       "Updated close-out report confirming what was fixed",
       "Written support if items remain outstanding"
      ]
@@ -600,7 +600,7 @@
      "for": "Large villas, multiple units or investor portfolios.",
      "features": [
       "Everything in Snag & Re-Inspect",
-      "Two re-inspections included",
+      "Two re-inspections (additional charge)",
       "External areas, roof, balconies and drainage falls",
       "Pool plant, landscape and external services",
       "MEP performance testing across all systems",
@@ -628,7 +628,7 @@
     },
     {
      "t": "Re-inspect",
-     "d": "After rectification we return, verify each item and issue a close-out report confirming what was actually fixed."
+     "d": "After rectification we return, verify each item and issue a close-out report confirming what was actually fixed. Re-inspections carry an additional charge."
     }
    ]
   },
