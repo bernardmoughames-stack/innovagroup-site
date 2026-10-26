@@ -1101,6 +1101,7 @@ html[data-theme="light"] #to-top { background: rgba(248, 244, 235, 0.9); color: 
 .price-from { margin: 0.6rem 0 0; font-size: var(--step-0); color: var(--ink); }
 .chapter .price-from { color: var(--film-ink); }
 .price-from b { color: var(--gold-2); font-weight: 700; }
+.price-from s { opacity: 0.7; }
 .promo-pill { display: inline-block; margin: 0.6rem 0 0; padding: 0.35rem 0.9rem; border-radius: 999px; background: var(--gold-2); color: var(--navy-1); font-size: 0.9rem; }
 .promo-banner { display: flex; flex-wrap: wrap; gap: 0.4rem 1rem; align-items: baseline; margin: 0 0 var(--space-2); padding: 1rem 1.25rem; border: 1px solid var(--line); border-inline-start: 4px solid var(--gold-2); border-radius: 0.5rem; }
 .promo-banner b { color: var(--gold-2); font-size: var(--step-1); font-weight: 600; }
