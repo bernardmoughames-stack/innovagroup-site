@@ -22,6 +22,7 @@ export default defineConfig({
         ai: r('ai.html'),
         'home-watch': r('home-watch.html'),
         'guide-snagging-checklist-dubai': r('guide-snagging-checklist-dubai.html'),
+        'guide-home-cinema-cost-dubai': r('guide-home-cinema-cost-dubai.html'),
       },
     },
   },
