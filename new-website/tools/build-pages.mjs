@@ -173,7 +173,7 @@ function heroBlock(d, lang, i, soon, slug) {
         <h1 class="display">${esc(d.h1)}</h1>
         <p class="lede">${esc(d.lede)}</p>
 ${slug === 'snagging' ? snagHeroExtra(i) + '\n' : ''}        <div class="cta-row">
-          <a class="btn btn-gold" href="#packages">${seeP}</a>
+          <a class="btn btn-gold" href="${slug === 'snagging' ? '#prices' : '#packages'}">${seeP}</a>
           <a class="btn btn-ghost" href="#talk">${enq}</a>
         </div>
       </div>`;
