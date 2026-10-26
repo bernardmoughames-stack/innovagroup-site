@@ -135,7 +135,8 @@ const AR_DIGITS = (n) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '٬').replac
 const aed = (n, i) => (i === 0 ? `AED ${n.toLocaleString('en-US')}` : `${AR_DIGITS(n)} درهم`);
 
 function snagHeroExtra(i) {
-  return `        <p class="price-from">${i === 0 ? 'Snagging from <b>AED 1,000</b>' : 'فحص السناجينج ابتداءً من <b>١٬٠٠٠ درهم</b>'}</p>
+  return `        <p class="price-from" data-promo-end="${PROMO_END}">${i === 0 ? 'Snagging from <s>AED 1,000</s> <b>AED 500</b> in November' : 'فحص السناجينج ابتداءً من <s>١٬٠٠٠ درهم</s> <b>٥٠٠ درهم</b> في نوفمبر'}</p>
+        <p class="price-from" data-after-promo hidden>${i === 0 ? 'Snagging from <b>AED 1,000</b>' : 'فحص السناجينج ابتداءً من <b>١٬٠٠٠ درهم</b>'}</p>
         <p class="promo-pill" data-promo-end="${PROMO_END}">${i === 0 ? 'November offer: <b>50% off</b> all snagging inspections' : 'عرض نوفمبر: <b>خصم ٥٠٪</b> على جميع فحوصات السناجينج'}</p>`;
 }
 
@@ -534,7 +535,7 @@ ${FORM(slug)}
     <a class="is-gold" href="#talk" data-i18n="sticky.enquire">Enquire</a>
   </nav>
 
-${slug === 'snagging' ? `  <script>document.querySelectorAll('[data-promo-end]').forEach(function (e) { if (Date.now() > Date.parse(e.dataset.promoEnd)) e.remove(); });</script>
+${slug === 'snagging' ? `  <script>(function () { var over = Date.now() > Date.parse('${PROMO_END}'); document.querySelectorAll(over ? '[data-promo-end]' : '[data-after-promo]').forEach(function (e) { e.remove(); }); if (over) document.querySelectorAll('[data-after-promo]').forEach(function (e) { e.hidden = false; }); })();</script>
 ` : ''}  <script type="module" src="/src/main.ts"></script>
 </body>
 </html>
