@@ -214,7 +214,7 @@ const PKG_FROM = { snagging: [500, 1000, 2000] };
 function packagesBlock(d, lang, i, slug, soon) {
   const cards = d.packages.list.map((p, n) => {
     const from = PKG_FROM[slug]?.[n];
-    const fromLine = from ? `            <p class="pkg-price" style="margin: 0 0 0.5rem; color: var(--ink);">${i === 0 ? `From <b style="color: var(--gold-2);">${aed(from, 0)}</b>` : `ابتداءً من <b style="color: var(--gold-2);">${aed(from, 1)}</b>`}</p>\n` : '';
+    const fromLine = from ? `            <p class="pkg-price" data-promo-end="${PROMO_END}" style="margin: 0 0 0.5rem; color: var(--ink);">${i === 0 ? `November offer: from <b style="color: var(--gold-2);">${aed(from, 0)}</b>` : `عرض نوفمبر: ابتداءً من <b style="color: var(--gold-2);">${aed(from, 1)}</b>`}</p>\n` : '';
     const feats = p.features.map((f) => `              <li>${esc(f)}</li>`).join('\n');
     const cta = pick(soon ? L.register : L.quote, i);
     const btn = p.tag ? 'btn-gold' : 'btn-line';
