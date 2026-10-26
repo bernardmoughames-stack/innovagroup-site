@@ -117,13 +117,60 @@ const FORM = (slug) => `
         <p class="form-note" data-i18n="form.note">Prefer email? Write to us directly at info@innovagroup.co.ae — we reply to every enquiry.</p>
       </form>`;
 
-function heroBlock(d, lang, i, soon) {
+// Snagging price list (AED) and the November 2026 offer. The offer elements
+// carry data-promo-end and are removed by a small inline script once it ends.
+const SNAG_PRICES = [
+  ['Studio', 'استوديو', 1000],
+  ['1-bedroom apartment', 'شقة غرفة نوم واحدة', 1500],
+  ['2-bedroom apartment', 'شقة غرفتي نوم', 2000],
+  ['3-bedroom apartment', 'شقة ٣ غرف نوم', 2500],
+  ['2-bedroom townhouse', 'تاون هاوس غرفتي نوم', 2500],
+  ['3-bedroom townhouse', 'تاون هاوس ٣ غرف نوم', 3000],
+  ['3-bedroom villa', 'فيلا ٣ غرف نوم', 4000],
+  ['4-bedroom villa', 'فيلا ٤ غرف نوم', 4500],
+  ['5-bedroom villa', 'فيلا ٥ غرف نوم', 5000],
+];
+const PROMO_END = '2026-11-30T20:00:00Z'; // 1 Dec 2026, 00:00 Dubai time
+const AR_DIGITS = (n) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '٬').replace(/\d/g, (x) => '٠١٢٣٤٥٦٧٨٩'[x]);
+const aed = (n, i) => (i === 0 ? `AED ${n.toLocaleString('en-US')}` : `${AR_DIGITS(n)} درهم`);
+
+function snagHeroExtra(i) {
+  return `        <p class="price-from">${i === 0 ? 'Snagging from <b>AED 1,000</b>' : 'فحص السناجينج ابتداءً من <b>١٬٠٠٠ درهم</b>'}</p>
+        <p class="promo-pill" data-promo-end="${PROMO_END}">${i === 0 ? 'November offer: <b>50% off</b> all snagging inspections' : 'عرض نوفمبر: <b>خصم ٥٠٪</b> على جميع فحوصات السناجينج'}</p>`;
+}
+
+function snagPricesBlock(lang, i) {
+  const rows = SNAG_PRICES.map(([en, ar, p]) =>
+    `            <tr><th scope="row">${i === 0 ? esc(en) : ar}</th><td>${aed(p, i)}</td><td class="promo-col" data-promo-end="${PROMO_END}">${aed(p / 2, i)}</td></tr>`).join('\n');
+  return `      <div ${langAttrs(lang)}>
+        <div class="svc-head" data-reveal>
+          <p class="eyebrow">${i === 0 ? 'Prices' : 'الأسعار'}</p>
+          <h2>${i === 0 ? 'Snagging prices' : 'أسعار فحص السناجينج'}</h2>
+          <p>${i === 0 ? 'Fixed prices by property type. Every inspection includes thermal imaging, moisture readings and a same-day, developer-ready report.' : 'أسعار ثابتة حسب نوع العقار. يشمل كل فحص التصوير الحراري وقياس الرطوبة وتقريراً جاهزاً للمطوّر في اليوم نفسه.'}</p>
+        </div>
+        <div class="promo-banner" data-promo-end="${PROMO_END}" data-reveal>
+          <b>${i === 0 ? 'November offer — 50% off' : 'عرض نوفمبر — خصم ٥٠٪'}</b>
+          <span>${i === 0 ? 'On all snagging inspections carried out 1–30 November 2026.' : 'على جميع فحوصات السناجينج المنفّذة من ١ إلى ٣٠ نوفمبر ٢٠٢٦.'}</span>
+        </div>
+        <div class="price-table-wrap" data-reveal>
+          <table class="price-table">
+            <thead><tr><th scope="col">${i === 0 ? 'Property' : 'نوع العقار'}</th><th scope="col">${i === 0 ? 'Price' : 'السعر'}</th><th scope="col" class="promo-col" data-promo-end="${PROMO_END}">${i === 0 ? 'November (50% off)' : 'نوفمبر (خصم ٥٠٪)'}</th></tr></thead>
+            <tbody>
+${rows}
+            </tbody>
+          </table>
+        </div>
+        <div class="cta-row" data-reveal><a class="btn btn-gold" href="#talk">${i === 0 ? 'Book an inspection' : 'احجز فحصاً'}</a></div>
+      </div>`;
+}
+
+function heroBlock(d, lang, i, soon, slug) {
   const seeP = pick(L.seePackages, i); const enq = pick(soon ? L.register : L.enquire, i);
   return `      <div ${langAttrs(lang)}>
         <p class="crumbs"><a href="index.html">${pick(L.home, i)}</a><span>/</span><a href="index.html#services">${pick(L.services, i)}</a><span>/</span>${esc(d.crumb)}</p>
         <h1 class="display">${esc(d.h1)}</h1>
         <p class="lede">${esc(d.lede)}</p>
-        <div class="cta-row">
+${slug === 'snagging' ? snagHeroExtra(i) + '\n' : ''}        <div class="cta-row">
           <a class="btn btn-gold" href="#packages">${seeP}</a>
           <a class="btn btn-ghost" href="#talk">${enq}</a>
         </div>
@@ -343,7 +390,8 @@ function page(slug) {
     "name": "${esc(name)}",
     "serviceType": "${esc(name)}",
     "description": "${esc(en.lede)}",
-    "url": "https://innovagroup.co.ae/${slug}/",
+    "url": "https://innovagroup.co.ae/${slug}/",${slug === 'snagging' ? `
+    "offers": { "@type": "Offer", "priceCurrency": "AED", "price": "1000", "priceSpecification": { "@type": "PriceSpecification", "minPrice": 1000, "maxPrice": 5000, "priceCurrency": "AED" } },` : ''}
     "areaServed": [
       { "@type": "AdministrativeArea", "name": "Dubai" },
       { "@type": "AdministrativeArea", "name": "Abu Dhabi" },
@@ -419,7 +467,7 @@ ${dropdown}
              poster="./assets/media/posters/${film}.webp" data-film="${film}" aria-hidden="true"></video>
       <div class="scrim" aria-hidden="true"></div>
       <div class="chapter-copy">
-${dd((d, lang, i) => heroBlock(d, lang, i, soon))}
+${dd((d, lang, i) => heroBlock(d, lang, i, soon, slug))}
       </div>
     </section>
 
@@ -434,7 +482,11 @@ ${dd((d, lang, i) => scopeBlock(d, lang, i))}
     <section class="svc-section" id="packages">
 ${dd((d, lang, i) => packagesBlock(d, lang, i, slug, soon))}
     </section>
-${en.homecare ? `
+${slug === 'snagging' ? `
+    <section class="svc-section alt" id="prices">
+${dd((d, lang, i) => snagPricesBlock(lang, i))}
+    </section>
+` : ''}${en.homecare ? `
     <section class="svc-section alt" id="homecare">
 ${dd((d, lang, i) => homecareBlock(d, lang, i))}
     </section>
@@ -482,7 +534,8 @@ ${FORM(slug)}
     <a class="is-gold" href="#talk" data-i18n="sticky.enquire">Enquire</a>
   </nav>
 
-  <script type="module" src="/src/main.ts"></script>
+${slug === 'snagging' ? `  <script>document.querySelectorAll('[data-promo-end]').forEach(function (e) { if (Date.now() > Date.parse(e.dataset.promoEnd)) e.remove(); });</script>
+` : ''}  <script type="module" src="/src/main.ts"></script>
 </body>
 </html>
 `;
