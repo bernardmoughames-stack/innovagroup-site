@@ -450,7 +450,7 @@ ${relatedGrid(slug)}
 
     <section class="chapter chapter-cta svc-talk" id="talk">
       <video class="film" muted playsinline preload="none"
-             poster="./assets/media/posters/skyline.webp" data-film="skyline" aria-hidden="true"></video>
+             data-poster="./assets/media/posters/skyline.webp" data-film="skyline" aria-hidden="true"></video>
       <div class="scrim scrim-heavy" aria-hidden="true"></div>
       <div class="chapter-copy center">
 ${dd((d, lang, i) => talkBlock(d, lang, i, phoneFor(slug)))}
