@@ -161,6 +161,7 @@ ${rows}
             </tbody>
           </table>
         </div>
+        <p style="color: var(--ink-dim); margin: var(--space-2) 0 0;">${i === 0 ? 'Re-inspection after developer rectification is available for an additional charge.' : 'تتوفر إعادة الفحص بعد إصلاحات المطوّر برسوم إضافية.'}</p>
         <div class="cta-row" data-reveal><a class="btn btn-gold" href="#talk">${i === 0 ? 'Book an inspection' : 'احجز فحصاً'}</a></div>
       </div>`;
 }
