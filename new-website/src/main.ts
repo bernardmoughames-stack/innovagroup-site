@@ -51,6 +51,21 @@ document.addEventListener('click', (e) => {
   });
 });
 
+// Chapter posters load only as their section approaches, so the first
+// screen paints without decoding every full-screen poster on the page.
+const lazyPosters = document.querySelectorAll<HTMLVideoElement>('video[data-poster]');
+const showPoster = (v: HTMLVideoElement): void => {
+  if (v.dataset.poster) { v.poster = v.dataset.poster; delete v.dataset.poster; }
+};
+if ('IntersectionObserver' in window) {
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) if (e.isIntersecting) { showPoster(e.target as HTMLVideoElement); io.unobserve(e.target); }
+  }, { rootMargin: '150% 0px' });
+  lazyPosters.forEach((v) => io.observe(v));
+} else {
+  lazyPosters.forEach(showPoster);
+}
+
 initChrome();
 initChapters(lite);
 initForms();
