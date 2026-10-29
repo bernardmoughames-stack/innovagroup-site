@@ -31,6 +31,35 @@ const toTop = (): void => {
 toTop();
 window.addEventListener('pageshow', toTop);
 
+// WhatsApp links open with a ready-made message for the service the visitor
+// is looking at (English or Arabic), so they only have to press send.
+const WA_MESSAGES: Record<string, [string, string]> = {
+  contracting: ['Hi Innova, I would like to inquire about the turnkey contracting service.', 'مرحباً إنوفا، أود الاستفسار عن خدمة المقاولات المتكاملة.'],
+  'project-management': ['Hi Innova, I would like to inquire about the project management service.', 'مرحباً إنوفا، أود الاستفسار عن خدمة إدارة المشاريع.'],
+  'facility-management': ['Hi Innova, I would like to inquire about the maintenance & facility management service.', 'مرحباً إنوفا، أود الاستفسار عن خدمة الصيانة وإدارة المرافق.'],
+  cinema: ['Hi Innova, I would like to inquire about the cinema & home theatre service.', 'مرحباً إنوفا، أود الاستفسار عن خدمة السينما والمسرح المنزلي.'],
+  snagging: ['Hi Innova, I would like to book a snagging service.', 'مرحباً إنوفا، أود حجز خدمة فحص السناجينج.'],
+  marketing: ['Hi Innova, I would like to inquire about the marketing, PR & communication service.', 'مرحباً إنوفا، أود الاستفسار عن خدمة التسويق والعلاقات العامة والاتصال.'],
+  consultancy: ['Hi Innova, I would like to inquire about the management consultancy service.', 'مرحباً إنوفا، أود الاستفسار عن خدمة الاستشارات الإدارية.'],
+  ai: ['Hi Innova, I would like to inquire about the AI research & consultancy service.', 'مرحباً إنوفا، أود الاستفسار عن خدمة أبحاث واستشارات الذكاء الاصطناعي.'],
+  'home-watch': ['Hi Innova, I would like to inquire about the Home Watch & property concierge service.', 'مرحباً إنوفا، أود الاستفسار عن خدمة مراقبة المنازل والكونسيرج العقاري.'],
+  default: ['Hi Innova, I would like to inquire about your services.', 'مرحباً إنوفا، أود الاستفسار عن خدماتكم.'],
+};
+function waTopic(path: string): string {
+  if (path.includes('snagging')) return 'snagging';           // service page + snagging guide
+  if (path.includes('cinema')) return 'cinema';               // service page + cinema cost guide
+  const slug = path.split('/').filter(Boolean)[0] || '';
+  return slug in WA_MESSAGES ? slug : 'default';
+}
+document.addEventListener('click', (e) => {
+  const link = (e.target as Element | null)?.closest?.('a[href*="wa.me/"]') as HTMLAnchorElement | null;
+  if (!link) return;
+  const msg = WA_MESSAGES[waTopic(location.pathname)][document.documentElement.lang === 'ar' ? 1 : 0];
+  const url = new URL(link.href);
+  url.searchParams.set('text', msg);
+  link.href = url.toString();
+});
+
 // Lead tracking for Google Analytics: WhatsApp, phone and email taps are
 // sent as events so enquiries can be traced to the page they came from.
 type Gtag = (...args: unknown[]) => void;
