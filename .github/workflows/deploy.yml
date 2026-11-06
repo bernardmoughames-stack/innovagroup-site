@@ -54,3 +54,14 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
+      # Tell Bing/Yandex (and the AI search engines that read their indexes)
+      # about every published URL, straight from the live sitemap.
+      - name: Ping IndexNow
+        continue-on-error: true
+        run: |
+          sleep 30
+          urls=$(curl -sS https://innovagroup.co.ae/sitemap.xml | grep -o '<loc>[^<]*' | sed 's/<loc>//')
+          payload=$(printf '%s\n' "$urls" | jq -R . | jq -s '{host:"innovagroup.co.ae",key:"50d8633c3a3a1f05e5d2b246dc0d0249",keyLocation:"https://innovagroup.co.ae/50d8633c3a3a1f05e5d2b246dc0d0249.txt",urlList:.}')
+          curl -sS -X POST "https://api.indexnow.org/indexnow" \
+            -H "Content-Type: application/json; charset=utf-8" \
+            -d "$payload" -w "\nIndexNow HTTP %{http_code}\n"

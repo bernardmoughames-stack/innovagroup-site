@@ -384,6 +384,10 @@ function page(slug) {
   <meta property="og:image" content="https://innovagroup.co.ae/assets/media/og.jpg" />
   <meta property="og:locale" content="en_AE" />
   <meta property="og:locale:alternate" content="ar_AE" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="${esc(name)} — Innova Group LLC" />
+  <meta name="twitter:description" content="${esc(en.lede)}" />
+  <meta name="twitter:image" content="https://innovagroup.co.ae/assets/media/og.jpg" />
   <link rel="icon" type="image/png" href="./favicon.png" />
   <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -428,6 +432,15 @@ function page(slug) {
     ]
   }
   </script>
+  <script type="application/ld+json">${JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: en.faq.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  })}</script>
 </head>
 <body class="preload svc-page">
   <a class="skip-link" href="#main" data-i18n="ui.skip">Skip to content</a>
