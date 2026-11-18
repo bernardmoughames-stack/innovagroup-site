@@ -1134,3 +1134,20 @@ html[data-theme="light"] #to-top { background: rgba(248, 244, 235, 0.9); color: 
   .foot-tag { font-size: 0.8rem; }
 }
 .nav-drop-btn, .crumbs a, .foot-social a { display: inline-flex; align-items: center; min-height: 24px; }
+
+/* ---------- legal pages (privacy) ---------- */
+.legal-page { padding-top: calc(var(--header-h) + var(--space-4)); }
+.legal-doc { max-width: 46rem; margin-inline: auto; }
+.legal-doc h1.display { font-size: var(--step-3); }
+.legal-doc h2 {
+  font-family: var(--font-display); font-weight: 400; font-size: var(--step-1);
+  margin: var(--space-3) 0 0.5rem;
+}
+[dir="rtl"] .legal-doc h2 { font-family: var(--font-ar); font-weight: 600; }
+.legal-doc p, .legal-doc li { color: var(--ink-dim); }
+.legal-doc ul { padding-inline-start: 1.2rem; margin: 0; }
+.legal-doc li { margin: 0 0 0.6rem; }
+.legal-doc strong { color: var(--ink); font-weight: 600; }
+.legal-doc a { color: var(--gold-2); }
+.legal-date { color: var(--ink-faint); font-size: var(--step--1); }
+.foot-legal a, .form-note a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }

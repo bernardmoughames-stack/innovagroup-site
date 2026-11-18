@@ -115,6 +115,7 @@ const FORM = (slug) => `
         <button class="btn btn-gold" type="submit" data-i18n="form.send">Send enquiry</button>
         <p class="form-status" role="alert"></p>
         <p class="form-note" data-i18n="form.note">Prefer email? Write to us directly at info@innovagroup.co.ae — we reply to every enquiry.</p>
+        <p class="form-note"><span data-i18n="form.privacy">We use your details only to reply to your enquiry.</span> <a href="privacy.html" data-i18n="footer.privacy">Privacy policy</a></p>
       </form>`;
 
 // Snagging price list (AED) and the November 2026 offer. The offer elements
@@ -380,7 +381,7 @@ function page(slug) {
   </script>
   <link rel="canonical" href="https://innovagroup.co.ae/${slug}/" />
   <link rel="alternate" hreflang="en" href="https://innovagroup.co.ae/${slug}/" />
-  <link rel="alternate" hreflang="ar" href="https://innovagroup.co.ae/${slug}/?lang=ar" />
+  <link rel="alternate" hreflang="ar" href="https://innovagroup.co.ae/ar/${slug}/" />
   <link rel="alternate" hreflang="x-default" href="https://innovagroup.co.ae/${slug}/" />
   <link rel="preload" as="image" href="./assets/media/posters/${film}.webp" />
   <meta property="og:type" content="website" />
@@ -551,7 +552,7 @@ ${FORM(slug)}
       <a href="https://www.instagram.com/innovagroupuae" rel="noopener">Instagram</a>
       <a href="https://www.linkedin.com/company/innova-group-llc/" rel="noopener">LinkedIn</a>
     </nav>
-    <p class="foot-legal">© <span id="year">2026</span> Innova Group LLC · Meydan, Dubai</p>
+    <p class="foot-legal">© <span id="year">2026</span> Innova Group LLC · Meydan, Dubai · <a href="privacy.html" data-i18n="footer.privacy">Privacy policy</a></p>
   </footer>
 
   <nav class="sticky-bar" aria-label="Quick contact">

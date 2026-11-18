@@ -1,8 +1,9 @@
 /**
  * Generated-film registry. Files live in public/assets/media/ (committed,
  * durable — visitors never trigger generation). Every film ships as H.264
- * .mp4 with a VP9 .webm twin; posters live in posters/. Full generation
- * records: ASSETS.md.
+ * .mp4 with a VP9 .webm twin (the twin is what Chrome, Edge and Firefox
+ * play; Apple devices play the .mp4); posters live in posters/. Full
+ * generation records: ASSETS.md.
  */
 
 const BASE = `${import.meta.env.BASE_URL}assets/media/`;

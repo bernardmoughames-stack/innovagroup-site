@@ -1,0 +1,7 @@
+{
+ "_note": "Arabic <title> and description for pages whose Arabic H1 and lede don't make a good search snippet on their own. Every other Arabic page takes its title from its first H1 and its description from its first .lede (tools/prepare-deploy.mjs). Have a native speaker review.",
+ "/": {
+  "title": "إنوفا جروب — نبني. ندير. نبتكر. | ميدان، دبي",
+  "description": "شركة مرخّصة متعددة التخصصات في دبي: المقاولات، وإدارة المشاريع والمرافق، وفحص السناجينج، والسينما المنزلية، والتسويق، واستشارات الذكاء الاصطناعي."
+ }
+}

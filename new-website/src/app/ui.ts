@@ -1,20 +1,22 @@
-import { setLang, initialLang } from './i18n';
-import type { Lang } from '../content/copy';
+import { setLang, switchLang, initialLang, redirectLegacyLang, getLang } from './i18n';
+import { t, type Lang } from '../content/copy';
 
 /** Shared chrome: header, menu, language switch, cursor, reveals. */
 export function initChrome(): void {
+  if (redirectLegacyLang()) return;
   setLang(initialLang());
 
   document.getElementById('year')!.textContent = String(new Date().getFullYear());
 
   const onScroll = (): void => {
-    document.body.classList.toggle('scrolled', window.scrollY > 30);
+    // pages without a film hero (the privacy policy) keep the solid header
+    document.body.classList.toggle('scrolled', window.scrollY > 30 || document.body.classList.contains('solid-header'));
   };
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
   document.querySelectorAll<HTMLButtonElement>('.lang-switch button').forEach((btn) => {
-    btn.addEventListener('click', () => setLang(btn.dataset.lang as Lang));
+    btn.addEventListener('click', () => switchLang(btn.dataset.lang as Lang));
   });
 
   initTheme();
@@ -30,7 +32,8 @@ function initToTop(): void {
   btn.id = 'to-top';
   btn.type = 'button';
   btn.setAttribute('data-i18n-aria', 'ui.toTop');
-  btn.setAttribute('aria-label', 'Back to top');
+  // built after setLang() ran, so it takes the page's language directly
+  btn.setAttribute('aria-label', t(getLang(), 'ui.toTop'));
   btn.innerHTML =
     '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5.5 11.5 12 5l6.5 6.5"/></svg>';
   document.body.appendChild(btn);

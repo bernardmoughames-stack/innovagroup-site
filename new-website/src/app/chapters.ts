@@ -12,8 +12,14 @@ export function initChapters(lite: boolean): void {
   const films = Array.from(document.querySelectorAll<HTMLVideoElement>('video.film'));
 
   if (!lite) {
+    // VP9 WebM is about 40% of the H.264 file at the same resolution, so
+    // browsers that fully support it get it. Apple's WebKit gets H.264, which
+    // every Apple device decodes in hardware.
     const probe = document.createElement('video');
-    const ext = probe.canPlayType('video/mp4; codecs="avc1.42E01E"') ? 'mp4' : 'webm';
+    const vp9 = probe.canPlayType('video/webm; codecs="vp9"') === 'probably';
+    const apple = /Apple/.test(navigator.vendor);
+    const h264 = probe.canPlayType('video/mp4; codecs="avc1.42E01E"') !== '';
+    const ext = vp9 && !apple ? 'webm' : h264 ? 'mp4' : 'webm';
 
     // A portrait box only ever shows a slice of the wide film, so it gets
     // the phone cut (same pixels in that slice, a fifth of the download).
