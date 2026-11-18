@@ -1,4 +1,4 @@
-import { FILM } from '../content/media';
+import { FILM, PHONE_CUT_MAX_RATIO } from '../content/media';
 
 /**
  * Film chapters: each full-bleed <video> gets its source lazily (H.264 with
@@ -13,13 +13,24 @@ export function initChapters(lite: boolean): void {
 
   if (!lite) {
     const probe = document.createElement('video');
-    const h264 = probe.canPlayType('video/mp4; codecs="avc1.42E01E"');
+    const ext = probe.canPlayType('video/mp4; codecs="avc1.42E01E"') ? 'mp4' : 'webm';
+
+    // A portrait box only ever shows a slice of the wide film, so it gets
+    // the phone cut (same pixels in that slice, a fifth of the download).
+    const fitsPhoneCut = (v: HTMLVideoElement): boolean => {
+      const r = v.getBoundingClientRect();
+      // a box that isn't laid out yet says nothing: judge by the window then
+      const [w, h] = r.width >= 160 && r.height >= 160 ? [r.width, r.height] : [innerWidth, innerHeight];
+      return w > 0 && h > 0 && w / h <= PHONE_CUT_MAX_RATIO;
+    };
 
     const attach = (v: HTMLVideoElement): void => {
       if (v.dataset.ready) return;
       v.dataset.ready = '1';
       const name = v.dataset.film!;
-      v.src = h264 ? FILM(name, 'mp4') : FILM(name, 'webm');
+      const phone = fitsPhoneCut(v);
+      if (phone) v.dataset.cut = 'phone';
+      v.src = FILM(name, ext, phone);
       // start buffering right away (a viewport ahead of the visit), so
       // the film has decoded frames the moment its chapter slides in
       v.preload = 'auto';
@@ -55,6 +66,31 @@ export function initChapters(lite: boolean): void {
     });
     const hero = films.find((v) => v.dataset.film === 'herofilm');
     if (hero) attach(hero);
+
+    // Turning a phone or tablet to landscape widens the box past the phone
+    // cut: swap in the full film there, keeping the playhead.
+    let resizeTimer = 0;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(() => {
+        for (const v of films) {
+          if (v.dataset.cut !== 'phone' || fitsPhoneCut(v)) continue;
+          delete v.dataset.cut;
+          const at = v.currentTime;
+          const playing = !v.paused;
+          v.addEventListener(
+            'loadedmetadata',
+            () => {
+              v.currentTime = at;
+              if (playing) void v.play().catch(() => {});
+            },
+            { once: true }
+          );
+          v.src = FILM(v.dataset.film!, ext);
+          v.load();
+        }
+      }, 250);
+    });
   }
 
   if (!lite) {

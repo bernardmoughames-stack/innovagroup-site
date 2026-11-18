@@ -570,7 +570,13 @@ body.preload * { transition: none !important; }
 .crumbs a { color: var(--film-ink-dim); text-decoration: none; }
 .crumbs a:hover { color: var(--gold-3); }
 .crumbs span { color: rgba(245, 240, 231, 0.35); }
-.svc-hero h1.display { font-size: var(--step-3); max-width: 15em; }
+.svc-hero .display { font-size: var(--step-3); max-width: 15em; }
+/* the page's H1 names the service in plain words above the slogan */
+.svc-hero h1.svc-h1 {
+  font-family: inherit; font-size: var(--step-0); font-weight: 600;
+  line-height: 1.4; letter-spacing: 0.18em;
+}
+[dir="rtl"] .svc-hero h1.svc-h1 { letter-spacing: 0; }
 
 .svc-section {
   padding: var(--space-4) var(--gutter);
@@ -1117,3 +1123,14 @@ html[data-theme="light"] #to-top { background: rgba(248, 244, 235, 0.9); color: 
 .price-table td.promo-col { color: var(--gold-2); font-weight: 700; }
 .price-table + .cta-row, .price-table-wrap + .cta-row { margin-top: var(--space-2); }
 [dir="rtl"] .price-table thead th { letter-spacing: 0; }
+
+/* ---------- phone readability ----------
+   Running text never drops below 16px on a phone, and the small text links
+   get a 24px-tall tap area without changing how they look. */
+@media (max-width: 700px) {
+  .process-steps p, .steps-grid p, .rel-card p, .pkg-feats li, .pkg-for,
+  .pkg-note, .form-note, .foot-note { font-size: 1rem; }
+  .foot-legal { font-size: 0.875rem; }
+  .foot-tag { font-size: 0.8rem; }
+}
+.nav-drop-btn, .crumbs a, .foot-social a { display: inline-flex; align-items: center; min-height: 24px; }

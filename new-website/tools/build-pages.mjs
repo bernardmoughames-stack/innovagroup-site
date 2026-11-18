@@ -170,7 +170,10 @@ function heroBlock(d, lang, i, soon, slug) {
   const seeP = pick(L.seePackages, i); const enq = pick(soon ? L.register : L.enquire, i);
   return `      <div ${langAttrs(lang)}>
         <p class="crumbs"><a href="index.html">${pick(L.home, i)}</a><span>/</span><a href="index.html#services">${pick(L.services, i)}</a><span>/</span>${esc(d.crumb)}</p>
-        <h1 class="display">${esc(d.h1)}</h1>
+${d.seoH1
+    // the H1 names the service for search; the slogan keeps the display size
+    ? `        <h1 class="kicker svc-h1">${esc(d.seoH1)}</h1>\n        <p class="display">${esc(d.h1)}</p>`
+    : `        <h1 class="display">${esc(d.h1)}</h1>`}
         <p class="lede">${esc(d.lede)}</p>
 ${slug === 'snagging' ? snagHeroExtra(i) + '\n' : ''}        <div class="cta-row">
           <a class="btn btn-gold" href="${slug === 'snagging' ? '#prices' : '#packages'}">${seeP}</a>
@@ -360,12 +363,15 @@ function page(slug) {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>${esc(name)} — Innova Group LLC | Meydan, Dubai</title>
-  <meta name="description" content="${esc(en.lede)}" />
+  <title>${esc(en.seoTitle ?? `${name} — Innova Group LLC | Meydan, Dubai`)}</title>
+  <meta name="description" content="${esc(en.seoDescription ?? en.lede)}" />
   <meta name="theme-color" content="#070d1c" />
   <meta name="google-site-verification" content="JLOmlqU0SaIaebH7DH5JGgVPuXdMjjIgGqIN8e8WMPA" />
   <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-BJZVWCG06F"></script>
+  <!-- the tag loads once the page has finished loading, so it never competes with the
+       first paint; anything sent before then waits in dataLayer and is not lost -->
+  <script>addEventListener('load', function () { var s = document.createElement('script'); s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=G-BJZVWCG06F'; document.head.appendChild(s); });</script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
