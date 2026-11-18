@@ -157,6 +157,12 @@ function arabicJsonLd(html, urlPath, arUrl, title, desc) {
     } else if (type === 'Service') {
       const s = SERVICES.find((x) => urlPath === `/${x}/`);
       if (s) { d.name = AR_SVC[s].crumb; d.serviceType = AR_SVC[s].crumb; }
+      const pk = s && AR_SVC[s].packages;
+      if (d.hasOfferCatalog && pk?.list?.length === d.hasOfferCatalog.itemListElement.length) {
+        d.hasOfferCatalog = { ...d.hasOfferCatalog, name: pk.title,
+          itemListElement: pk.list.map((p) => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name: p.name, description: p.for } })) };
+      }
+      if (Array.isArray(d.offers)) d.offers = d.offers.map((o) => (o.name === 'November offer' ? { ...o, name: 'عرض نوفمبر' } : o));
       d.description = desc;
       d.url = arUrl;
     } else if (type === 'Article') {
@@ -192,7 +198,8 @@ for (const u of PAGE_PATHS) {
   const h1 = textOf((ar.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/) || [, ''])[1]);
   const lede = textOf((ar.match(/<p class="lede"[^>]*>([\s\S]*?)<\/p>/) || [, ''])[1]);
   const title = AR_META[u]?.title ?? `${h1} | ${AR_BRAND}`;
-  const desc = AR_META[u]?.description ?? lede;
+  const svc = SERVICES.find((x) => u === `/${x}/`);
+  const desc = AR_META[u]?.description ?? (svc && AR_SVC[svc].seoDescription) ?? lede;
   ar = ar
     .replace(/<title>[\s\S]*?<\/title>/, `<title>${escHtml(title)}</title>`)
     .replace(/(<link rel="canonical" href=")[^"]*(")/, `$1${arUrl}$2`)

@@ -414,7 +414,15 @@ function page(slug) {
     "serviceType": "${esc(name)}",
     "description": "${esc(en.lede)}",
     "url": "https://innovagroup.co.ae/${slug}/",${slug === 'snagging' ? `
-    "offers": { "@type": "Offer", "priceCurrency": "AED", "price": "1000", "priceSpecification": { "@type": "PriceSpecification", "minPrice": 1000, "maxPrice": 5000, "priceCurrency": "AED" } },` : ''}
+    "offers": [
+      { "@type": "Offer", "name": "November offer", "priceCurrency": "AED", "price": "500", "validThrough": "${PROMO_END}", "priceSpecification": { "@type": "PriceSpecification", "minPrice": 500, "maxPrice": 2500, "priceCurrency": "AED" } },
+      { "@type": "Offer", "priceCurrency": "AED", "price": "1000", "validFrom": "${PROMO_END}", "priceSpecification": { "@type": "PriceSpecification", "minPrice": 1000, "maxPrice": 5000, "priceCurrency": "AED" } }
+    ],` : ''}${en.packages?.list?.length ? `
+    "hasOfferCatalog": ${JSON.stringify({
+      '@type': 'OfferCatalog',
+      name: en.packages.title,
+      itemListElement: en.packages.list.map((p) => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name: p.name, description: p.for } })),
+    })},` : ''}
     "areaServed": [
       { "@type": "AdministrativeArea", "name": "Dubai" },
       { "@type": "AdministrativeArea", "name": "Abu Dhabi" },
