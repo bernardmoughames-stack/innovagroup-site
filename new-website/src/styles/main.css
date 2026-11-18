@@ -52,7 +52,7 @@ html[data-theme="light"] {
   --navy-1: #EFE8d8;
   --navy-2: #E6DCC6;
   --gold-3: #78590F;
-  --gold-2: #856A15;
+  --gold-2: #6B5310; /* dark enough for small text on the cream panels (5.4:1) */
   --gold-1: #B08A28;
   --ink: #1A2742;
   --ink-dim: rgba(26, 39, 66, 0.78);
@@ -74,6 +74,7 @@ html[data-theme="light"] body.scrolled .site-header { background: var(--bg-raise
 html[data-theme="light"] .site-nav .nav-drop a { color: var(--ink-dim); }
 html[data-theme="light"] .site-nav .nav-drop a:hover { color: var(--gold-3); background: rgba(154, 122, 34, 0.1); }
 html[data-theme="light"] body.scrolled .lang-switch button { color: var(--ink); }
+html[data-theme="light"] body.scrolled .lang-switch button[aria-pressed="true"] { color: #F6F1E6; }
 html[data-theme="light"] body.scrolled .site-header .brand-name,
 html[data-theme="light"] body.scrolled .site-nav a,
 html[data-theme="light"] body.scrolled .nav-drop-btn,
@@ -311,7 +312,7 @@ html[data-theme="light"] .lang-switch button[aria-pressed="true"] { background: 
 .chapter .line { color: var(--film-ink-dim); max-width: 36em; margin: 0 0 var(--space-3); }
 .chapter-actions { display: flex; flex-wrap: wrap; gap: 0.9rem 1.6rem; align-items: center; }
 
-.chapter .kicker { color: #D9B44A; }
+.chapter .kicker { color: #F2D57E; }
 .chapter .lede { color: var(--film-ink); }
 .chapter-hero { justify-content: center; }
 .chapter-hero .chapter-copy { padding-top: var(--header-h); }
@@ -1152,3 +1153,59 @@ html[data-theme="light"] #to-top { background: rgba(248, 244, 235, 0.9); color: 
 .legal-doc a { color: var(--gold-2); }
 .legal-date { color: var(--ink-faint); font-size: var(--step--1); }
 .foot-legal a, .form-note a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+
+/* ---------- contrast fixes (measured against the real pixels) ----------
+   Text on gold keeps the night palette in both themes: navy on bright gold
+   is 7:1, where cream on the darker day-mode gold was about 3:1. Film
+   chapters are dark in both themes, so gold text there stays light. */
+html[data-theme="light"] .btn-gold {
+  background-image: linear-gradient(120deg, #C9A227, #F2D57E 55%, #C9A227);
+  color: #0F1B33;
+}
+html[data-theme="light"] .pkg-tag,
+html[data-theme="light"] .sticky-bar .is-gold {
+  background: linear-gradient(120deg, #C9A227, #F2D57E);
+  color: #0F1B33;
+}
+.chapter .price-from b { color: #F2D57E; }
+.svc-hero .crumbs, .svc-hero .crumbs a { color: rgba(245, 240, 231, 0.9); }
+.legal-doc .crumbs, .legal-doc .crumbs a { color: var(--ink-dim); }
+/* day mode, before scrolling, the header sits on the dark film: light text there */
+html[data-theme="light"] .lang-switch button { color: #F5F0E7; }
+html[data-theme="light"] .site-header .brand-name b { color: #F2D57E; }
+html[data-theme="light"] body.scrolled .site-header .brand-name b { color: var(--gold-2); }
+/* the homepage H1 crosses the bright diamond on phones */
+.chapter-hero h1.svc-h1 { text-shadow: 0 1px 2px rgba(2, 5, 10, 0.9), 0 0 14px rgba(2, 5, 10, 0.75); }
+/* Home Watch's film is the brightest (white villa windows): a deeper scrim */
+[data-service="homewatch"] .scrim,
+.hero-homewatch .scrim {
+  background:
+    linear-gradient(to top, rgba(6, 11, 22, 0.88) 0%, rgba(6, 11, 22, 0.55) 50%, rgba(6, 11, 22, 0.45) 100%),
+    linear-gradient(to right, rgba(6, 11, 22, 0.55) 0%, rgba(6, 11, 22, 0) 60%);
+}
+[dir="rtl"] [data-service="homewatch"] .scrim,
+[dir="rtl"] .hero-homewatch .scrim {
+  background:
+    linear-gradient(to top, rgba(6, 11, 22, 0.88) 0%, rgba(6, 11, 22, 0.55) 50%, rgba(6, 11, 22, 0.45) 100%),
+    linear-gradient(to left, rgba(6, 11, 22, 0.55) 0%, rgba(6, 11, 22, 0) 60%);
+}
+/* day-mode orbs are light: the night-mode glow behind their labels would muddy them */
+html[data-theme="light"] a.facet span { text-shadow: none; }
+@media (max-width: 700px) {
+  /* on phones the homepage H1 crosses the diamond: give it a dark backing */
+  .chapter-hero h1.svc-h1 {
+    display: inline; padding: 0.15em 0.4em; border-radius: 4px; line-height: 1.75;
+    background: rgba(6, 11, 22, 0.62);
+    -webkit-box-decoration-break: clone; box-decoration-break: clone;
+  }
+  .chapter-hero h1.svc-h1 + .display { margin-top: 0.7rem; }
+}
+/* service heroes: the small lines at the top cross the brightest part of some films */
+.svc-hero h1.svc-h1, .svc-hero .crumbs { text-shadow: 0 1px 2px rgba(2, 5, 10, 0.95), 0 0 6px rgba(2, 5, 10, 0.8), 0 0 16px rgba(2, 5, 10, 0.7); }
+@media (max-width: 700px) {
+  /* on phones the hero copy covers most of the film, so the whole film dims a little more */
+  .svc-hero .scrim,
+  [dir="rtl"] .svc-hero .scrim {
+    background: linear-gradient(to top, rgba(6, 11, 22, 0.86) 0%, rgba(6, 11, 22, 0.58) 50%, rgba(6, 11, 22, 0.52) 100%);
+  }
+}
