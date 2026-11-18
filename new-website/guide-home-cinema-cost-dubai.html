@@ -8,10 +8,15 @@
   <meta name="theme-color" content="#070d1c" />
   <meta name="google-site-verification" content="JLOmlqU0SaIaebH7DH5JGgVPuXdMjjIgGqIN8e8WMPA" />
   <!-- Google tag (gtag.js) -->
-  <!-- the tag loads once the page has finished loading, so it never competes with the
-       first paint; anything sent before then waits in dataLayer and is not lost -->
-  <script>addEventListener('load', function () { var s = document.createElement('script'); s.async = true;
-    s.src = 'https://www.googletagmanager.com/gtag/js?id=G-BJZVWCG06F'; document.head.appendChild(s); });</script>
+  <!-- the tag loads on the first tap, scroll or key press, or 6 s after the page has
+       loaded, whichever is first, so it never competes with the page itself; anything
+       sent before then (enquiries included) waits in dataLayer and is not lost -->
+  <script>(function () { var done = false, ev = ['pointerdown', 'keydown', 'scroll', 'touchstart'];
+    function load() { if (done) return; done = true; ev.forEach(function (e) { removeEventListener(e, load, true); });
+      var s = document.createElement('script'); s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-BJZVWCG06F'; document.head.appendChild(s); }
+    ev.forEach(function (e) { addEventListener(e, load, { capture: true, passive: true }); });
+    addEventListener('load', function () { setTimeout(load, 6000); }); })();</script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}

@@ -324,4 +324,23 @@ writeFileSync(join(dist, '404.html'), home
 
 writeFileSync(join(dist, '.nojekyll'), '');
 
+// ---- 5) inline the stylesheet ----
+// The site's one stylesheet is about 9 KB compressed. Inlined, a phone can
+// paint as soon as the HTML arrives instead of waiting for a second request.
+// (It only holds data: URLs, so moving it into each page breaks nothing.)
+const walk = (dir) => readdirSync(dir, { withFileTypes: true }).flatMap((e) =>
+  e.isDirectory() ? (e.name === 'assets' ? [] : walk(join(dir, e.name))) : e.name.endsWith('.html') ? [join(dir, e.name)] : []);
+const cssCache = {};
+let inlined = 0;
+for (const file of walk(dist)) {
+  const html = readFileSync(file, 'utf8');
+  const out = html.replace(/<link rel="stylesheet" crossorigin href="(\/assets\/[^"]+\.css)">/g, (_, href) => {
+    cssCache[href] ??= readFileSync(join(dist, href), 'utf8').trim();
+    inlined++;
+    return `<style>${cssCache[href]}</style>`;
+  });
+  if (out !== html) writeFileSync(file, out);
+}
+console.log(`stylesheet inlined into ${inlined} pages`);
+
 console.log('deploy layout ready:', readdirSync(dist).join(', '));

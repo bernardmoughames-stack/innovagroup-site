@@ -66,12 +66,19 @@ export function initChapters(lite: boolean): void {
       },
       { threshold: [0, 0.25] }
     );
-    films.forEach((v) => {
-      loader.observe(v);
-      if (!v.closest('.chapters')) player.observe(v);
-    });
-    const hero = films.find((v) => v.dataset.film === 'herofilm');
-    if (hero) attach(hero);
+    // Films start downloading once the page has loaded. Until then the
+    // poster (the film's first frame) shows, so the text and the poster
+    // paint first instead of competing with a video download.
+    const start = (): void => {
+      films.forEach((v) => {
+        loader.observe(v);
+        if (!v.closest('.chapters')) player.observe(v);
+      });
+      const hero = films.find((v) => v.dataset.film === 'herofilm');
+      if (hero) attach(hero);
+    };
+    if (document.readyState === 'complete') start();
+    else window.addEventListener('load', start, { once: true });
 
     // Turning a phone or tablet to landscape widens the box past the phone
     // cut: swap in the full film there, keeping the playhead.
