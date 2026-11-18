@@ -205,7 +205,7 @@ const en: Dict = {
 const ar: Dict = {
   'ui.skip': 'تخطَّ إلى المحتوى',
   'ui.sound': 'تشغيل/إيقاف الصوت',
-  'aria.home': 'إنوفا جروب — الرئيسية',
+  'aria.home': 'INNOVA GROUP — الرئيسية',
   'ui.menu': 'القائمة',
   'ui.scroll': 'مرّر',
   'ui.enterWorld': 'ادخل العالم',
