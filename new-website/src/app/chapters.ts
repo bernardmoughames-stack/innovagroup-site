@@ -43,17 +43,29 @@ export function initChapters(lite: boolean): void {
       v.load();
     };
 
+    // On phones the nine service chapters are poster cards (see main.css,
+    // "phone homepage"), so their films never load there.
+    const phoneDeck = window.matchMedia('(max-width: 700px)');
+    const posterOnly = (v: HTMLVideoElement): boolean => phoneDeck.matches && !!v.closest('.chapters');
+
     const loader = new IntersectionObserver(
       (entries) => {
         for (const e of entries) {
-          if (e.isIntersecting) {
-            attach(e.target as HTMLVideoElement);
-            loader.unobserve(e.target);
+          const v = e.target as HTMLVideoElement;
+          if (e.isIntersecting && !posterOnly(v)) {
+            attach(v);
+            loader.unobserve(v);
           }
         }
       },
       { rootMargin: '100% 0px' }
     );
+    // turning a tablet to landscape brings the full deck back: look again
+    phoneDeck.addEventListener('change', () => {
+      films.forEach((v) => {
+        if (!v.dataset.ready && v.closest('.chapters')) { loader.unobserve(v); loader.observe(v); }
+      });
+    });
     const player = new IntersectionObserver(
       (entries) => {
         for (const e of entries) {
